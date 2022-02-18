@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:33:14 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/18 19:01:09 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/18 20:36:50 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 static uint8_t	g_status;
+
+void	ft_exit(int exit_code)
+{
+	del_garbage();
+	rl_clear_history();
+	exit(exit_code);
+}
 
 char	*create_prompt(void)
 {
@@ -46,7 +53,7 @@ void	print_start(void)
 {
 	printf("\033[2J");
 	printf("\033[100A");
-	printf(" /$$      /$$ /$$$$$$ /$$   /$$ /$$$$$$");
+	printf("\n /$$      /$$ /$$$$$$ /$$   /$$ /$$$$$$");
 	printf("  /$$$$$$  /$$   /$$ /$$$$$$$$ /$$       /$$      \n");
 	printf("| $$$    /$$$|_  $$_/| $$$ | $$|_  $$_/");
 	printf(" /$$__  $$| $$  | $$| $$_____/| $$      | $$      \n");
@@ -63,33 +70,54 @@ void	print_start(void)
 	printf("|__/     |__/|______/|__/  \\__/|______/");
 	printf(" \\______/ |__/  |__/|________/|________/|________/\n\n\n");
 }
+void	sig_handler(int sigcode);
+
+void	prompt(void)
+{
+	char	*shell_prompt;
+	char	*input;
+
+	del_garbage();	
+	shell_prompt = create_prompt();
+	input = readline(shell_prompt);
+	if (!input)
+	{
+		printf("exit\n");
+		ft_exit(g_status);
+	}
+	printf(ANSI_COLOR_RED "%s\n" ANSI_COLOR_RESET, input);
+	if (!g_status && !ft_strequ(input, ""))
+		add_history(input);
+	free(input);//ajouter input dans le garbage collectore + mem_remove de input
+}
+
+void	sig_handler(int sigcode)
+{
+	if (sigcode == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	if (sigcode == SIGQUIT)
+	{
+		printf("\b\b  ");
+		printf("\033[2D");
+	}
+}
 
 int	main(int argc, char *argv[], char **envp)
 {
-	int		i;
-	char	*input;
-	char	*shell_prompt;
-
 	
 	if (argc > 1)
 		return (0);//ecrire error
 	(void) argv; 
 	(void) envp;
-	i = 0;
 	print_start();
-	shell_prompt = create_prompt();
-	while (i != 4)
-	{
-
-		input = readline(shell_prompt);
-		if (!input)
-			break ;
-		add_history(input);
-		printf(ANSI_COLOR_RED "%s\n" ANSI_COLOR_RESET, input);
-		free(input);//ajouter input dans le garbage collectore + mem_remove de input
-		i++;
-	}
-	del_garbage();
-	rl_clear_history();
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+	while (1)
+		prompt();
 	return (0);
 }
