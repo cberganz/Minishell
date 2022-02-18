@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/01/14 01:06:18 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/18 17:07:37 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HEADER		= ${INCLUDE}libft.h
 
 CC		= clang
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g3
 
 SRC_NAME	= ctype/ft_isalnum.c		\
 		  	ctype/ft_isalpha.c	\
@@ -81,7 +81,12 @@ SRC_NAME	= ctype/ft_isalnum.c		\
 			string/ft_substr.c	\
 			string/ft_putnbr_base.c \
 			gnl/get_next_line.c	\
-			gnl/get_next_line_utils.c
+			gnl/get_next_line_utils.c \
+			garbage_collector/del_garbage.c \
+			garbage_collector/mem_alloc.c \
+			garbage_collector/garbage_ptr.c \
+			garbage_collector/mem_remove.c \
+			garbage_collector/garbage_lstnew.c
 			
 
 SRC_DIR		= src/
@@ -103,7 +108,7 @@ ${OBJ_DIRS}:
 ${OBJ}: | ${OBJ_DIRS}
 
 ${OBJ_DIR}%.o: ${SRC_DIR}%.c ${HEADER}
-	${CC} ${CFLAGS} -I${INCLUDE} -c $< -o $@ -g3
+	${CC} ${CFLAGS} -I${INCLUDE} -c $< -o $@
 
 clean:
 	rm -rf ${OBJ_DIR}

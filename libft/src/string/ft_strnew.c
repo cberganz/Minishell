@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:33:56 by cberganz          #+#    #+#             */
-/*   Updated: 2021/11/24 13:33:57 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:46:29 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ char	*ft_strnew(size_t size)
 {
 	char	*nstr;
 
-	nstr = (char *)malloc(size + 1 * sizeof(char));
-	if (!nstr)
+	if (mem_alloc(size + 1 * sizeof(char), (void **)&nstr))
 		return (NULL);
 	ft_memset(nstr, '\0', size + 1);
 	return (nstr);

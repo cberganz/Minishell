@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   garbage_ptr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 16:27:01 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/18 15:13:48 by cberganz         ###   ########.fr       */
+/*   Created: 2022/02/18 14:24:13 by cberganz          #+#    #+#             */
+/*   Updated: 2022/02/18 16:25:17 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+t_list	**garbage(void)
 {
-	t_list	*next;
+	static t_list	*collector;
 
-	while (*lst)
-	{
-		next = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = next;
-	}
-	ft_memdel((void **)lst);
+	return (&collector);
 }

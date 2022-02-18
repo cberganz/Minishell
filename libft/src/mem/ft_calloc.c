@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:02:25 by cberganz          #+#    #+#             */
-/*   Updated: 2021/11/27 22:56:53 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:55:11 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
-	ptr = malloc(nmemb * size);
-	if (!ptr)
+	if (mem_alloc(nmemb * size, &ptr))
 		return (NULL);
 	ft_memset(ptr, 0, nmemb * size);
 	return (ptr);

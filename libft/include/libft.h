@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/01/14 00:43:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 17:07:12 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,16 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 char	*get_next_line(int fd);
 char	*ft_join_gnl(char *s1, char *s2);
-int	no_newline_in(char *s);
+int		no_newline_in(char *s);
+
+/*
+**	Garbage collector
+*/
+
+t_list	**garbage(void);
+int8_t	mem_alloc(unsigned long size, void **ptr);
+void	del_garbage(void);
+void	mem_remove(void *ptr_to_free);
+t_list	*garbage_lstnew(void *content);
 
 #endif

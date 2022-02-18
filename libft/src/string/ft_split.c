@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2021/11/26 10:56:16 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:46:01 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static char	*w_create(char const *s, char c)
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	cpy = malloc((i + 1) * sizeof(char));
-	if (!cpy)
+	if (mem_alloc((i + 1) * sizeof(char), (void **)&cpy))
 		return (NULL);
 	cpy[i] = '\0';
 	while (--i >= 0)
@@ -60,8 +59,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	ptab_count = 0;
 	ptab_len = ft_ptab_len(s, c);
-	ptab = malloc((ptab_len + 1) * sizeof(char *));
-	if (!ptab)
+	if (mem_alloc((ptab_len + 1) * sizeof(char *), (void **)&ptab))
 		return (NULL);
 	while (ptab_count < ptab_len)
 	{

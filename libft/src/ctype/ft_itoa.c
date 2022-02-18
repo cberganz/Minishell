@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 12:53:06 by cberganz          #+#    #+#             */
-/*   Updated: 2021/11/25 16:29:56 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:45:25 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*ft_itoa(int n)
 	unsigned int	nabs;
 
 	len = len_needed(n);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
+	if (mem_alloc((len + 1) * sizeof(char), (void **)&str))
 		return (NULL);
 	str[len] = '\0';
 	if (n < 0)
