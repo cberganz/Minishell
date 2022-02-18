@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:33:14 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/18 20:36:50 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/18 20:57:55 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static uint8_t	g_status;
 void	ft_exit(int exit_code)
 {
 	del_garbage();
-	rl_clear_history();
+	rl_clear_history();//pas sur de le supprimer
 	exit(exit_code);
 }
 
@@ -77,7 +77,7 @@ void	prompt(void)
 	char	*shell_prompt;
 	char	*input;
 
-	del_garbage();	
+	del_garbage();
 	shell_prompt = create_prompt();
 	input = readline(shell_prompt);
 	if (!input)
@@ -85,9 +85,14 @@ void	prompt(void)
 		printf("exit\n");
 		ft_exit(g_status);
 	}
+	if (!ft_strequ(input, ""))
+		g_status = 0;
 	printf(ANSI_COLOR_RED "%s\n" ANSI_COLOR_RESET, input);
 	if (!g_status && !ft_strequ(input, ""))
+	{
+		g_status = 0;
 		add_history(input);
+	}
 	free(input);//ajouter input dans le garbage collectore + mem_remove de input
 }
 
@@ -95,24 +100,22 @@ void	sig_handler(int sigcode)
 {
 	if (sigcode == SIGINT)
 	{
+		//quand ctr-c devrait redisplay le prompt avec fleche rouge
+		g_status = 130;
 		printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 	if (sigcode == SIGQUIT)
-	{
-		printf("\b\b  ");
-		printf("\033[2D");
-	}
+		printf("\b\b  \033[2D");
 }
 
 int	main(int argc, char *argv[], char **envp)
 {
-	
 	if (argc > 1)
 		return (0);//ecrire error
-	(void) argv; 
+	(void) argv;
 	(void) envp;
 	print_start();
 	signal(SIGINT, sig_handler);
