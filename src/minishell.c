@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:33:14 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 14:29:34 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 16:54:45 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char *argv[], char **envp)
 	print_start();
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	while (1)
-		prompt();
+	prompt();
 	return (0);
 }
