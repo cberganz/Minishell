@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_addptr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:24:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 12:26:57 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:12:08 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int8_t	garbage_addptr(void *ptr)
+void *garbage_addptr(void *ptr)
 {
 	t_list	*el;
 
 	el = garbage_lstnew(ptr);
 	if (el == NULL)
-		return (-1);
+		return (NULL);
 	ft_lstadd_front(garbage(), el);
-	return (0);
+	return (ptr);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 16:29:49 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:13:10 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		no_newline_in(char *s);
 
 t_list	**garbage(void);
 void	*mem_alloc(unsigned long size, void **ptr);
-int8_t	garbage_addptr(void *ptr);
+void 	*garbage_addptr(void *ptr);
 void	del_garbage(void);
 void	mem_remove(void *ptr_to_free);
 t_list	*garbage_lstnew(void *content);
