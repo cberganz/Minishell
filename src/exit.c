@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:03:54 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 14:15:13 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:28:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ void	child_error_exit(int status_error, char *file)
 	else if (status_error == MALLOC_ERR)
 		printf("Allocation error.\n");
 	free_and_exit(status_error);
+}
+
+void	eof_exit(char *input)
+{
+	if (pipe_is_open(input))
+	{
+		print_message("Minishell: syntax error: unexpected end of file\n",
+			RED, DO_NOT_CLOSE_PROG);
+		printf("exit\n");
+		free_and_exit(2);
+	}
+	printf("exit\n");
+	free_and_exit(g_status);
 }

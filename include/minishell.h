@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 19:00:25 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:29:19 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ extern uint8_t	g_status;
 void	print_start(void);
 char	*create_prompt(void);
 void	prompt(void);
+uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 
 /*
@@ -82,6 +83,7 @@ void	sig_handler(int sigcode);
 
 void	free_and_exit(int exit_code);
 void	child_error_exit(int status_error, char *file);
+void	eof_exit(char *input);
 
 /*
 **	Error management

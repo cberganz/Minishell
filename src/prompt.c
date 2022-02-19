@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 19:09:51 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:37:58 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ uint8_t	pipe_is_open(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = ft_strlen(str) - 1;
 	while (str[i] == ' ' && i >= 0)// check si sur ' ' ou all spaces like \t
 		i--;
@@ -58,14 +60,11 @@ void	prompt(void)
 	input = "";
 	while (1)
 	{
-		// input = readline(shell_prompt);
-		input = ft_strjoin(input, readline(shell_prompt));
+		input = ft_strjoin(input, garbage_addptr(readline(shell_prompt)));
 		if (!input)
-		{
-			printf("exit\n");
-			free_and_exit(g_status);
-		}
-		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvlelle ligne gérer la sortie du programme || remplacer if par while check_open_pipe
+			eof_exit(input);//modif sur la fonction (input toujour null et check_open_pipe pas possible) => peut etre update error status auqnd open pipe
+		//placer check error ici
+		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvelle ligne gérer la sortie du programme || remplacer if par while check_open_pipe
 		{
 			shell_prompt = "> ";
 			continue ;
