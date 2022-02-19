@@ -6,25 +6,25 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 16:07:46 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 17:39:32 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_rows(const char *s, char c)
+static int	ft_rows(const char *s, char *sep)
 {
 	int	rows;
 
 	rows = 0;
 	while (*s)
 	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
+		while (ft_strnequ(&(*s), sep, ft_strlen(sep)))
+			s += ft_strlen(sep);
+		if (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
 			rows++;
-		while (*s && *s != c)
-			s++;
+		while (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
+			s += ft_strlen(sep);
 	}
 	return (rows);
 }
@@ -40,36 +40,36 @@ static void	*mr_propre(char **str_arr)
 	return (NULL);
 }
 
-static int	ft_wordlen(const char *s, char c)
+static int	ft_wordlen(const char *s, char *sep)
 {
 	char	*str_end;
 
-	str_end = ft_strchr(s, c);
+	str_end = ft_strstr(s, sep);
 	if (!str_end)
 		return (ft_strlen(s));
 	else
 		return (str_end - s);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(const char *s, char *sep)
 {
 	int		i;
 	int		n;
 	char	**str_arr;
 
-	if (!s)
+	if (!s || !sep)
 		return (NULL);
-	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, c) + 1), NULL);
+	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, sep) + 1), NULL);
 	if (!str_arr)
 		return (NULL);
 	i = 0;
 	while (*s)
 	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
+		while (ft_strnequ(&(*s), sep, ft_strlen(sep)))
+			s += ft_strlen(sep);
+		if (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
 		{
-			n = ft_wordlen(s, c);
+			n = ft_wordlen(s, sep);
 			str_arr[i++] = ft_substr(s, 0, n);
 			if (!str_arr[i - 1])
 				return (mr_propre(str_arr));
