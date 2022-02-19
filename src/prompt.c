@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 14:34:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:09:51 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,49 @@ char	*create_prompt(void)
 	return (prompt);
 }
 
+uint8_t	pipe_is_open(char *str)
+{
+	int	i;
+
+	i = ft_strlen(str) - 1;
+	while (str[i] == ' ' && i >= 0)// check si sur ' ' ou all spaces like \t
+		i--;
+	if (str[i] == '|' || (str[i] == '&' && (i > 0 && str[i - 1] == '&')))
+		return (1);
+	return (0);
+}
+
 void	prompt(void)
 {
 	char	*shell_prompt;
 	char	*input;
 
-	del_garbage();
 	shell_prompt = create_prompt();
-	input = readline(shell_prompt);
-	if (!input)
+	input = "";
+	while (1)
 	{
-		printf("exit\n");
-		free_and_exit(g_status);
-	}
-	garbage_addptr(input);
-	if (!ft_strequ(input, ""))
-		g_status = 0;
-	printf(RED "%s\n" RESET, input);
-	if (!g_status && !ft_strequ(input, ""))
-	{
-		g_status = 0;
-		add_history(input);
+		// input = readline(shell_prompt);
+		input = ft_strjoin(input, readline(shell_prompt));
+		if (!input)
+		{
+			printf("exit\n");
+			free_and_exit(g_status);
+		}
+		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvlelle ligne gérer la sortie du programme || remplacer if par while check_open_pipe
+		{
+			shell_prompt = "> ";
+			continue ;
+		}
+
+		printf(RED "%s\n" RESET, input);
+		if (!g_status && !ft_strequ(input, ""))
+		{
+			g_status = 0;
+			add_history(input);
+		}
+
+		del_garbage();
+		input = "";
+		shell_prompt = create_prompt();
 	}
 }
