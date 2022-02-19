@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 16:55:27 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:18:56 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sig_handler(int sigcode)
 		g_status = 130;
 		printf("\n");
 		rl_replace_line("", 0);
-		printf("%s", create_prompt());//check si printf ne cree pas de pb
+		printf("%s", create_prompt());//check si printf ne cree pas de pb => en cree quand pipe ouvert + ctrl-c + navigation historique
 		// rl_on_new_line();
 		// rl_redisplay();
 	}
