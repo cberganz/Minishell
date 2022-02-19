@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/18 17:07:12 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 12:26:31 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int		no_newline_in(char *s);
 
 t_list	**garbage(void);
 int8_t	mem_alloc(unsigned long size, void **ptr);
+int8_t	garbage_addptr(void *ptr);
 void	del_garbage(void);
 void	mem_remove(void *ptr_to_free);
 t_list	*garbage_lstnew(void *content);

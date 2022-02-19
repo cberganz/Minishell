@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/18 17:07:37 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/19 12:26:56 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,8 @@ SRC_NAME	= ctype/ft_isalnum.c		\
 			garbage_collector/mem_alloc.c \
 			garbage_collector/garbage_ptr.c \
 			garbage_collector/mem_remove.c \
-			garbage_collector/garbage_lstnew.c
+			garbage_collector/garbage_lstnew.c \
+			garbage_collector/garbage_addptr.c
 			
 
 SRC_DIR		= src/

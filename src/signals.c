@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem_alloc.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 14:13:57 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 12:25:09 by cberganz         ###   ########.fr       */
+/*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
+/*   Updated: 2022/02/19 12:17:43 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int8_t	mem_alloc(unsigned long size, void **ptr)
+void	sig_handler(int sigcode)
 {
-	t_list	*el;
-
-	*ptr = malloc(size);
-	if (*ptr == NULL)
-		return (-1);
-	el = garbage_lstnew(*ptr);
-	if (el == NULL)
+	if (sigcode == SIGINT)
 	{
-		free(*ptr);
-		return (-1);
+		//quand ctr-c devrait redisplay le prompt avec fleche rouge
+		g_status = 130;
+		printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
-	ft_lstadd_front(garbage(), el);
-	return (0);
+	if (sigcode == SIGQUIT)
+		printf("\b\b  \033[2D");
 }

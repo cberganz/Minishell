@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem_alloc.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 14:13:57 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 12:25:09 by cberganz         ###   ########.fr       */
+/*   Created: 2022/02/19 12:03:54 by cberganz          #+#    #+#             */
+/*   Updated: 2022/02/19 13:41:14 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int8_t	mem_alloc(unsigned long size, void **ptr)
+void	ft_exit(int exit_code)
 {
-	t_list	*el;
-
-	*ptr = malloc(size);
-	if (*ptr == NULL)
-		return (-1);
-	el = garbage_lstnew(*ptr);
-	if (el == NULL)
-	{
-		free(*ptr);
-		return (-1);
-	}
-	ft_lstadd_front(garbage(), el);
-	return (0);
+	del_garbage();
+	rl_clear_history();//pas sur de le supprimer
+	exit(exit_code);
 }
+
+void	error(
