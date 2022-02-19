@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 16:17:41 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:00:25 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@
 */
 
 # define DO_NOT_CLOSE_PROG 0
+
+/*
+**	Structures
+*/
+
+typedef struct s_command
+{
+	char	control_op[3];
+	char	**command;
+}	t_command;
 
 /*
 **	Global variables
