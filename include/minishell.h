@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 12:48:16 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 14:34:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@
 **	Defines
 */
 
-# define CLOSE_PROG 1
 # define DO_NOT_CLOSE_PROG 0
 
 /*
 **	Global variables
 */
 
-static uint8_t	g_status;
+extern uint8_t	g_status;
 
 /*
 **	Terminal / print functions
@@ -59,7 +58,7 @@ static uint8_t	g_status;
 void	print_start(void);
 char	*create_prompt(void);
 void	prompt(void);
-void	print_message(char *msg, char *color, uint8_t DO_CLOSE);
+void	print_message(char *msg, char *color, int exit_status);
 
 /*
 **	Signals
@@ -71,12 +70,20 @@ void	sig_handler(int sigcode);
 **	Exit
 */
 
-void	ft_exit(int exit_code);
+void	free_and_exit(int exit_code);
+void	child_error_exit(int status_error, char *file);
 
 /*
 **	Error management
 */
 
-# define ARGS_ERR "Error : Invalid number of arguments.\n"
+# define PATH_CMD_ERR 127
+# define PATH_FILE_ERR 127
+# define RIGHT_FILE_ERR 126
+# define EXEC_ERR 1
+# define MALLOC_ERR 2
+# define FD_ERR 1
+
+# define ARGS_ERR_MSG "Error : Invalid number of arguments.\n"
 
 #endif

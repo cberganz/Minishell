@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 12:52:01 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 14:11:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	print_start(void)
 	printf(" \\______/ |__/  |__/|________/|________/|________/\n\n\n");
 }
 
-void	print_message(char *msg, char *color, uint8_t DO_CLOSE)
+void	print_message(char *msg, char *color, int exit_status)
 {
 	printf("%s", color);
 	printf("%s", msg);
 	printf(RESET);
-	if (DO_CLOSE)
-		ft_exit(1); // define exit_code
+	if (exit_status)
+		free_and_exit(exit_status);
 }
