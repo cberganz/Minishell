@@ -6,73 +6,76 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/18 16:46:01 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/19 16:07:46 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_ptab_len(char const *s, char c)
+static int	ft_rows(const char *s, char c)
 {
-	int	ptab_len;
+	int	rows;
+
+	rows = 0;
+	while (*s)
+	{
+		while (*s == c)
+			s++;
+		if (*s && *s != c)
+			rows++;
+		while (*s && *s != c)
+			s++;
+	}
+	return (rows);
+}
+
+static void	*mr_propre(char **str_arr)
+{
 	int	i;
 
-	if (!s || !c)
-		return (-1);
-	ptab_len = 0;
-	i = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
-			ptab_len++;
-		while (s[i] != c && s[i])
-			i++;
-	}
-	return (ptab_len);
+	i = -1;
+	while (str_arr[++i])
+		mem_remove(str_arr[i]);
+	mem_remove(str_arr);
+	return (NULL);
 }
 
-static char	*w_create(char const *s, char c)
+static int	ft_wordlen(const char *s, char c)
 {
-	int		i;
-	char	*cpy;
+	char	*str_end;
 
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	if (mem_alloc((i + 1) * sizeof(char), (void **)&cpy))
-		return (NULL);
-	cpy[i] = '\0';
-	while (--i >= 0)
-		cpy[i] = s[i];
-	return (cpy);
+	str_end = ft_strchr(s, c);
+	if (!str_end)
+		return (ft_strlen(s));
+	else
+		return (str_end - s);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *s, char c)
 {
-	char	**ptab;
 	int		i;
-	int		ptab_count;
-	int		ptab_len;
+	int		n;
+	char	**str_arr;
 
-	i = 0;
-	ptab_count = 0;
-	ptab_len = ft_ptab_len(s, c);
-	if (mem_alloc((ptab_len + 1) * sizeof(char *), (void **)&ptab))
+	if (!s)
 		return (NULL);
-	while (ptab_count < ptab_len)
+	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, c) + 1), NULL);
+	if (!str_arr)
+		return (NULL);
+	i = 0;
+	while (*s)
 	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] != c && s[i])
+		while (*s == c)
+			s++;
+		if (*s && *s != c)
 		{
-			ptab[ptab_count] = w_create(&s[i], c);
-			ptab_count++;
+			n = ft_wordlen(s, c);
+			str_arr[i++] = ft_substr(s, 0, n);
+			if (!str_arr[i - 1])
+				return (mr_propre(str_arr));
+			s += n;
 		}
-		while (s[i] != c && s[i])
-			i++;
 	}
-	ptab[ptab_count] = NULL;
-	return (ptab);
+	str_arr[i] = NULL;
+	return (str_arr);
 }
