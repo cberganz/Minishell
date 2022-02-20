@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 16:08:10 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:22:26 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 	}
 	else if (not_interpreted_characters(*input))
 	{
-		printf(RED "Minishell: uninterpreted character is present \n" RESET);
+		printf(RED "Minishell: uninterpreted character present outside quotes\n"
+			RESET);
 		*input = "";
 		// *shell_prompt = create_prompt();
 		return (1);

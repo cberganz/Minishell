@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 17:04:17 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:23:48 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static uint8_t	check_not_interpreted(char *sub_input)
 		return (1);
 	else if (*sub_input == '&')
 		return (1);
+	else if (*sub_input == '`')
+		return (1);
 	else if (!ft_strncmp(sub_input, "<>", 2))
 		return (1);
 	else if (!ft_strncmp(sub_input, "<<<", 3))
@@ -84,6 +86,7 @@ uint8_t	not_interpreted_characters(char *input)
 {
 	// doivent etre exterieur des quotes
 	// ';' '(' ')' '\' '&' '!' "<>", "<<<",
+	// add brace apres avoir fait la génération de variables
 	int i;
 
 	i = 0;
