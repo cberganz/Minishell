@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/19 12:26:56 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/20 16:00:48 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CC		= clang
 
 CFLAGS		= -Wall -Wextra -Werror -g3
 
-SRC_NAME	= ctype/ft_isalnum.c		\
+SRC_NAME	= ctype/ft_isalnum.c\
 		  	ctype/ft_isalpha.c	\
 			ctype/ft_isascii.c	\
 			ctype/ft_isdigit.c	\
@@ -28,8 +28,9 @@ SRC_NAME	= ctype/ft_isalnum.c		\
 			ctype/ft_itoa.c		\
 			ctype/ft_tolower.c	\
 			ctype/ft_toupper.c	\
-			lst/ft_lstadd_back.c	\
-			lst/ft_lstadd_front.c	\
+			lst/ft_lstadd_back.c\
+			lst/ft_lstadd_front.c\
+			lst/ft_lstadd_here.c\
 			lst/ft_lstclear.c	\
 			lst/ft_lstdelone.c	\
 			lst/ft_lstiter.c	\
