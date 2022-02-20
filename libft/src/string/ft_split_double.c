@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_double.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 16:17:16 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:01:34 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_rows(const char *s, char *sep)
+static int	ft_rows(const char *s, char *sep1, char *sep2)
 {
 	int	rows;
 
 	rows = 0;
 	while (*s)
 	{
-		while (ft_strnequ(&(*s), sep, ft_strlen(sep)))
-			s += ft_strlen(sep);
-		if (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
+		while (ft_strnequ(&(*s), sep1, ft_strlen(sep1))
+			|| ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
+			s += ft_strlen(sep1);
+		if (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1))
+			|| !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
 			rows++;
-		while (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
-			s += ft_strlen(sep);
+		while (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1))
+			|| !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
+			s += ft_strlen(sep1);
 	}
 	return (rows);
 }
@@ -40,36 +43,43 @@ static void	*mr_propre(char **str_arr)
 	return (NULL);
 }
 
-static int	ft_wordlen(const char *s, char *sep)
+static int	ft_wordlen(const char *s, char *sep1, char *sep2)
 {
+	char	*str_end_sep1;
+	char	*str_end_sep2;
 	char	*str_end;
 
-	str_end = ft_strstr(s, sep);
+	str_end_sep1 = ft_strstr(s, sep1);
+	str_end_sep2 = ft_strstr(s, sep2);
+	if (str_end_sep1 < str_end_sep2)
+		str_end = str_end_sep1;
+	else
+		str_end = str_end_sep2;
 	if (!str_end)
 		return (ft_strlen(s));
 	else
 		return (str_end - s);
 }
 
-char	**ft_split(const char *s, char *sep)
+char	**ft_split_double(const char *s, char *sep1, char *sep2)
 {
 	int		i;
 	int		n;
 	char	**str_arr;
 
-	if (!s || !sep)
+	if (!s || !sep1 || !sep2)
 		return (NULL);
-	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, sep) + 1), NULL);
+	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, sep1, sep2) + 1), NULL);
 	if (!str_arr)
 		return (NULL);
 	i = 0;
 	while (*s)
 	{
-		while (ft_strnequ(&(*s), sep, ft_strlen(sep)))
-			s += ft_strlen(sep);
-		if (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
+		while (ft_strnequ(&(*s), sep1, ft_strlen(sep1)) || ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
+			s += ft_strlen(sep1);
+		if (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1)) || !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
 		{
-			n = ft_wordlen(s, sep);
+			n = ft_wordlen(s, sep1, sep2);
 			str_arr[i++] = ft_substr(s, 0, n);
 			if (!str_arr[i - 1])
 				return (mr_propre(str_arr));

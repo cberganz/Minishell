@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/20 16:00:48 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/20 17:01:09 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,13 +47,14 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			mem/ft_memdel.c		\
 			mem/ft_memmove.c	\
 			mem/ft_memset.c		\
-			stdio/ft_putchar_fd.c	\
-			stdio/ft_putstr_fd.c	\
-			stdio/ft_putendl_fd.c	\
-			stdio/ft_putnbr_fd.c	\
+			stdio/ft_putchar_fd.c\
+			stdio/ft_putstr_fd.c\
+			stdio/ft_putendl_fd.c\
+			stdio/ft_putnbr_fd.c\
 			stdlib/ft_abs.c		\
 			stdlib/ft_atoi.c	\
 			string/ft_split.c	\
+			string/ft_split_double.c\
 			string/ft_strcat.c	\
 			string/ft_strchr.c	\
 			string/ft_strclr.c	\
@@ -63,7 +64,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			string/ft_strdup.c	\
 			string/ft_strequ.c	\
 			string/ft_striter.c	\
-			string/ft_striteri.c	\
+			string/ft_striteri.c\
 			string/ft_strjoin.c	\
 			string/ft_strlcat.c	\
 			string/ft_strlcpy.c	\
