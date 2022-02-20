@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 18:20:56 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/20 18:55:27 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ static int	ft_rows(const char *s, char *sep1, char *sep2)
 	rows = 0;
 	while (*s)
 	{
-		while (ft_strnequ(&(*s), sep1, ft_strlen(sep1))
-			|| ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
-			s += ft_strlen(sep1);
-		if (*s && !ft_strnequ(&(*s), sep1, ft_strlen(sep1))
-			&& !ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
+		while (ft_strnequ(&(*s), sep1, 2) || ft_strnequ(&(*s), sep2, 2))
+			s += 2;
+		if (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
 			rows++;
-		while (*s && !ft_strnequ(&(*s), sep1, ft_strlen(sep1))
-			&& !ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
-			s += ft_strlen(sep1);
+		while (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
+			s++;
 	}
 	return (rows);
 }
