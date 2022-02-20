@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/20 16:30:48 by rbicanic         ###   ########.fr        #
+#    Updated: 2022/02/20 19:07:21 by rbicanic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRC_FILES 	=	minishell.c			\
 				utils_print.c		\
 				exit.c				\
 				errors.c			\
-				errors_not_handled.c
+				errors_not_handled.c\
+				parse_step1.c		\
+				parse_step2.c
 
 SRC_BONUS_FILES = AVENIR.c
 

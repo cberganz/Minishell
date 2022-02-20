@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 19:04:39 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:16:15 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_pipe_command
 	int		infile;
 	int		outfile;
 	char	*cmd_content;
-	char	**splitted_cmd;
+	char	**exec_agrs;
 }	t_pipe_command;
 
 typedef struct s_command
@@ -110,5 +110,12 @@ void	eof_exit(char *input);
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t open_quotes(char *input);
 uint8_t	not_interpreted_characters(char *input);
+
+/*
+**	Parsing
+*/
+
+void	*single_pipe_parsing(t_list **command_list);
+t_list	*parse_step1(char *input);
 
 #endif

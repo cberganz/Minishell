@@ -6,23 +6,39 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 19:04:40 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:17:45 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void iter_trim(t_list **lst)
+{
+	t_list	*tmp_lst;
+	char	*tmp_string;
+
+	tmp_lst = *lst;
+	while (tmp_lst)
+	{
+		tmp_string =
+			ft_strtrim(((t_pipe_command *)tmp_lst->content)->cmd_content, " ");
+		mem_remove(((t_pipe_command *)tmp_lst->content)->cmd_content);
+		((t_pipe_command *)tmp_lst->content)->cmd_content = tmp_string;
+		tmp_lst = tmp_lst->next;
+	}
+}
+
 t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd)
 {
-	t_pipe_command	*pipe_command;
+	t_pipe_command	*pipe_struct;
 
-	if (mem_alloc(sizeof(t_pipe_command), pipe_command))
+	if (mem_alloc(sizeof(t_pipe_command), (void **) &pipe_struct))
 		return (NULL);
-	pipe_command->infile = 0;
-	pipe_command->infile = 1;
-	pipe_command->splitted_cmd = NULL;
-	pipe_command->cmd_content = pipe_cmd;
-	return (pipe_command);
+	pipe_struct->infile = 0;
+	pipe_struct->outfile = 1;
+	pipe_struct->exec_agrs = NULL;
+	pipe_struct->cmd_content = pipe_cmd;
+	return (pipe_struct);
 }
 
 t_list	*set_pipe_commands_list(char *command)
@@ -34,10 +50,11 @@ t_list	*set_pipe_commands_list(char *command)
 	t_pipe_command	*cmd_struct;
 
 	i = 0;
+	pipe_cmd_list = NULL;
 	pipe_cmds = ft_split(command, "|");
 	if (pipe_cmds == NULL)
 		return (NULL);
-	while (pipe_cmds[i])
+	while (pipe_cmds[i] != NULL)
 	{
 		cmd_struct = set_pipe_cmd_node(pipe_cmds[i]);
 		if (!cmd_struct)
@@ -48,19 +65,22 @@ t_list	*set_pipe_commands_list(char *command)
 		ft_lstadd_back(&pipe_cmd_list, tmp);
 		i++;
 	}
+	mem_remove(pipe_cmds);
 	return (pipe_cmd_list);
 }
 
-void	single_pipe_parsing(t_list **command_list)
+void	*single_pipe_parsing(t_list **list_first_parse)
 {
 	t_list	*tmp;
 
-	tmp = *command_list;
+	tmp = *list_first_parse;
 	while (tmp)
 	{
-		((t_command *)tmp->content)->command_list = set_pipe_commands_list(((t_command *)tmp->content)->command);
+		((t_command *)tmp->content)->command_list =
+			set_pipe_commands_list(((t_command *)tmp->content)->command);
 		if (!((t_command *)tmp->content)->command_list)
 			return (NULL);
+		iter_trim(&((t_command *)tmp->content)->command_list);
 		tmp = tmp->next;
 	}
 }
