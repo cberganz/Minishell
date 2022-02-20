@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 18:25:18 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:04:39 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_pipe_command
 {
 	int		infile;
 	int		outfile;
-	char	*cmd;
+	char	*cmd_content;
 	char	**splitted_cmd;
 }	t_pipe_command;
 
