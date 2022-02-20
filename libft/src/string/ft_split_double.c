@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 17:01:34 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/20 18:20:56 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	ft_rows(const char *s, char *sep1, char *sep2)
 		while (ft_strnequ(&(*s), sep1, ft_strlen(sep1))
 			|| ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
 			s += ft_strlen(sep1);
-		if (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1))
-			|| !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
+		if (*s && !ft_strnequ(&(*s), sep1, ft_strlen(sep1))
+			&& !ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
 			rows++;
-		while (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1))
-			|| !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
+		while (*s && !ft_strnequ(&(*s), sep1, ft_strlen(sep1))
+			&& !ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
 			s += ft_strlen(sep1);
 	}
 	return (rows);
@@ -51,10 +51,12 @@ static int	ft_wordlen(const char *s, char *sep1, char *sep2)
 
 	str_end_sep1 = ft_strstr(s, sep1);
 	str_end_sep2 = ft_strstr(s, sep2);
-	if (str_end_sep1 < str_end_sep2)
+	if (str_end_sep1 < str_end_sep2 && str_end_sep1)
 		str_end = str_end_sep1;
-	else
+	else if (str_end_sep2)
 		str_end = str_end_sep2;
+	else
+		str_end = str_end_sep1;
 	if (!str_end)
 		return (ft_strlen(s));
 	else
@@ -75,9 +77,9 @@ char	**ft_split_double(const char *s, char *sep1, char *sep2)
 	i = 0;
 	while (*s)
 	{
-		while (ft_strnequ(&(*s), sep1, ft_strlen(sep1)) || ft_strnequ(&(*s), sep2, ft_strlen(sep2)))
-			s += ft_strlen(sep1);
-		if (*s && (!ft_strnequ(&(*s), sep1, ft_strlen(sep1)) || !ft_strnequ(&(*s), sep2, ft_strlen(sep2))))
+		while (ft_strnequ(&(*s), sep1, 2) || ft_strnequ(&(*s), sep2, 2))
+			s += 2;
+		if (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
 		{
 			n = ft_wordlen(s, sep1, sep2);
 			str_arr[i++] = ft_substr(s, 0, n);
