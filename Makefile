@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
+#    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/19 12:17:10 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/19 21:21:00 by rbicanic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC_FILES 	=	minishell.c			\
 				prompt.c			\
 				signals.c			\
 				utils_print.c		\
-				exit.c
+				exit.c				\
+				errors.c
 
 SRC_BONUS_FILES = AVENIR.c
 

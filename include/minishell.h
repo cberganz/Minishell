@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 19:29:19 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 21:20:32 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ void	eof_exit(char *input);
 # define FD_ERR 1
 
 # define ARGS_ERR_MSG "Error : Invalid number of arguments.\n"
+
+uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 
 #endif

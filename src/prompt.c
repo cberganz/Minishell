@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 19:37:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/19 21:19:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,16 @@ void	prompt(void)
 		input = ft_strjoin(input, garbage_addptr(readline(shell_prompt)));
 		if (!input)
 			eof_exit(input);//modif sur la fonction (input toujour null et check_open_pipe pas possible) => peut etre update error status auqnd open pipe
-		//placer check error ici
-		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvelle ligne gérer la sortie du programme || remplacer if par while check_open_pipe
+		if (near_unexpected_token_error(&input, &shell_prompt))
+			continue ;
+		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvelle ligne gérer la sortie du programme
 		{
 			shell_prompt = "> ";
 			continue ;
 		}
 
-		printf(RED "%s\n" RESET, input);
-		if (!g_status && !ft_strequ(input, ""))
+		printf(GREEN "%s\n" RESET, input);
+		if (!ft_strequ(input, ""))
 		{
 			g_status = 0;
 			add_history(input);
