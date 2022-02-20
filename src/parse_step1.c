@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 18:24:30 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:03:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,65 +86,23 @@ t_list	*parse_step1(char *input)
 	return (command_list);
 }
 
-int	main(void)
-{
-	t_list	*list;
-	t_list	*first;
-
-	list = parse_step1("test1 || test2 && test3 & test4 || test5 && test6 || test7");
-	first = list;
-	while (list)
-	{
-		if (((t_command *)list->content)->control_op)
-			printf("%s\n", (char *)((t_command *)list->content)->control_op);
-		else
-			printf("(null)\n");
-		printf("%s\n\n", (char *)((t_command *)list->content)->command);
-		list = list->next;
-	}
-	//ft_lstclear(&first, free);
-	del_garbage();
-	return (0);
-}
-
-//static void	*parse_doubleand(t_list **lst)
+//int	main(void)
 //{
-//	t_command	*tmp;
-//	t_list		*tmp_lst;
-//	t_list		*previous;
-//	char		**tmp_char;
-//	int			i;
+//	t_list	*list;
+//	t_list	*first;
 //
-//	tmp_lst = *lst;
-//	while (tmp_lst)
+//	list = parse_step1("test1 || test2 && test3 & test4 || test5 && test6 || test7");
+//	first = list;
+//	while (list)
 //	{
-//		i = 1;
-//		if (ft_strstr(*((t_command *)tmp_lst->content)->command, "&&"))
-//			tmp_char = ft_split(*((t_command *)tmp_lst->content)->command, "&&");
+//		if (((t_command *)list->content)->control_op)
+//			printf("%s\n", (char *)((t_command *)list->content)->control_op);
 //		else
-//		{
-//			previous = tmp_lst;
-//			tmp_lst = tmp_lst->next;
-//			continue ;
-//		}
-//		while (*tmp_char)
-//		{
-//			if (mem_alloc(sizeof(t_command), (void **)&tmp))
-//				return (NULL);
-//			tmp->command = &(*tmp_char);
-//			if (i == 1)
-//				tmp->control_op = "||";
-//			else	
-//				tmp->control_op = NULL;
-//			ft_lstadd_here(previous->next, ft_lstnew(tmp));	
-//			previous = tmp_lst;
-//			tmp_lst = tmp_lst->next;
-//			tmp_char++;
-//			i++;
-//		}
-//		previous = tmp_lst;
-//		tmp_lst = tmp_lst->next;
+//			printf("(null)\n");
+//		printf("%s\n\n", (char *)((t_command *)list->content)->command);
+//		list = list->next;
 //	}
-//	set_control_op(lst, "&&");
-//	return ((void *)1);
+//	//ft_lstclear(&first, free);
+//	//del_garbage();
+//	return (0);
 //}
