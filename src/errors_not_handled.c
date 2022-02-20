@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 16:16:46 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:04:17 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ static uint8_t	check_not_interpreted(char *sub_input)
 		return (1);
 	else if (*sub_input == '!')
 		return (1);
-	else if (*sub_input == '&' && ft_strncmp(sub_input, "&&", 2))
+	else if (*sub_input == '&')
+		return (1);
+	else if (!ft_strncmp(sub_input, "<>", 2))
+		return (1);
+	else if (!ft_strncmp(sub_input, "<<<", 3))
 		return (1);
 	return (0);
 }
@@ -79,7 +83,7 @@ static uint8_t	check_not_interpreted(char *sub_input)
 uint8_t	not_interpreted_characters(char *input)
 {
 	// doivent etre exterieur des quotes
-	// ';' '(' ')' '\' '&' '!'
+	// ';' '(' ')' '\' '&' '!' "<>", "<<<",
 	int i;
 
 	i = 0;
@@ -89,6 +93,8 @@ uint8_t	not_interpreted_characters(char *input)
 			i += quote_len(&input[i], '"');
 		else if (input[i] == '\'')
 			i += quote_len(&input[i], '\'');
+		else if (!strncmp(&input[i], "&&", 2))
+			i += 2;
 		else if (check_not_interpreted(&input[i]))
 			return (1);
 		if (input[i])
