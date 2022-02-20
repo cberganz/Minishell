@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 21:20:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 16:04:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 
 typedef struct s_command
 {
-	char	control_op[3];
+	char	*control_op;
 	char	**command;
 }	t_command;
 
