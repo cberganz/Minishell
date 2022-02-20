@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 20:17:45 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:35:40 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ void	*single_pipe_parsing(t_list **list_first_parse)
 		iter_trim(&((t_command *)tmp->content)->command_list);
 		tmp = tmp->next;
 	}
+	return ((void *) 1);
 }

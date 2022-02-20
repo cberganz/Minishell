@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 19:16:15 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:28:51 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ extern uint8_t	g_status;
 
 void	print_start(void);
 char	*create_prompt(void);
-void	prompt(void);
+void	prompt_loop(void);
 uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 
