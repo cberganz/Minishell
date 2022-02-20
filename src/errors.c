@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/19 22:12:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/20 16:08:10 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,21 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 	char	*unexpected_token;
 
 	unexpected_token = charset_token_error(*input);
-	if (unexpected_token)
+	if (open_quotes(*input))
+	{
+		printf(RED "Minishell: open quotes are not interpreted \n" RESET);
+		*input = "";
+		// *shell_prompt = create_prompt();
+		return (1);
+	}
+	else if (not_interpreted_characters(*input))
+	{
+		printf(RED "Minishell: uninterpreted character is present \n" RESET);
+		*input = "";
+		// *shell_prompt = create_prompt();
+		return (1);
+	}
+	else if (unexpected_token)
 	{
 		printf(RED "Minishell: syntax error near unexpected token `%s'\n" RESET,
 			unexpected_token);
