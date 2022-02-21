@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 16:42:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:45:02 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,15 @@ void	prompt_loop(void)
 	while (1)
 	{
 		input = ft_strjoin(input, " ");
-		input = ft_strjoin(input, garbage_addptr(readline(shell_prompt)));
+		if (g_status != 130)
+		{
+			input = ft_strjoin(input, garbage_addptr(readline(shell_prompt)));
+		}
+		else
+		{
+	//		rl_clear_line();
+			input = garbage_addptr(readline(shell_prompt)); 
+		}
 		if (input_error(&input, &shell_prompt))
 		{
 			if (g_status == 130)
@@ -99,6 +107,10 @@ void	prompt_loop(void)
 			}
 			continue ;
 		}
+	//	if (g_status == 130)
+	//	{
+	//		continue ;
+	//	}
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 			free_and_exit(MALLOC_ERR);

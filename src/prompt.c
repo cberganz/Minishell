@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 20:31:45 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:17:19 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ char	*create_prompt(void)
 		prompt = &prompt[ft_strlen(home) - 1];
 	}
 	if (g_status)
-		prompt = ft_strjoin("\x1b[31;1m➜ \x1b[35m", prompt);
+		prompt = ft_strjoin("\001\e[31;1m\002> \001\e[35m\002", prompt);
 	else
-		prompt = ft_strjoin("\x1b[32;1m➜ \x1b[35m", prompt);
-	prompt = ft_strjoin(prompt, "$ \x1b[0m");
+		prompt = ft_strjoin("\001\e[32;1m\002> \001\e[35m\002", prompt);
+	prompt = ft_strjoin(prompt, "$ \001\e[0m\002");
 	if (!prompt)
 		free_and_exit(MALLOC_ERR);
 	return (prompt);

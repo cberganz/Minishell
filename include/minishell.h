@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 15:42:59 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:44:38 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,18 @@ typedef struct s_command
 	t_list	*command_list;
 }	t_command;
 
+typedef struct s_global
+{
+	uint8_t	status;
+	char	*input;
+	char	*shell_prompt;
+}	t_global;
+
 /*
 **	Global variables
 */
 
-extern uint8_t	g_status;
+extern t_global	g_global;
 
 /*
 **	Terminal / print functions
