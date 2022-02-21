@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/20 20:34:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 14:14:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,40 @@ uint8_t	pipe_is_open(char *str)
 	return (0);
 }
 
+//Test function
+void	print_lists(t_list	*list)
+{
+	t_list	*first;
+	t_list	*tmp;
+
+	first = list;
+	printf("\n");
+	while (list)
+	{
+		if (((t_command *)list->content)->control_op)
+			printf(CYAN "%s\n" RESET, (char *)((t_command *)list->content)->control_op);
+		else
+			printf(CYAN "(null)\n" RESET);
+		printf("%s\n", (char *)((t_command *)list->content)->command);
+		tmp = ((t_command *)list->content)->command_list;
+		while (tmp)
+		{
+			if (tmp->next)
+				printf(GREEN "%s => " RESET, ((t_pipe_command *)tmp->content)->cmd_content);
+			else
+				printf(GREEN "%s" RESET, ((t_pipe_command *)tmp->content)->cmd_content);
+			tmp = tmp->next;
+		}
+		printf("\n\n");
+		list = list->next;
+	}
+}
+
 void	prompt_loop(void)
 {
 	char	*shell_prompt;
 	char	*input;
+	t_list	*cmd_list;
 
 	shell_prompt = create_prompt();
 	input = "";
@@ -45,8 +75,10 @@ void	prompt_loop(void)
 			shell_prompt = "> ";
 			continue ;
 		}
-
-		printf(GREEN "%s\n" RESET, input);
+		cmd_list = global_parsing(input);
+		if (!cmd_list)
+			free_and_exit(MALLOC_ERR);
+		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
 		{
 			g_status = 0;

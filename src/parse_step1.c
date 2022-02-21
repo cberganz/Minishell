@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 20:18:17 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 14:08:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,33 +86,3 @@ t_list	*parse_step1(char *input)
 	return (command_list);
 }
 
-// int	main(void)
-// {
-// 	t_list	*list;
-// 	t_list	*first;
-// 	t_list	*tmp;
-
-// 	list = parse_step1("test1 | testa | testq test | testw || test2 && test3 &| test4 || test5 | testb && test6 || test7");
-// 	first = list;
-// 	single_pipe_parsing(&list);
-// 	while (list)
-// 	{
-// 		if (((t_command *)list->content)->control_op)
-// 			printf("%s\n", (char *)((t_command *)list->content)->control_op);
-// 		else
-// 			printf("(null)\n");
-// 		printf("%s\n\n", (char *)((t_command *)list->content)->command);
-// 		tmp = ((t_command *)list->content)->command_list;
-// 		while (tmp)
-// 		{
-// 			printf(GREEN "%s\n" RESET, ((t_pipe_command *)tmp->content)->cmd_content);
-// 			tmp = tmp->next;
-// 		}
-// 		printf("\n\n");
-// 		list = list->next;
-// 	}
-
-// 	//ft_lstclear(&first, free);
-// 	del_garbage();
-// 	return (0);
-// }

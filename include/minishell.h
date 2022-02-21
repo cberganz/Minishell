@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 13:57:08 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 14:02:08 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ uint8_t	print_first_check_error(char *msg, char **input, char **shell_prompt);
 
 void	*single_pipe_parsing(t_list **command_list);
 t_list	*parse_step1(char *input);
+t_list	*global_parsing(char *input);
 
 #endif
