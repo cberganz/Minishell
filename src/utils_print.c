@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 14:11:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 13:51:53 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ void	print_message(char *msg, char *color, int exit_status)
 	printf(RESET);
 	if (exit_status)
 		free_and_exit(exit_status);
+}
+
+#define QUOTES_ERR "Minishell: open quotes are not interpreted.\n"
+
+uint8_t	print_first_check_error(char *msg, char **input, char **shell_prompt)
+{
+	printf(RED "%s" RESET, msg);
+	*input = "";
+	g_status = 1;
+	*shell_prompt = create_prompt();
+	return (1);
 }

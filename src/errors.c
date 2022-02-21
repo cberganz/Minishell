@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 12:46:28 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/21 13:55:19 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,29 +92,10 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 
 	unexpected_token = charset_token_error(*input);
 	if (open_quotes(*input))
-	{
-		printf(RED "Minishell: open quotes are not interpreted \n" RESET);
-		*input = "";
-		// *shell_prompt = create_prompt();
-		return (1);
-	}
+		return (print_first_check_error(QUOTES_ERR_MSG, input, shell_prompt));
 	else if (not_interpreted_characters(*input))
-	{
-		printf(RED "Minishell: uninterpreted character present outside quotes\n"
-			RESET);
-		*input = "";
-		g_status = 1; // ?
-		*shell_prompt = create_prompt(); // ?
-		return (1);
-	}
+		return (print_first_check_error(WRONG_CHAR_ERR_MSG, input, shell_prompt));
 	else if (unexpected_token)
-	{
-		printf(RED "Minishell: syntax error near unexpected token `%s'\n" RESET,
-			unexpected_token);
-		*input = "";
-		g_status = 1;
-		*shell_prompt = create_prompt();
-		return (1);
-	}
+		return (print_first_check_error(NEAR_TOKEN_ERR_MSG, input, shell_prompt));
 	return (0);
 }
