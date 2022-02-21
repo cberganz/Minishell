@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 14:14:09 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:42:08 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	print_lists(t_list	*list)
 	t_list	*first;
 	t_list	*tmp;
 
+	if (!list)
+		return ;
 	first = list;
 	printf("\n");
 	while (list)
@@ -55,6 +57,27 @@ void	print_lists(t_list	*list)
 	}
 }
 
+int8_t	input_error(char **input, char **shell_prompt)
+{
+		char	*tmp;
+
+		if (!*input)
+			eof_exit(*input);//modif sur la fonction (input toujour null et check_open_pipe pas possible) => peut etre update error status auqnd open pipe
+		tmp = *input;
+		*input = ft_strtrim(*input, " ");
+		mem_remove(tmp);
+		if (ft_strequ(*input, ""))
+			return (-1);
+		if (near_unexpected_token_error(input, shell_prompt))
+			return (-1);
+		if (pipe_is_open(*input)) // si ctrl-d pendant l'affichage de la nouvelle ligne gérer la sortie du programme || si ctrl-c pas input pas reset + problem affichage ligne 
+		{
+			*shell_prompt = "> ";
+			return (-1);
+		}
+		return (0);
+}
+
 void	prompt_loop(void)
 {
 	char	*shell_prompt;
@@ -65,14 +88,15 @@ void	prompt_loop(void)
 	input = "";
 	while (1)
 	{
+		input = ft_strjoin(input, " ");
 		input = ft_strjoin(input, garbage_addptr(readline(shell_prompt)));
-		if (!input)
-			eof_exit(input);//modif sur la fonction (input toujour null et check_open_pipe pas possible) => peut etre update error status auqnd open pipe
-		if (near_unexpected_token_error(&input, &shell_prompt))
-			continue ;
-		if (pipe_is_open(input)) // si ctrl-d pendant l'affichage de la nouvelle ligne gérer la sortie du programme || si ctrl-c pas input pas reset + problem affichage ligne 
+		if (input_error(&input, &shell_prompt))
 		{
-			shell_prompt = "> ";
+			if (g_status == 130)
+			{
+				input = "";
+				shell_prompt = create_prompt();
+			}
 			continue ;
 		}
 		cmd_list = global_parsing(input);
@@ -84,7 +108,6 @@ void	prompt_loop(void)
 			g_status = 0;
 			add_history(input);
 		}
-
 		del_garbage();
 		input = "";
 		shell_prompt = create_prompt();

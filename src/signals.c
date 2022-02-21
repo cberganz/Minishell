@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 19:22:28 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:36:40 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	sig_handler(int sigcode)
 		// rl_on_new_line();
 		// rl_redisplay();
 	}
-	if (sigcode == SIGQUIT)
+	if (sigcode == SIGQUIT || sigcode == SIGTSTP)
 		printf("\b\b  \033[2D");
 }
