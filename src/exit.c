@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:03:54 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 19:28:14 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/22 19:21:31 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_and_exit(int exit_code)
 {
 	del_garbage();
-	rl_clear_history();//verifier si possible de recuperer historique apres execution
+	rl_clear_history();
 	exit(exit_code);
 }
 
@@ -38,13 +38,14 @@ void	child_error_exit(int status_error, char *file)
 
 void	eof_exit(char *input)
 {
-	if (pipe_is_open(input))
-	{
-		print_message("Minishell: syntax error: unexpected end of file\n",
-			RED, DO_NOT_CLOSE_PROG);
-		printf("exit\n");
-		free_and_exit(2);
-	}
+//	if (pipe_is_open(input))
+//	{
+//		print_message("Minishell: syntax error: unexpected end of file\n",
+//			RED, DO_NOT_CLOSE_PROG);
+//		printf("exit\n");
+//		free_and_exit(2);
+//	}
+	(void)input; // a del
 	printf("exit\n");
 	free_and_exit(g_status);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   errors_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 16:42:09 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:24:42 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*unexpected_next_token(char *str, int index)
+char	*unexpected_next(char *str, int index)
 {
 	while (str[index] == ' ')
 		index++;
@@ -30,15 +30,15 @@ char	*unexpected_next_token(char *str, int index)
 		return (">");
 	else if (str[index] == '<')
 		return ("<");
-	else if (str[index] == '\0')//test si pas \n
+	else if (str[index] == '\0')
 		return ("newline");
 	return (NULL);
 }
 
-uint8_t	unexpected_prev_token(char *str, int index)
+uint8_t	unexpected_prev(char *str, int index)
 {
 	if (index > 0)
-		index--;//verifier
+		index--;
 	while (index > 0 && str[index] == ' ')
 		index--;
 	if (str[index] == '|' || str[index] == '&'
@@ -47,40 +47,49 @@ uint8_t	unexpected_prev_token(char *str, int index)
 	return (0);
 }
 
+char	*redirection_error(char *input, int *i)
+{
+	if (!ft_strncmp(&input[*i], ">>", 2))
+	{
+		if (unexpected_next(input, *i + 2))
+			return (unexpected_next(input, *i + 2));
+		*i += 2;
+	}
+	else if (!ft_strncmp(&input[*i], "<<", 2)
+		&& unexpected_next(input, *i + 2))
+	{
+		if (unexpected_next(input, *i + 2))
+			return (unexpected_next(input, *i + 2));
+		*i += 2;
+	}
+	else if (input[*i] == '>' && unexpected_next(input, *i + 1))
+		return (unexpected_next(input, *i + 1));
+	else if (input[*i] == '<' && unexpected_next(input, *i + 1))
+		return (unexpected_next(input, *i + 1));
+	return (NULL);
+}
+
 char	*charset_token_error(char *input)
 {
-	int	i;
+	int		i;
+	char	*ret;
 
 	i = 0;
 	while (input[i])
 	{
 		if (!ft_strncmp(&input[i], "||", 2))
 		{
-			if (unexpected_prev_token(input, i))
+			if (unexpected_prev(input, i))
 				return ("||");
 			i += 1;
 		}
-		else if (!ft_strncmp(&input[i], "&&", 2) && unexpected_prev_token(input, i))
+		else if (!ft_strncmp(&input[i], "&&", 2) && unexpected_prev(input, i))
 			return ("&&");
-		else if (input[i] == '|' && unexpected_prev_token(input, i))
+		else if (input[i] == '|' && unexpected_prev(input, i))
 			return ("|");
-// potentiellement ajouter les >>> et <<< pour respecter ex
-		else if (!ft_strncmp(&input[i], ">>", 2))
-		{
-			if (unexpected_next_token(input, i + 2))
-				return (unexpected_next_token(input, i + 2));
-			i += 2;
-		}
-		else if (!ft_strncmp(&input[i], "<<", 2) && unexpected_next_token(input, i + 2))
-		{
-			if (unexpected_next_token(input, i + 2))
-				return (unexpected_next_token(input, i + 2));
-			i += 2;
-		}
-		else if (input[i] == '>' && unexpected_next_token(input, i + 1))
-			return (unexpected_next_token(input, i + 1));
-		else if (input[i] == '<' && unexpected_next_token(input, i + 1))
-			return (unexpected_next_token(input, i + 1));
+		ret = redirection_error(input, &i);
+		if (ret)
+			return (ret);
 		i++;
 	}
 	return (NULL);
@@ -92,10 +101,13 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 
 	unexpected_token = charset_token_error(*input);
 	if (open_quotes(*input))
-		return (print_first_check_error(QUOTES_ERR_MSG, NULL, input, shell_prompt));
+		return (print_first_check_error(QUOTES_ERR_MSG,
+				NULL, input, shell_prompt));
 	else if (not_interpreted_characters(*input))
-		return (print_first_check_error(WRONG_CHAR_ERR_MSG, NULL, input, shell_prompt));
+		return (print_first_check_error(WRONG_CHAR_ERR_MSG,
+				NULL, input, shell_prompt));
 	else if (unexpected_token)
-		return (print_first_check_error(NEAR_TOKEN_ERR_MSG, unexpected_token, input, shell_prompt));
+		return (print_first_check_error(NEAR_TOKEN_ERR_MSG,
+				unexpected_token, input, shell_prompt));
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/21 14:09:54 by rbicanic         ###   ########.fr        #
+#    Updated: 2022/02/22 16:09:52 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC_FILES 	=	minishell.c			\
 				signals.c			\
 				utils_print.c		\
 				exit.c				\
-				errors.c			\
+				errors_token.c		\
 				errors_not_handled.c\
 				parse_step1.c		\
 				parse_step2.c		\

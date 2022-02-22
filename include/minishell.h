@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 18:44:38 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:49:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,11 @@ typedef struct s_command
 	t_list	*command_list;
 }	t_command;
 
-typedef struct s_global
-{
-	uint8_t	status;
-	char	*input;
-	char	*shell_prompt;
-}	t_global;
-
 /*
 **	Global variables
 */
 
-extern t_global	g_global;
+extern int	g_status;
 
 /*
 **	Terminal / print functions
@@ -116,6 +109,7 @@ void	eof_exit(char *input);
 # define QUOTES_ERR_MSG "Minishell: open quotes are not interpreted.\n"
 # define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token present outside quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
+# define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t open_quotes(char *input);

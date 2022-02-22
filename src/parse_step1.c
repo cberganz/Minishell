@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/21 15:49:30 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:05:40 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	set_control_op(t_list **lst, char *input)
 	}
 }
 
-static void iter_trim(t_list **lst)
+static void	iter_trim(t_list **lst)
 {
 	t_list	*tmp_lst;
 	char	*tmp_string;
@@ -85,4 +85,3 @@ t_list	*parse_step1(char *input)
 	iter_trim(&command_list);
 	return (command_list);
 }
-

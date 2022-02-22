@@ -6,13 +6,13 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 15:49:29 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:27:13 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void iter_trim(t_list **lst)
+static void	iter_trim(t_list **lst)
 {
 	t_list	*tmp_lst;
 	char	*tmp_string;
@@ -20,8 +20,8 @@ static void iter_trim(t_list **lst)
 	tmp_lst = *lst;
 	while (tmp_lst)
 	{
-		tmp_string =
-			ft_strtrim(((t_pipe_command *)tmp_lst->content)->cmd_content, " ");
+		tmp_string = ft_strtrim
+			(((t_pipe_command *)tmp_lst->content)->cmd_content, " ");
 		mem_remove(((t_pipe_command *)tmp_lst->content)->cmd_content);
 		((t_pipe_command *)tmp_lst->content)->cmd_content = tmp_string;
 		tmp_lst = tmp_lst->next;
@@ -76,8 +76,8 @@ void	*single_pipe_parsing(t_list **list_first_parse)
 	tmp = *list_first_parse;
 	while (tmp)
 	{
-		((t_command *)tmp->content)->command_list =
-			set_pipe_commands_list(((t_command *)tmp->content)->command);
+		((t_command *)tmp->content)->command_list = set_pipe_commands_list
+			(((t_command *)tmp->content)->command);
 		if (!((t_command *)tmp->content)->command_list)
 			return (NULL);
 		iter_trim(&((t_command *)tmp->content)->command_list);

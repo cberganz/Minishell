@@ -6,13 +6,13 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:33:14 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/21 17:14:21 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:03:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-uint8_t	g_status = 0;
+int	g_status = 0;
 
 int	main(int argc, char *argv[], char **envp)
 {
