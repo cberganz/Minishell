@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/23 18:30:52 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/23 19:14:39 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,16 @@ void	eof_exit(void);
 # define ARGS_ERR_MSG "Error : Invalid number of arguments.\n"
 # define QUOTES_ERR_MSG "Minishell: open quotes are not interpreted.\n"
 # define OPEN_PIPE_ERR_MSG "Minishell: open pipe are not interpreted.\n"
-# define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token present outside quotes.\n"
+# define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token \
+							present outside single quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
-uint8_t open_quotes(char *input);
+uint8_t	open_quotes(char *input);
 uint8_t	not_interpreted_characters(char *input);
-uint8_t	print_first_check_error(char *msg, char *token, char **input, char **shell_prompt);
+uint8_t	print_first_check_error(char *msg, char *token, char **input,
+			char **shell_prompt);
 
 /*
 **	Parsing

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/23 18:34:49 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/23 19:09:23 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ uint8_t	not_interpreted_characters(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '"')
-			i += quote_len(&input[i], '"');
-		else if (input[i] == '\'')
+		// if (input[i] == '"')
+		// 	i += quote_len(&input[i], '"');
+		if (input[i] == '\'')
 			i += quote_len(&input[i], '\'');
 		else if (!strncmp(&input[i], "&&", 2))
 			i += 2;

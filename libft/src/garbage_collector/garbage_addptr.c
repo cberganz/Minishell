@@ -6,13 +6,13 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:24:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/19 19:12:08 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/23 19:15:25 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void *garbage_addptr(void *ptr)
+void	*garbage_addptr(void *ptr)
 {
 	t_list	*el;
 
