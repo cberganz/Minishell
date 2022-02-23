@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/22 17:24:42 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/23 18:22:07 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 	unexpected_token = charset_token_error(*input);
 	if (open_quotes(*input))
 		return (print_first_check_error(QUOTES_ERR_MSG,
+				NULL, input, shell_prompt));
+	else if (pipe_is_open(*input))
+		return (print_first_check_error(OPEN_PIPE_ERR_MSG,
 				NULL, input, shell_prompt));
 	else if (not_interpreted_characters(*input))
 		return (print_first_check_error(WRONG_CHAR_ERR_MSG,

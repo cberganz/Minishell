@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/22 15:49:05 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/23 18:30:52 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	sig_handler(int sigcode);
 
 void	free_and_exit(int exit_code);
 void	child_error_exit(int status_error, char *file);
-void	eof_exit(char *input);
+void	eof_exit(void);
 
 /*
 **	Error management
@@ -107,6 +107,7 @@ void	eof_exit(char *input);
 
 # define ARGS_ERR_MSG "Error : Invalid number of arguments.\n"
 # define QUOTES_ERR_MSG "Minishell: open quotes are not interpreted.\n"
+# define OPEN_PIPE_ERR_MSG "Minishell: open pipe are not interpreted.\n"
 # define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token present outside quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
