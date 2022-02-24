@@ -81,14 +81,15 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			string/ft_strstr.c	\
 			string/ft_strtrim.c	\
 			string/ft_substr.c	\
-			string/ft_putnbr_base.c \
+			string/ft_putnbr_base.c\
+			string/ft_strinsert.c\
 			gnl/get_next_line.c	\
-			gnl/get_next_line_utils.c \
-			garbage_collector/del_garbage.c \
-			garbage_collector/mem_alloc.c \
-			garbage_collector/garbage_ptr.c \
-			garbage_collector/mem_remove.c \
-			garbage_collector/garbage_lstnew.c \
+			gnl/get_next_line_utils.c\
+			garbage_collector/del_garbage.c\
+			garbage_collector/mem_alloc.c\
+			garbage_collector/garbage_ptr.c\
+			garbage_collector/mem_remove.c\
+			garbage_collector/garbage_lstnew.c\
 			garbage_collector/garbage_addptr.c
 			
 
