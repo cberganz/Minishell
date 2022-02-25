@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/23 19:15:56 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/25 09:19:20 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdint.h>
 # include <fcntl.h>
 
 /*
@@ -101,7 +102,7 @@ int		ft_strequ(char const *s1, char const *s2);
 int		ft_strnequ(char const *s1, char const *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strinsert(char **src, char *to_insert, char *begin, char *end);
+uint8_t	ft_strinsert(char **src, char *to_insert, int start, int (*func_is)(int));
 
 /*
 ** Memory
