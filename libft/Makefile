@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/20 17:01:09 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/25 15:08:57 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			ctype/ft_itoa.c		\
 			ctype/ft_tolower.c	\
 			ctype/ft_toupper.c	\
+			ctype/ft_ischarset.c\
 			lst/ft_lstadd_back.c\
 			lst/ft_lstadd_front.c\
 			lst/ft_lstadd_here.c\

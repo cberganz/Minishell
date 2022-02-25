@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 09:19:20 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/25 15:36:59 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+int		ft_ischarset(int c, char *charset, int (*func_ptr)(int));
 char	*ft_itoa(int n);
 
 /*
@@ -102,7 +103,8 @@ int		ft_strequ(char const *s1, char const *s2);
 int		ft_strnequ(char const *s1, char const *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-uint8_t	ft_strinsert(char **src, char *to_insert, int start, int (*func_is)(int));
+uint8_t	ft_strinsert(char **src, char *to_insert, int start,
+			char *charset, int (*func_is)(int));
 
 /*
 ** Memory

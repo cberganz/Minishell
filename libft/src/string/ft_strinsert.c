@@ -6,20 +6,14 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:31:01 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 13:11:21 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/25 15:37:49 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static uint8_t ft_isquote(int c)
-{
-	if (c == 39 || c == '"')
-		return (1);
-	return (0);
-}
-
-uint8_t	ft_strinsert(char **src, char *to_insert, int start, int (*func_is)(int))
+uint8_t	ft_strinsert(char **src, char *to_insert, int start,
+			char *charset, int (*func_is)(int))
 {
 	int		stop;
 	char	*nstr;
@@ -27,11 +21,12 @@ uint8_t	ft_strinsert(char **src, char *to_insert, int start, int (*func_is)(int)
 	stop = 1;
 	if (ft_isdigit(*(*src + start + stop)))
 		stop++;
-	else if (ft_isquote(*(*src + start + stop)))
+	else if (ft_ischarset(*(*src + start + stop), "\'\"", NULL))
 		;
 	else
 	{
-		while (*(*src + start + stop) && func_is(*(*src + start + stop)))
+		while (*(*src + start + stop) && ft_ischarset(*(*src + start + stop),
+				charset, func_is))
 			stop++;
 	}
 	if (mem_alloc(ft_strlen(*src) + ft_strlen(to_insert) - stop + 3,

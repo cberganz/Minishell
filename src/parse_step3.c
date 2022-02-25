@@ -6,16 +6,11 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 13:24:07 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/25 15:40:26 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static int	ft_isstatus(int c)
-{
-	return (c == '?');
-}
 
 static uint8_t	flag_in_str(char *str)
 {
@@ -26,7 +21,7 @@ static uint8_t	flag_in_str(char *str)
 			str++;
 			while (*str && *str != '"')
 			{
-				if (*str == '$' && (ft_isalnum(*(str + 1)) || *(str + 1) == '?'))
+				if (*str == '$' && ft_ischarset(*(str + 1), "?", ft_isalnum))
 					return (1);
 				str++;
 			}
@@ -37,7 +32,8 @@ static uint8_t	flag_in_str(char *str)
 			while (*str && *str != 39)
 				str++;
 		}
-		if (*str && *str == '$' && (ft_isalnum(*(str + 1)) || *(str + 1) == '?' || *(str + 1) == 39 || *(str + 1) == '"'))
+		if (*str && *str == '$' && ft_ischarset(*(str + 1), "?\'\"_",
+				ft_isalnum))
 			return (1);
 		if (*str)
 			str++;
@@ -53,7 +49,7 @@ static char	*get_to_find(char *s)
 	size = 1;
 	if (!ft_isdigit(s[size]))
 	{
-		while (ft_isalnum(s[size]))
+		while (ft_ischarset(s[size], "_", ft_isalnum))
 			size++;
 	}
 	else
@@ -71,15 +67,14 @@ static uint8_t	insert(t_list *command_list, int i, int double_quote)
 	char	*command;
 
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	if (double_quote && (command[i + 1] == 39 || command[i + 1] == '"'))
+	if (double_quote && ft_ischarset(command[i + 1], "\'\"", NULL))
 		return (0);
-	if (command[i] == '$'
-		&& (ft_isalnum(command[i + 1]) || command[i + 1] == '?' || command[i + 1] == 39 || command[i + 1] == '"'))
+	if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_", ft_isalnum))
 	{
 		if (command[i + 1] == '?')
 		{
 			to_insert = ft_itoa(g_status);
-			if (ft_strinsert(&((t_pipe_command *)command_list->content)->cmd_content, to_insert, i, ft_isstatus))
+			if (ft_strinsert(&((t_pipe_command *)command_list->content)->cmd_content, to_insert, i, "?", NULL))
 				print_message("Allocation error.\n", RED, 1);
 		}
 		else
@@ -91,7 +86,7 @@ static uint8_t	insert(t_list *command_list, int i, int double_quote)
 			if (!to_insert)
 				to_insert = "";
 			mem_remove(to_find);
-			if (ft_strinsert(&((t_pipe_command *)command_list->content)->cmd_content, to_insert, i, ft_isalnum))
+			if (ft_strinsert(&((t_pipe_command *)command_list->content)->cmd_content, to_insert, i, "_", ft_isalnum))
 				print_message("Allocation error.\n", RED, 1);
 		}
 		return (1);
@@ -101,7 +96,7 @@ static uint8_t	insert(t_list *command_list, int i, int double_quote)
 
 uint8_t	expansion_parsing(t_list *command_list)
 {
-	int 	i;
+	int		i;
 	uint8_t	double_quote;
 
 	while (command_list)
