@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/25 05:08:01 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/25 15:55:19 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt)
 	return (0);
 }
 
-// TEST FUNCTION
+// TEST VARIABLE EXPANSION TO REMOVE
 void	test_expansion(t_list *command)
 {
 	while (command)
@@ -106,7 +106,7 @@ void	prompt_loop(void)
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 			free_and_exit(MALLOC_ERR);
-		test_expansion(cmd_list); // TEST
+		test_expansion(cmd_list); // TEST VARIABLE EXPANSION TO REMOVE
 		print_lists(cmd_list); // TEST
 		if (!ft_strequ(input, ""))
 		{
