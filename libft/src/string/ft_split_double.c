@@ -6,11 +6,21 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/24 16:42:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/26 18:42:38 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	quote_len(char *sub_input, char quote)
+{
+	int	i;
+
+	i = 1;
+	while (sub_input[i] && sub_input[i] != quote)
+		i++;
+	return (i);
+}
 
 static int	ft_rows(const char *s, char *sep1, char *sep2)
 {
@@ -19,12 +29,19 @@ static int	ft_rows(const char *s, char *sep1, char *sep2)
 	rows = 0;
 	while (*s)
 	{
+
 		while (ft_strnequ(&(*s), sep1, 2) || ft_strnequ(&(*s), sep2, 2))
 			s += 2;
 		if (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
 			rows++;
 		while (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
+		{
+			if (*s == '"')
+				s += quote_len((char *)s, '"');
+			else if (*s == '\'')
+				s += quote_len((char *)s, '\'');
 			s++;
+		}
 	}
 	return (rows);
 }
@@ -42,22 +59,23 @@ static void	*mr_propre(char **str_arr)
 
 static int	ft_wordlen(const char *s, char *sep1, char *sep2)
 {
-	char	*str_end_sep1;
-	char	*str_end_sep2;
-	char	*str_end;
+	int		i;
 
-	str_end_sep1 = ft_strstr(s, sep1);
-	str_end_sep2 = ft_strstr(s, sep2);
-	if (str_end_sep1 < str_end_sep2 && str_end_sep1)
-		str_end = str_end_sep1;
-	else if (str_end_sep2)
-		str_end = str_end_sep2;
-	else
-		str_end = str_end_sep1;
-	if (!str_end)
-		return (ft_strlen(s));
-	else
-		return (str_end - s);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '"')
+			i += quote_len(&((char *)s)[i], '"') + 1;
+		else if (s[i] == '\'')
+			i += quote_len(&((char *)s)[i], '\'') + 1;
+		else if (!ft_strncmp(&s[i], sep1, ft_strlen(sep1)))
+			return (i);
+		else if (!ft_strncmp(&s[i], sep2, ft_strlen(sep2)))
+			return (i);
+		else
+			i++;
+	}
+	return (i);
 }
 
 char	**ft_split_double(const char *s, char *sep1, char *sep2)

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 10:31:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 18:42:35 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ static void	set_control_op(t_list **lst, char *input)
 	{
 		while (input[i])
 		{
+			if (input[i] == '"')
+				i += quote_len(&input[i], '"');
+			else if (input[i] == '\'')
+				i += quote_len(&input[i], '\'');
 			if (input[i] == '|' && input[i + 1] == '|')
 			{
 				((t_command *)tmp->content)->control_op = "||";

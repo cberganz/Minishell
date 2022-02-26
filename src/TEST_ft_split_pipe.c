@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_pipe.c                                    :+:      :+:    :+:   */
+/*   TEST_ft_split_pipe.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 19:18:28 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/26 18:20:20 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	quote_len(char *sub_input, char quote)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	while (sub_input[i] && sub_input[i] != quote)
-// 		i++;
-// 	return (i);
-// }
 
 static int	ft_rows(const char *s, char *sep)
 {
@@ -56,14 +46,6 @@ static void	*mr_propre(char **str_arr)
 
 static int	ft_wordlen(const char *s, char *sep)
 {
-	// char	*str_end;
-
-	// str_end = ft_strstr(s, sep);
-	// if (!str_end)
-	// 	return (ft_strlen(s));
-	// else
-	// 	return (str_end - s);
-
 	int		i;
 
 	i = 0;
@@ -72,7 +54,7 @@ static int	ft_wordlen(const char *s, char *sep)
 		if (s[i] == '"')
 			i += quote_len(&((char *)s)[i], '"') + 1;
 		else if (s[i] == '\'')
-			i += quote_len((char *)s, '\'') + 1;
+			i += quote_len(&((char *)s)[i], '\'') + 1;
 		else if (!ft_strncmp(&s[i], sep, ft_strlen(sep)))
 			return (i);
 		else
