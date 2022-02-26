@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 07:21:56 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 17:13:10 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	print_start(void)
 
 void	print_message(char *msg, char *color, int exit_status)
 {
-	printf("%s", color);
-	printf("%s", msg);
-	printf(RESET);
+	// printf("%s", color);
+	write(2, color, ft_strlen(RED));
+	write(2, msg, ft_strlen(msg));
+	// printf("\b%s\n" RESET, msg);
 	if (exit_status)
 		free_and_exit(exit_status);
 }
@@ -54,4 +55,16 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input,
 	g_status = 1;
 	*shell_prompt = create_prompt();
 	return (1);
+}
+
+void	errno_file_error(char *file, int exit_status)
+{
+	write(2, RED, ft_strlen(RED));
+	write(2, "Minishell: ", 11);
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	write(2, ": ", 2);
+	write(2, file, ft_strlen(file));
+	write(2, RESET, ft_strlen(RESET));
+	write(2, "\n", 1);
+	free_and_exit(exit_status);
 }

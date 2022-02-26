@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 13:26:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 17:12:34 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	print_lists(t_list	*list)
 		tmp = ((t_command *)list->content)->command_list;
 		while (tmp)
 		{
+			printf(CYAN "\noutfile = %s" RESET, ((t_pipe_command *)tmp->content)->outfile);
+			printf(CYAN "\ninfile = %s\n" RESET, ((t_pipe_command *)tmp->content)->infile);
 			if (tmp->next)
 				printf(GREEN "%s => " RESET, ((t_pipe_command *)tmp->content)->cmd_content);
 			else
@@ -107,7 +109,8 @@ void	prompt_loop(void)
 		if (!cmd_list)
 			free_and_exit(MALLOC_ERR);
 		test_expansion(cmd_list); // TEST VARIABLE EXPANSION TO REMOVE
-		print_lists(cmd_list); // TEST
+		cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
+		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
 		{
 			g_status = 0;
