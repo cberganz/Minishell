@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/25 11:16:55 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/26 16:46:28 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,11 @@ SRC_FILES 	=	minishell.c			\
 				exit.c				\
 				errors_token.c		\
 				errors_not_handled.c\
+				parse_step0_comments.c\
 				parse_step1.c		\
 				parse_step2.c		\
-				parse_step3.c		\
+				parse_step3_tilde.c	\
+				parse_step3_variable.c\
 				loop.c				\
 				parse_global.c
 

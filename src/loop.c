@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/25 15:55:19 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 13:26:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	test_expansion(t_list *command)
 {
 	while (command)
 	{
-		expansion_parsing(((t_command *)command->content)->command_list);
+		command_parsing(((t_command *)command->content)->command_list);
 		command = command->next;
 	}
 }

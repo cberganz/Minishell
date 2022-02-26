@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/25 10:31:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 16:47:08 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,19 @@ uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 
 /*
+**	Parsing
+*/
+
+t_list	*global_parsing(char *input);
+void	remove_comments(char **input);
+t_list	*parse_step1(char *input);
+void	*single_pipe_parsing(t_list **command_list);
+
+void	command_parsing(t_list *command_list);
+void	tilde_expansion(t_list *command_list);
+void	variable_expansion(t_list *command_list);
+
+/*
 **	Signals
 */
 
@@ -118,14 +131,5 @@ uint8_t	open_quotes(char *input);
 uint8_t	not_interpreted_characters(char *input);
 uint8_t	print_first_check_error(char *msg, char *token, char **input,
 			char **shell_prompt);
-
-/*
-**	Parsing
-*/
-
-void	*single_pipe_parsing(t_list **command_list);
-t_list	*parse_step1(char *input);
-t_list	*global_parsing(char *input);
-uint8_t	expansion_parsing(t_list *command_list);
 
 #endif

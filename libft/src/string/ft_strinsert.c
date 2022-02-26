@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:31:01 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 15:37:49 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 14:15:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ uint8_t	ft_strinsert(char **src, char *to_insert, int start,
 	char	*nstr;
 
 	stop = 1;
-	if (ft_isdigit(*(*src + start + stop)))
+	if ((*src)[start] != '~' && ft_isdigit(*(*src + start + stop)))
 		stop++;
-	else if (ft_ischarset(*(*src + start + stop), "\'\"", NULL))
-		;
-	else
+	else if ((*src)[start] != '~' && *(*src + start + stop) == '?')
+		stop++;
+	else if ((*src)[start] != '~' && !ft_ischarset(*(*src + start + stop), "\'\"", NULL))
 	{
 		while (*(*src + start + stop) && ft_ischarset(*(*src + start + stop),
 				charset, func_is))
