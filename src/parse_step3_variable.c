@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/26 17:04:20 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 19:53:27 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ static void	insert(t_list *command_list, int i)
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
 	if (command[i + 1] == '?')
 	{
-		to_insert = ft_itoa(g_status);
+		to_insert = ft_stradd_quotes(ft_itoa(g_status));
 		if (ft_strinsert(&command, to_insert, i, "?", NULL))
 			print_message("Allocation error.\n", RED, 1);
 	}
 	else if (ft_ischarset(command[i + 1], "\'\"_", ft_isalnum))
 	{
 		to_find = get_to_find(&command[i]);
-		to_insert = getenv(to_find);
+		to_insert = ft_stradd_quotes(getenv(to_find));
 		if (!to_insert)
 			to_insert = "";
 		mem_remove(to_find);

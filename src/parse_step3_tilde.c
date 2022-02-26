@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/26 16:41:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/26 19:54:01 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	insert(t_list *command_list, int i)
 	char	*command;
 
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	to_insert = getenv("HOME");
+	to_insert = ft_stradd_quotes(getenv("HOME"));
 	if (!to_insert)
 		to_insert = "";
 	if (ft_strinsert(&command, to_insert, i, "", NULL))
