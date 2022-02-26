@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/26 17:09:53 by rbicanic         ###   ########.fr        #
+#    Updated: 2022/02/26 19:09:24 by rbicanic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ HEADER_BONUS= $(INCLUDE)minishell_bonus.h
 
 CC			= clang
 
-CFLAGS		= -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g3
 
 SRC_FILES 	=	minishell.c			\
 				prompt.c			\

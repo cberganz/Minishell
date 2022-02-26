@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/24 19:31:54 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/26 19:11:34 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ uint8_t pipe_redirection_management(t_pipe_command *cmd)
 	while (cmd->cmd_content[i])
 	{
 		if (cmd->cmd_content[i] == '"')
-			i += quote_len(&cmd->cmd_content[i], '"');
+			i += quote_len(&(cmd->cmd_content)[i], '"') + 1;
 		else if (cmd->cmd_content[i] == '\'')
-			i += quote_len(&cmd->cmd_content[i], '\'');
+			i += quote_len(&(cmd->cmd_content)[i], '\'') + 1;
 		else if (!ft_strncmp(&cmd->cmd_content[i], ">>", 2))
 			ret = out_redirection_parsing(cmd, ">>", i);
 		else if (!ft_strncmp(&cmd->cmd_content[i], "<<", 2))
