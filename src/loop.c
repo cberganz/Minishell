@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 17:12:34 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/26 21:34:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	prompt_loop(void)
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 			free_and_exit(MALLOC_ERR);
-		test_expansion(cmd_list); // TEST VARIABLE EXPANSION TO REMOVE
+		// test_expansion(cmd_list); // TEST VARIABLE EXPANSION TO REMOVE
 		cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
 		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
