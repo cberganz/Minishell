@@ -6,7 +6,7 @@
 #    By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/25 15:08:57 by cberganz         ###   ########.fr        #
+#    Updated: 2022/02/26 19:13:17 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			string/ft_substr.c	\
 			string/ft_putnbr_base.c\
 			string/ft_strinsert.c\
+			string/ft_stradd_quotes.c\
 			gnl/get_next_line.c	\
 			gnl/get_next_line_utils.c\
 			garbage_collector/del_garbage.c\
