@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/23 18:22:07 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:58:45 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,18 @@ char	*redirection_error(char *input, int *i)
 	{
 		if (unexpected_next(input, *i + 2))
 			return (unexpected_next(input, *i + 2));
-		*i += 2;
+		*i += 1;
 	}
-	else if (!ft_strncmp(&input[*i], "<<", 2)
-		&& unexpected_next(input, *i + 2))
+	else if (!ft_strncmp(&input[*i], "<<", 2))
 	{
 		if (unexpected_next(input, *i + 2))
 			return (unexpected_next(input, *i + 2));
-		*i += 2;
+		*i += 1;
 	}
 	else if (input[*i] == '>' && unexpected_next(input, *i + 1))
+	{
 		return (unexpected_next(input, *i + 1));
+	}
 	else if (input[*i] == '<' && unexpected_next(input, *i + 1))
 		return (unexpected_next(input, *i + 1));
 	return (NULL);
@@ -77,7 +78,11 @@ char	*charset_token_error(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (!ft_strncmp(&input[i], "||", 2))
+		if (input[i] == '"')
+			i += quote_len(&input[i], '"');
+		else if (input[i] == '\'')
+			i += quote_len(&input[i], '"');
+		else if (!ft_strncmp(&input[i], "||", 2))
 		{
 			if (unexpected_prev(input, i))
 				return ("||");
@@ -90,6 +95,7 @@ char	*charset_token_error(char *input)
 		ret = redirection_error(input, &i);
 		if (ret)
 			return (ret);
+		else if (input[i])
 		i++;
 	}
 	return (NULL);

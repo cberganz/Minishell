@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/23 19:09:23 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/23 23:39:42 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static uint8_t	check_not_interpreted(char *sub_input)
 		return (1);
 	else if (*sub_input == '`')
 		return (1);
-	else if (!ft_strncmp(sub_input, "<>", 2))
+	else if (!ft_strncmp(sub_input, "<>", 2))//pas sujet au changement avec double quote => devrait etre affiche 
 		return (1);
 	else if (!ft_strncmp(sub_input, "<<<", 3))
 		return (1);
