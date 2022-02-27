@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 02:47:10 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:17:43 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,12 @@ void	prompt_loop(char *envp[])
 			continue ;
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
-			free_and_exit(MALLOC_ERR);
+		{
+			del_garbage();
+			input = "";
+			shell_prompt = create_prompt();
+			continue ;
+		}
 	//	cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
 		exec(cmd_list, envp);
 		print_lists(cmd_list);

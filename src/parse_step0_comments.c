@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 15:36:20 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 01:28:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:21:13 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,12 @@ void	remove_comments(char **input)
 	int		i;
 
 	i = 0;
+	jump_quotes(*input, &i);
 	if ((*input)[i] == '#')
+	{
 		(*input)[i] = '\0';
+		return ;
+	}
 	while ((*input)[++i])
 	{
 		jump_quotes(*input, &i);

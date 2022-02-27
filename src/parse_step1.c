@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 01:28:06 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:54:23 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	*parse(char *input, t_list **lst)
 	while (*splited_input)
 	{
 		if (mem_alloc(sizeof(t_command), (void **)&tmp))
-			return (NULL);
+			print_message("Allocation error.\n", RED, MALLOC_ERR);
 		tmp->command = *splited_input;
 		tmp->control_op = NULL;
 		ft_lstadd_back(lst, ft_lstnew(tmp));
@@ -83,9 +83,10 @@ t_list	*parse_step1(char *input)
 {
 	t_list		*command_list;
 
-	command_list = NULL;
-	if (!parse(input, &command_list))
+	if (!*input)
 		return (NULL);
+	command_list = NULL;
+	parse(input, &command_list);
 	iter_trim(&command_list);
 	return (command_list);
 }

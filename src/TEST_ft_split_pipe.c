@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 01:34:04 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 15:19:06 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static int	ft_rows(const char *s, char *sep)
 	while (*s)
 	{
 		if (*s == '"')
-			s += quote_len((char *)s, '"') + 1;
+			s += quote_len((char *)s, '"');// + 1; enleve le bug ""|''|""
 		else if (*s == '\'')
-			s += quote_len((char *)s, '\'') + 1;
+			s += quote_len((char *)s, '\'');// + 1;
 		while (ft_strnequ(&(*s), sep, ft_strlen(sep)))
 			s += ft_strlen(sep);
-		if (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
+		if (/**s && */!ft_strnequ(&(*s), sep, ft_strlen(sep))) // NE FONCTIONNE PAS : Exemple input :'""' (lancer avec valgrind) ok sans *s mais surement encore d'autres problemes sur cette fonction : ""|''|"" ne fonctionne pas
 			rows++;
 		while (*s && !ft_strnequ(&(*s), sep, ft_strlen(sep)))
 			s += ft_strlen(sep);
@@ -96,8 +96,8 @@ char	**ft_split_pipe(const char *s, char *sep)
 //{
 //	char **strs;
 //
-//	strs = ft_split_pipe("aa", " ");
-//	strs = ft_split_pipe("test \"|\" | test 1 '|' | test 2 |\" test3  |\" bwieubriqwebrqwjebr", " ");
+//	strs = ft_split_pipe("\"\'\'\"", "|");
+//	//strs = ft_split_pipe("test \"|\" | test 1 '|' | test 2 |\" test3  |\" bwieubriqwebrqwjebr", " ");
 //	for (int i = 0; strs[i]; i++)
 //	{
 //		printf("%s\n", strs[i]);

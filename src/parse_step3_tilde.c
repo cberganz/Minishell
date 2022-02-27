@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/26 23:21:04 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:19:54 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static uint8_t	flag(char *str)
 	int	i;
 
 	i = 0;
+	jump_quotes(str, &i);
 	if (str[i] == '~' && ft_ischarset(str[i + 1], "<>:/ ", NULL))
 		return (1);
 	while (str[++i])

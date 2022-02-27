@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 04:21:36 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 14:55:12 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static void	insert(t_list *command_list, int i)
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 }
 
-static void	jump_quotes(char *cmd, uint8_t *double_quote, int *i)
+static void	jump_quotes(char *cmd, int *double_quote, int *i)
 {
 	if (cmd[*i] && !(*double_quote) && cmd[*i] == '\'')
 	{
@@ -136,14 +136,14 @@ static void	jump_quotes(char *cmd, uint8_t *double_quote, int *i)
 	}
 	if (cmd[*i] && !(*double_quote) && cmd[*i] == '"')
 		*double_quote = 1;
-	if (cmd[*i] && *double_quote && cmd[*i] == '"')
+	else if (cmd[*i] && *double_quote && cmd[*i] == '"')
 		*double_quote = 0;
 }
 
 void	variable_expansion(t_list *command_list)
 {
 	int		i;
-	uint8_t	double_quote;
+	int		double_quote;
 	char	*command;
 
 	while (command_list)
@@ -155,13 +155,14 @@ void	variable_expansion(t_list *command_list)
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			while (command[++i])
 			{
-				if (command[i] == '$' && (!double_quote
-						|| !ft_ischarset(command[i + 1], "\'\"", NULL)))
+				if (command[i] == '$' && 
+						((!double_quote || !ft_ischarset(command[i + 1], "\'\"", NULL))))
+					//	|| (double_quote && ft_ischarset(command[i + 1], "?", ft_isalnum))))
 				{
 					insert(command_list, i);
 					break ;
 				}
-				jump_quotes(command, &double_quote, &i); // PROBLEME : JUMP LES QUOTES MEME SI UNE VAR EST DEDANS quand il arrive sur cette ligne
+				jump_quotes(command, &double_quote, &i);
 			}
 		}
 		command_list = command_list->next;
