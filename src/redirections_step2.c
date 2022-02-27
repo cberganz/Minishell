@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 22:07:46 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/27 01:17:51 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cmd_redirection_management(t_list *list)
 	first = list;
 	while (list)
 	{
-		tmp = ((t_command *)list->content)->command_list;
+	tmp = ((t_command *)list->content)->command_list;
 		while (tmp)
 		{
 			if (pipe_redirection_management((t_pipe_command *)tmp->content))

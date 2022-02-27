@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/26 18:20:20 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/27 01:34:04 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,16 @@ char	**ft_split_pipe(const char *s, char *sep)
 	str_arr[i] = NULL;
 	return (str_arr);
 }
-
-// int main()
-// {
-// 	char **strs;
-
-// 	strs = ft_split_pipe("test \"|\" | test 1 '|' | test 2 |\" test3  |\" bwieubriqwebrqwjebr", "|");
-// 	for (int i = 0; strs[i]; i++)
-// 	{
-// 		printf("%s\n", strs[i]);
-// 	}
-// 	return (0);
-// }
+//
+//int main(void)
+//{
+//	char **strs;
+//
+//	strs = ft_split_pipe("aa", " ");
+//	strs = ft_split_pipe("test \"|\" | test 1 '|' | test 2 |\" test3  |\" bwieubriqwebrqwjebr", " ");
+//	for (int i = 0; strs[i]; i++)
+//	{
+//		printf("%s\n", strs[i]);
+//	}
+//	return (0);
+//}

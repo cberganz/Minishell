@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/29 08:20:09 by cberganz          #+#    #+#              #
-#    Updated: 2022/02/26 19:09:24 by rbicanic         ###   ########.fr        #
+#    Updated: 2022/02/27 02:26:37 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,11 +37,14 @@ SRC_FILES 	=	minishell.c			\
 				parse_step2.c		\
 				parse_step3_tilde.c	\
 				parse_step3_variable.c\
+				parse_step4_splitargs.c\
+				parse_step5_removequotes.c\
 				loop.c				\
 				parse_global.c		\
 				redirections_step1.c\
 				redirections_step2.c\
-				TEST_ft_split_pipe.c
+				TEST_ft_split_pipe.c\
+				exec_main.c
 
 SRC_BONUS_FILES = AVENIR.c
 

@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_remove_quotes.c                              :+:      :+:    :+:   */
+/*   parse_step4_splitargs.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 19:24:21 by rbicanic         ###   ########.fr       */
+/*   Created: 2022/02/27 00:39:47 by cberganz          #+#    #+#             */
+/*   Updated: 2022/02/27 01:40:27 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_remove_quotes(char *str)
+void	split_args(t_list *command_list)
 {
-	int	i;
-	int	quote_pos;
+	char	*command;
+	int		i;
 
 	i = 0;
-	while (str[i])
-	{	
-		if (str[i] == '"')
-		{
-			ft_strcpy(&str[i], &str[i + 1]);
-			i += quote_len(&str[i], '"');
-		}
-		else if (str[i] == '\'')
-		{
-
-			i += quote_len(&str[i], '\'') + 1;
-		}
-		i++;
+	while (command_list)
+	{
+		command = ((t_pipe_command *)command_list->content)->cmd_content;
+		((t_pipe_command *)command_list->content)->exec_args = ft_split_pipe(command, " ");
+		command_list = command_list->next;
 	}
 }

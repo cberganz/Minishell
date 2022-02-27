@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stradd_quotes.c                                 :+:      :+:    :+:   */
+/*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/26 19:06:32 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 00:25:44 by cberganz         ###   ########.fr       */
+/*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
+/*   Updated: 2022/02/27 03:17:38 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-char	*ft_stradd_quotes(char *str)
+void	exec(t_list *cmd_list, char *envp[])
 {
-	char	*nstr;
-	int		i;
+	t_list	*command_list;
 
-	if (!str || str[0] == '\0')
-		return (str);
-	if (mem_alloc(ft_strlen(str) + 3, (void **)&nstr))
-		return (NULL);
-	nstr[0] = '"';
-	i = 1;
-	while (str[i - 1])
+	while (cmd_list)
 	{
-		nstr[i] = str[i - 1];
-		i++;
+		command_list = ((t_command *)cmd_list->content)->command_list;
+		command_parsing(command_list);
+		split_args(command_list);
+		remove_quotes_list(command_list);
+		(void)envp;	
+		cmd_list = cmd_list->next;
 	}
-	nstr[i] = '"';
-	nstr[i + 1] = '\0';
-	mem_remove(str);
-	return (nstr);
 }

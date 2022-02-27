@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 21:34:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/27 02:47:10 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,30 @@ uint8_t	pipe_is_open(char *str)
 	while (str[i] == ' ' && i >= 0)
 		i--;
 	if (str[i] == '|' || (str[i] == '&' && (i > 0 && str[i - 1] == '&')))
+		return (1);
+	return (0);
+}
+
+int8_t	input_error(char **input, char **shell_prompt)
+{
+	char	*tmp;
+
+	if (!*input)
+		eof_exit();
+	tmp = *input;
+	*input = ft_strtrim(*input, " ");
+	mem_remove(tmp);
+	if (ft_strequ(*input, ""))
+		return (-1);
+	if (near_unexpected_token_error(input, shell_prompt))
+		return (-1);
+	return (0);
+}
+
+uint8_t	input_first_read(char **input, char **shell_prompt)
+{
+	*input = garbage_addptr(readline(*shell_prompt));
+	if (input_error(input, shell_prompt))
 		return (1);
 	return (0);
 }
@@ -52,6 +76,11 @@ void	print_lists(t_list	*list)
 				printf(GREEN "%s => " RESET, ((t_pipe_command *)tmp->content)->cmd_content);
 			else
 				printf(GREEN "%s" RESET, ((t_pipe_command *)tmp->content)->cmd_content);
+			while (*((t_pipe_command *)tmp->content)->exec_args)
+			{
+				printf(YELLOW "\n%s" RESET, *((t_pipe_command *)tmp->content)->exec_args);
+				((t_pipe_command *)tmp->content)->exec_args++;
+			}
 			tmp = tmp->next;
 		}
 		printf("\n\n");
@@ -59,41 +88,7 @@ void	print_lists(t_list	*list)
 	}
 }
 
-int8_t	input_error(char **input, char **shell_prompt)
-{
-	char	*tmp;
-
-	if (!*input)
-		eof_exit();
-	tmp = *input;
-	*input = ft_strtrim(*input, " ");
-	mem_remove(tmp);
-	if (ft_strequ(*input, ""))
-		return (-1);
-	if (near_unexpected_token_error(input, shell_prompt))
-		return (-1);
-	return (0);
-}
-
-uint8_t	input_first_read(char **input, char **shell_prompt)
-{
-	*input = garbage_addptr(readline(*shell_prompt));
-	if (input_error(input, shell_prompt))
-		return (1);
-	return (0);
-}
-
-// TEST VARIABLE EXPANSION TO REMOVE
-void	test_expansion(t_list *command)
-{
-	while (command)
-	{
-		command_parsing(((t_command *)command->content)->command_list);
-		command = command->next;
-	}
-}
-
-void	prompt_loop(void)
+void	prompt_loop(char *envp[])
 {
 	char	*shell_prompt;
 	char	*input;
@@ -108,8 +103,8 @@ void	prompt_loop(void)
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 			free_and_exit(MALLOC_ERR);
-		// test_expansion(cmd_list); // TEST VARIABLE EXPANSION TO REMOVE
-		cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
+	//	cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
+		exec(cmd_list, envp);
 		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
 		{

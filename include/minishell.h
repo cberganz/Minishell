@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/26 17:11:34 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/02/27 02:47:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_pipe_command
 	char	*infile;
 	char	*outfile;
 	char	*cmd_content;
-	char	**exec_agrs;
+	char	**exec_args;
 }	t_pipe_command;
 
 typedef struct s_command
@@ -80,7 +80,7 @@ extern int	g_status;
 
 void	print_start(void);
 char	*create_prompt(void);
-void	prompt_loop(void);
+void	prompt_loop(char *envp[]);
 uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 void	errno_file_error(char *file, int exit_status);
@@ -98,12 +98,20 @@ char	**ft_split_pipe(const char *s, char *sep);//test
 void	command_parsing(t_list *command_list);
 void	tilde_expansion(t_list *command_list);
 void	variable_expansion(t_list *command_list);
+void	split_args(t_list *command_list);
+void	remove_quotes_list(t_list *command_list);
 
 /*
 **	Signals
 */
 
 void	sig_handler(int sigcode);
+
+/*
+**	Execution
+*/
+
+void	exec(t_list *cmd_listi, char *envp[]);
 
 /*
 **	Exit
