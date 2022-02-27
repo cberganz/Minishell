@@ -6,20 +6,23 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 03:22:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 04:39:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_quotes_str(char **str)
+static void	remove_quotes_str(char **str) // To test, found some errors
 {
 	int	i;
 
 	i = 0;
 	while (*(*str + i))
-	{	
-		if (*(*str + i) == '"')
+	{
+		if ((*(*str + i) == '"' && *(*str + i + 1) == '"')
+			|| (*(*str + i) == '\'' && *(*str + i + 1) == '\''))
+			ft_strcpy(&(*(*str + i)), &(*(*str + i + 2)));
+		else if (*(*str + i) == '"')
 		{
 			ft_strcpy(&(*(*str + i)), &(*(*str + i + 1)));
 			i += quote_len(&(*(*str + i)), '"');

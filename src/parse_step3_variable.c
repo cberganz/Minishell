@@ -6,22 +6,23 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 02:40:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/27 04:21:36 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 /*
+**	Argument mode set to 1 :
 **	Return 3 for ">>", 2 for ">", 1 for "<", 4 for "<<" or  0 any other case
 */
 
 static uint8_t	previous_token_ismeta(char *command, int i)
 {
-	while (i >= 0 && command[i] != ' ' && command[i] != '\t'
+	while (i > 0 && command[i] != ' ' && command[i] != '\t'
 			&& command[i] != '>' && command[i] != '<')
 		i--;
-	while (i >= 0 && (command[i] == ' ' || command[i] == '\t'))
+	while (i > 0 && (command[i] == ' ' || command[i] == '\t'))
 		i--;
 	if (i >= 0 && ft_ischarset(command[i], "<>", NULL))
 	{
@@ -34,7 +35,9 @@ static uint8_t	previous_token_ismeta(char *command, int i)
 		if (command[i] == '<')
 		{
 			if (i > 0 && command[i - 1] == '<')
+			{
 				return (4);
+			}
 			return (3);
 		}
 	}
@@ -46,7 +49,7 @@ static uint8_t	flag(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '"')
 		{
@@ -54,7 +57,7 @@ static uint8_t	flag(char *str)
 			while (str[i] && str[i] != '"')
 			{
 				if (str[i] == '$' && ft_ischarset(str[i + 1], "?", ft_isalnum)
-					&& !previous_token_ismeta(str, i))
+					&& previous_token_ismeta(str, i) != 4)
 					return (1);
 				i++;
 			}
@@ -66,7 +69,7 @@ static uint8_t	flag(char *str)
 				i++;
 		}
 		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?\'\"_",
-				ft_isalnum) && previous_token_ismeta(str, i))
+				ft_isalnum) && previous_token_ismeta(str, i) != 4)
 			return (1);
 		if (str[i])
 			i++;
@@ -112,7 +115,7 @@ static void	insert(t_list *command_list, int i)
 		to_insert = getenv(to_find);
 		if (previous_token_ismeta(command, i) == 4)
 			return ;
-		else if (previous_token_ismeta(command, i))
+		else if (previous_token_ismeta(command, i) != 0)
 			to_insert = ft_stradd_quotes(to_insert);
 		if (!to_insert)
 			to_insert = "";
@@ -132,10 +135,7 @@ static void	jump_quotes(char *cmd, uint8_t *double_quote, int *i)
 			*i += 1;
 	}
 	if (cmd[*i] && !(*double_quote) && cmd[*i] == '"')
-	{
 		*double_quote = 1;
-		*i += 1;
-	}
 	if (cmd[*i] && *double_quote && cmd[*i] == '"')
 		*double_quote = 0;
 }
@@ -155,13 +155,13 @@ void	variable_expansion(t_list *command_list)
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			while (command[++i])
 			{
-				jump_quotes(command, &double_quote, &i);
 				if (command[i] == '$' && (!double_quote
 						|| !ft_ischarset(command[i + 1], "\'\"", NULL)))
 				{
 					insert(command_list, i);
 					break ;
 				}
+				jump_quotes(command, &double_quote, &i); // PROBLEME : JUMP LES QUOTES MEME SI UNE VAR EST DEDANS quand il arrive sur cette ligne
 			}
 		}
 		command_list = command_list->next;
