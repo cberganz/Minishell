@@ -84,7 +84,7 @@ static char	*get_to_insert(char *s, int pos, int size)
 
 	if (mem_alloc(size, (void **)&to_find))
 		print_message("Allocation error.\n", RED, 1);
-	ft_strlcpy(to_find, s + 1, size);
+	ft_strlcpy(to_find, s + pos + 1, size);
 	to_insert = getenv(to_find);
 	mem_remove(to_find);
 	if (!to_insert)
@@ -124,7 +124,7 @@ static void	insert(t_list *command_list, int start)
 		to_insert = ft_itoa(g_status);
 	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
 	{
-		to_insert = get_to_insert(&command[start], start, stop);
+		to_insert = get_to_insert(command, start, stop);
 		if (!to_insert)
 			return ;
 	}
