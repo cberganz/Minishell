@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 11:17:43 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/28 22:01:37 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ uint8_t	input_first_read(char **input, char **shell_prompt)
 //Test function
 void	print_lists(t_list	*list)
 {
-	t_list	*first;
+	// t_list	*first;
 	t_list	*tmp;
 
 	if (!list)
 		return ;
-	first = list;
+	// first = list;
 	printf("\n");
 	while (list)
 	{

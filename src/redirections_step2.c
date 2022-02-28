@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 01:17:51 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/02/28 22:02:17 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ uint8_t pipe_redirection_management(t_pipe_command *cmd)
 // va surement etre remove si on fait les redirections dans les process enfants
 int	cmd_redirection_management(t_list *list)
 {
-	t_list	*first;
+	// t_list	*first;
 	t_list	*tmp;
 
 	if (!list)
 		return (0);
-	first = list;
+	// first = list;
 	while (list)
 	{
 	tmp = ((t_command *)list->content)->command_list;

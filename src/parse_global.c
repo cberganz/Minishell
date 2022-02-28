@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:58:56 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 11:16:59 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 00:03:44 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_list	*global_parsing(char *input)
 
 void	command_parsing(t_list *command_list)
 {
+	//heredoc function
 	tilde_expansion(command_list);
 	variable_expansion(command_list);
 }
