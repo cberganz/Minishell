@@ -46,7 +46,7 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static void	insert(t_list *command_list, int i)
+static void	insert(t_list *command_list, int start)
 {
 	char	*to_insert;
 	char	*command;
@@ -55,7 +55,7 @@ static void	insert(t_list *command_list, int i)
 	to_insert = getenv("HOME");
 	if (!to_insert)
 		to_insert = "";
-	if (ft_strinsert(&command, to_insert, i, "", NULL))
+	if (ft_strinsert(&command, to_insert, start, 1))
 		print_message("Allocation error.\n", RED, 1);
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 }

@@ -68,7 +68,7 @@ static uint8_t	flag(char *str)
 			while (str[i] && str[i] != '\'')
 				i++;
 		}
-		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?\'\"_",
+		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_\'\"",
 				ft_isalnum) && previous_token_ismeta(str, i) != 4)
 			return (1);
 		if (str[i])
@@ -77,52 +77,59 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static char	*get_to_find(char *s)
-{
-	int		size;
-	char	*to_find;
-
-	size = 1;
-	if (!ft_isdigit(s[size]))
-	{
-		while (ft_ischarset(s[size], "_", ft_isalnum))
-			size++;
-	}
-	else
-		size = 2;
-	if (mem_alloc(size, (void **)&to_find))
-		print_message("Allocation error.\n", RED, 1);
-	ft_strlcpy(to_find, s + 1, size);
-	return (to_find);
-}
-
-static void	insert(t_list *command_list, int i)
+static char	*get_to_insert(char *s, int pos, int size)
 {
 	char	*to_find;
 	char	*to_insert;
+
+	if (mem_alloc(size, (void **)&to_find))
+		print_message("Allocation error.\n", RED, 1);
+	ft_strlcpy(to_find, s + 1, size);
+	to_insert = getenv(to_find);
+	mem_remove(to_find);
+	if (!to_insert)
+		to_insert = "";
+	if (previous_token_ismeta(s, pos) == 4)
+		return (NULL);
+	else if (previous_token_ismeta(s, pos) != 0)
+		to_insert = ft_stradd_quotes(to_insert);
+	return (to_insert);
+}
+
+static int	stop_len(char *s, int start)
+{
+	int	stop;
+
+	stop = 1;
+	if (ft_ischarset(s[start + stop], "?@#*-", ft_isdigit))
+		stop++;
+	else if (!ft_ischarset(s[start + stop], "\'\"", NULL))
+	{
+		while (s[start + stop] && ft_ischarset(s[start + stop], "_", ft_isalnum))
+			stop++;
+	}
+	return (stop);
+}
+
+static void	insert(t_list *command_list, int start)
+{
+	int		stop;
+	char	*to_insert;
 	char	*command;
 
+	to_insert = NULL;
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	if (command[i + 1] == '?')
-	{
+	stop = stop_len(command, start); 
+	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status);
-		if (ft_strinsert(&command, to_insert, i, "?", NULL))
-			print_message("Allocation error.\n", RED, 1);
-	}
-	else if (ft_ischarset(command[i + 1], "\'\"_", ft_isalnum))
+	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
 	{
-		to_find = get_to_find(&command[i]);
-		to_insert = getenv(to_find);
-		if (previous_token_ismeta(command, i) == 4)
-			return ;
-		else if (previous_token_ismeta(command, i) != 0)
-			to_insert = ft_stradd_quotes(to_insert);
+		to_insert = get_to_insert(&command[start], start, stop);
 		if (!to_insert)
-			to_insert = "";
-		mem_remove(to_find);
-		if (ft_strinsert(&command, to_insert, i, "_", ft_isalnum))
-			print_message("Allocation error.\n", RED, 1);
+			return ;
 	}
+	if (ft_strinsert(&command, to_insert, start, stop))
+		print_message("Allocation error.\n", RED, 1);
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 }
 
@@ -155,9 +162,7 @@ void	variable_expansion(t_list *command_list)
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			while (command[++i])
 			{
-				if (command[i] == '$' && 
-						((!double_quote || !ft_ischarset(command[i + 1], "\'\"", NULL))))
-					//	|| (double_quote && ft_ischarset(command[i + 1], "?", ft_isalnum))))
+				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
 				{
 					insert(command_list, i);
 					break ;

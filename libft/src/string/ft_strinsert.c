@@ -12,23 +12,10 @@
 
 #include "libft.h"
 
-uint8_t	ft_strinsert(char **src, char *to_insert, int start,
-			char *charset, int (*func_is)(int))
+int8_t	ft_strinsert(char **src, char *to_insert, int start, int stop)
 {
-	int		stop;
 	char	*nstr;
 
-	stop = 1;
-	if ((*src)[start] != '~' && ft_isdigit(*(*src + start + stop)))
-		stop++;
-	else if ((*src)[start] != '~' && *(*src + start + stop) == '?')
-		stop++;
-	else if ((*src)[start] != '~' && !ft_ischarset(*(*src + start + stop), "\'\"", NULL))
-	{
-		while (*(*src + start + stop) && ft_ischarset(*(*src + start + stop),
-				charset, func_is))
-			stop++;
-	}
 	if (mem_alloc(ft_strlen(*src) + ft_strlen(to_insert) - stop + 3,
 			(void **)&nstr))
 		return (-1);

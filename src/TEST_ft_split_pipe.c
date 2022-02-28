@@ -95,12 +95,18 @@ char	**ft_split_pipe(const char *s, char *sep)
 //int main(void)
 //{
 //	char **strs;
+//	int	i;
 //
-//	strs = ft_split_pipe("\"\'\'\"", "|");
 //	//strs = ft_split_pipe("test \"|\" | test 1 '|' | test 2 |\" test3  |\" bwieubriqwebrqwjebr", " ");
-//	for (int i = 0; strs[i]; i++)
+//	i = 0;
+//	strs = ft_split_pipe("a", " ");
+//	while (i < 2)
 //	{
+//	//	if (!strs[i])
+//	//		printf("NULL\n");
+//	//	else
 //		printf("%s\n", strs[i]);
+//		i++;
 //	}
 //	return (0);
 //}

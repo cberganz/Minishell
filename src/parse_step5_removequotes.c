@@ -108,11 +108,11 @@ void	remove_quotes_list(t_list *command_list)
 {
 	int	i;
 
-	i = 0;
 	while (command_list)// sur ""|'' ne rentre pas dans la boucle pour '' (command_list = NULL)
 	{
 		if (((t_pipe_command *)command_list->content)->exec_args)
 		{
+			i = 0;
 			while (((t_pipe_command *)command_list->content)->exec_args[i])
 			{
 				if (isquote_in(((t_pipe_command *)command_list->content)->exec_args[i]))
