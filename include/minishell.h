@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 15:06:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:33:09 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdint.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include "../libft/include/libft.h"
 
 /*
@@ -59,6 +62,7 @@ typedef struct s_pipe_command
 	char	*outfile;
 	char	*cmd_content;
 	char	**exec_args;
+	pid_t	pid;
 }	t_pipe_command;
 
 typedef struct s_command
@@ -111,7 +115,12 @@ void	sig_handler(int sigcode);
 **	Execution
 */
 
-void	exec(t_list *cmd_listi, char *envp[]);
+void	exec_main(t_list *cmd_list, char *envp[]);
+void	exec_bin(t_pipe_command *command, char *envp[]);
+int		exec_builtin(t_pipe_command *command, char *envp[]);
+void	forking(t_list *command_list, char *envp[]);
+void	wait_children(t_list *command_list);
+char	*get_path(char **exec_args);
 
 /*
 **	Exit

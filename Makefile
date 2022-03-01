@@ -45,7 +45,11 @@ SRC_FILES 	=	minishell.c			\
 				redirections_step1.c\
 				redirections_step2.c\
 				TEST_ft_split_pipe.c\
-				exec_main.c
+				exec/exec_main.c	\
+				exec/exec_bin.c		\
+				exec/exec_builtin.c	\
+				exec/forking.c		\
+				exec/get_path.c
 
 SRC_BONUS_FILES = AVENIR.c
 
@@ -56,6 +60,7 @@ SRC_BONUS_DIR	= src_bonus/
 SRC_BONUS		= $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
 
 OBJ_DIR		= objs/
+OBJ_DIRS	= $(sort $(dir $(OBJ)))
 OBJ_FILES	= $(SRC_FILES:.c=.o)
 OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
@@ -83,12 +88,12 @@ $(NAME_BONUS): $(OBJ_BONUS)
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) -lreadline -L.local/lib -L./libft -lft -o $(NAME_BONUS)
 	@echo Done.
 
-$(OBJ_DIR):
+$(OBJ_DIRS):
 	@mkdir -p $@
 $(OBJ_BONUS_DIR):
 	@mkdir -p $@
 
-$(OBJ): | $(OBJ_DIR)
+$(OBJ): | $(OBJ_DIRS)
 $(OBJ_BONUS): | $(OBJ_BONUS_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)

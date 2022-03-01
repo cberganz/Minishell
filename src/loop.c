@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/28 22:01:37 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:46:30 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,13 @@ void	print_lists(t_list	*list)
 				printf(GREEN "%s => " RESET, ((t_pipe_command *)tmp->content)->cmd_content);
 			else
 				printf(GREEN "%s" RESET, ((t_pipe_command *)tmp->content)->cmd_content);
-			while (*((t_pipe_command *)tmp->content)->exec_args)
+			if (((t_pipe_command *)tmp->content)->exec_args)
 			{
-				printf(YELLOW "\n%s" RESET, *((t_pipe_command *)tmp->content)->exec_args);
-				((t_pipe_command *)tmp->content)->exec_args++;
+				while (*((t_pipe_command *)tmp->content)->exec_args)
+				{
+					printf(YELLOW "\n%s" RESET, *((t_pipe_command *)tmp->content)->exec_args);
+					((t_pipe_command *)tmp->content)->exec_args++;
+				}
 			}
 			tmp = tmp->next;
 		}
@@ -109,11 +112,11 @@ void	prompt_loop(char *envp[])
 			continue ;
 		}
 	//	cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
-		exec(cmd_list, envp);
+		exec_main(cmd_list, envp);
 		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
 		{
-			g_status = 0;
+		//	g_status = 0; TO DEL ?
 			add_history(input);
 		}
 		del_garbage();
