@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/01 20:09:11 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/01 22:12:51 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	heredoc_management(t_list *list)
 		tmp = ((t_command *)list->content)->command_list;
 		while (tmp)
 		{
-			if (find_heredoc((t_pipe_command *)list->content, x * 10 + y))
+			if (find_heredoc((t_pipe_command *)tmp->content, x * 10 + y))
 				return (1);
 			tmp = tmp->next;
 			y++;
