@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   TEST_ft_split_pipe.c                               :+:      :+:    :+:   */
+/*   ft_split_noquote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 15:19:06 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 21:18:35 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
+
+static int	quote_len(char *sub_input, char quote)
+{
+	int	i;
+
+	i = 1;
+	while (sub_input[i] && sub_input[i] != quote)
+		i++;
+	return (i);
+}
 
 static int	ft_rows(const char *s, char *sep)
 {
@@ -63,7 +73,7 @@ static int	ft_wordlen(const char *s, char *sep)
 	return (i);
 }
 
-char	**ft_split_pipe(const char *s, char *sep)
+char	**ft_split_noquote(const char *s, char *sep)
 {
 	int		i;
 	int		n;

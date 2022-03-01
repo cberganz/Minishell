@@ -26,31 +26,30 @@ CC			= clang
 
 CFLAGS		= -Wall -Wextra -Werror -g3
 
-SRC_FILES 	=	minishell.c			\
-				prompt.c			\
-				signals.c			\
-				utils_print.c		\
-				exit.c				\
-				errors_token.c		\
-				errors_not_handled.c\
-				parse_step0_comments.c\
-				parse_step1.c		\
-				parse_step2.c		\
-				parse_step3_tilde.c	\
-				parse_step3_variable.c\
-				parse_step4_splitargs.c\
-				parse_step5_removequotes.c\
-				loop.c				\
-				parse_global.c		\
-				redirections_step1.c\
-				redirections_step2.c\
-				TEST_ft_split_pipe.c\
-				exec/exec_main.c	\
-				exec/exec_bin.c		\
-				exec/exec_builtin.c	\
-				exec/forking.c		\
-				exec/get_path.c		\
-				redirections_heredoc.c
+SRC_FILES 	=	minishell.c				\
+				terminal/loop.c			\
+				terminal/prompt.c		\
+				utils/utils_signals.c	\
+				utils/utils_print.c		\
+				utils/utils_exit.c		\
+				parsing/errors_token.c	\
+				parsing/errors_not_handled.c\
+				parsing/parse_step0_comments.c\
+				parsing/parse_step1.c	\
+				parsing/parse_step2.c	\
+				parsing/parse_step3_tilde.c\
+				parsing/parse_step3_variable.c\
+				parsing/parse_step4_splitargs.c\
+				parsing/parse_step5_removequotes.c\
+				parsing/parse_global.c	\
+				parsing/redirections_step1.c\
+				parsing/redirections_step2.c\
+				parsing/redirections_heredoc.c\
+				exec/exec_main.c		\
+				exec/exec_bin.c			\
+				exec/exec_builtin.c		\
+				exec/forking.c			\
+				exec/get_path.c			
 
 SRC_BONUS_FILES = AVENIR.c
 

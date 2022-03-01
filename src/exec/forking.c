@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:18:09 by charles           #+#    #+#             */
-/*   Updated: 2022/03/01 19:23:38 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/01 21:04:22 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	forking(t_list *command_list, char *envp[])
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
+		// pipe
 		command->pid = fork();
 		if (command->pid == 0)
 		{
