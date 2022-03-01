@@ -45,7 +45,8 @@ SRC_FILES 	=	minishell.c			\
 				redirections_step1.c\
 				redirections_step2.c\
 				TEST_ft_split_pipe.c\
-				exec_main.c
+				exec_main.c			\
+				redirections_heredoc.c
 
 SRC_BONUS_FILES = AVENIR.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 03:17:38 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:06:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	exec(t_list *cmd_list, char *envp[])
 {
 	t_list	*command_list;
+	int		i;
 
+	i = 0;
+	heredoc_management(cmd_list);
 	while (cmd_list)
 	{
 		command_list = ((t_command *)cmd_list->content)->command_list;
@@ -24,5 +27,6 @@ void	exec(t_list *cmd_list, char *envp[])
 		remove_quotes_list(command_list);
 		(void)envp;	
 		cmd_list = cmd_list->next;
+		i++;
 	}
 }

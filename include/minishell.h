@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 15:06:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:05:53 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ typedef struct s_pipe_command
 {
 	char	*infile_operator;
 	char	*outfile_operator;
-	char	fd_in;
-	char	fd_out;
 	char	*infile;
 	char	*outfile;
+	int		fd_pipe[2];
+	int		fd_tmp;
 	char	*cmd_content;
 	char	**exec_args;
 }	t_pipe_command;
@@ -151,11 +151,17 @@ int		quote_len(char *sub_input, char quote);
 **	redirections
 */
 
+# define FD_IN 0
+# define FD_OUT 1
+
+
 int		cmd_redirection_management(t_list *list);
 int		file_len(char *s);
 char	*ft_filedup(char *s, int len_of_file);
 void	remove_file(int	len_of_file, char *s);
 void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
+int		heredoc_management(t_list *list);
+void	close_heredoc_fds(t_list *list);
 
 #endif
