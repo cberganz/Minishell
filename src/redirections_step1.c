@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 01:29:03 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/01 00:42:47 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 {
 	int	len_of_file;
 
-	if (cmd->fd_out != 0 && cmd->fd_out != 1)
-		close(cmd->fd_out);
+	if (cmd->fd_pipe[FD_OUT] != 0 && cmd->fd_pipe[FD_OUT] != 1)
+		close(cmd->fd_pipe[FD_OUT]);
 	cmd->outfile_operator = operator;
 	while (cmd->cmd_content[i] == operator[0] || cmd->cmd_content[i] == ' ')
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
@@ -77,10 +77,10 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	//check access si erreur sortir + print error avec exit + free du garbage
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	if (!ft_strncmp(operator, ">>", 2))
-		cmd->fd_out = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		cmd->fd_pipe[FD_OUT] = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else if (!ft_strncmp(operator, ">", 1))
-		cmd->fd_out = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (cmd->fd_out == -1)
+		cmd->fd_pipe[FD_OUT] = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (cmd->fd_pipe[FD_OUT] == -1)
 		errno_file_error(cmd->outfile, 1);
 	return ((void *)1);
 }
@@ -94,22 +94,26 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 {
 	int	len_of_file;
 
-	if (cmd->fd_in != 0 && cmd->fd_in != 1)
-		close(cmd->fd_out);
+	if (cmd->fd_pipe[FD_IN] != 0 && cmd->fd_pipe[FD_IN] != 1)
+		close(cmd->fd_pipe[FD_OUT]);
 	cmd->infile_operator = operator;
 	while (cmd->cmd_content[i] == operator[0] || cmd->cmd_content[i] == ' ')
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
-	cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-	if (cmd->infile == NULL)
-		return (NULL);
-
-	//Si << gerer le fd temporaire avec ecriture etc ici
-
-	//check access si erreur sortir + print error avec exit + free du garbage
-	cmd->fd_in = open(cmd->infile, O_RDONLY);
-	if (cmd->fd_in == -1)
-		errno_file_error(cmd->infile, 1);
+	if (ft_strncmp(operator, "<<", 2))
+	{
+		cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
+		if (cmd->infile == NULL)
+			return (NULL);
+	
+		//Si << gerer le fd temporaire avec ecriture etc ici
+		//check access si erreur sortir + print error avec exit + free du garbage
+		cmd->fd_pipe[FD_IN] = open(cmd->infile, O_RDONLY);
+		if (cmd->fd_pipe[FD_IN] == -1)
+			errno_file_error(cmd->infile, 1);
+	}
+	else
+		cmd->fd_pipe[FD_IN] = cmd->fd_tmp;
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	return ((void *)1);
 }

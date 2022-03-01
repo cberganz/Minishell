@@ -49,7 +49,8 @@ SRC_FILES 	=	minishell.c			\
 				exec/exec_bin.c		\
 				exec/exec_builtin.c	\
 				exec/forking.c		\
-				exec/get_path.c
+				exec/get_path.c		\
+				redirections_heredoc.c
 
 SRC_BONUS_FILES = AVENIR.c
 

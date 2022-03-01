@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/01 19:46:30 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/01 20:15:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void	prompt_loop(char *envp[])
 		//	g_status = 0; TO DEL ?
 			add_history(input);
 		}
+		close_heredoc_fds(cmd_list);
 		del_garbage();
 		input = "";
 		shell_prompt = create_prompt();
