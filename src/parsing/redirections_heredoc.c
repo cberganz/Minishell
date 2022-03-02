@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/01 20:09:11 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 01:02:08 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int read_fd(int fd)
     }
     return 0;
 }
+//test read document 
 
 void	write_in_tmp_file(t_pipe_command *cmd, int i)
 {
@@ -73,7 +74,7 @@ void	heredoc_exec(t_pipe_command *cmd, int i, int file_nbr)
 	write_in_tmp_file(cmd, i);
 	cmd->fd_tmp = open(tmp_file, O_RDONLY);
 	unlink(tmp_file);
-	read_fd(cmd->fd_tmp);
+	// read_fd(cmd->fd_tmp);
 }
 
 uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr)
@@ -113,7 +114,7 @@ int	heredoc_management(t_list *list)
 		tmp = ((t_command *)list->content)->command_list;
 		while (tmp)
 		{
-			if (find_heredoc((t_pipe_command *)list->content, x * 10 + y))
+			if (find_heredoc((t_pipe_command *)tmp->content, x * 10 + y))
 				return (1);
 			tmp = tmp->next;
 			y++;
@@ -124,7 +125,7 @@ int	heredoc_management(t_list *list)
 	return (0);
 }
 
-void	close_heredoc_fds(t_list *list)
+void	close_heredoc_fds(t_list *list)// retours errors ne pas oublier
 {
 	t_list	*tmp;
 
