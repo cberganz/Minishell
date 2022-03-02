@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/01 20:15:18 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 00:14:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	prompt_loop(char *envp[])
 
 	shell_prompt = create_prompt();
 	input = "";
+	(void)envp;
 	while (1)
 	{
 		if (input_first_read(&input, &shell_prompt))
@@ -111,7 +112,7 @@ void	prompt_loop(char *envp[])
 			shell_prompt = create_prompt();
 			continue ;
 		}
-	//	cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
+		// cmd_redirection_management(&cmd_list);//test + return (error) si renvoie 1, pour stop prog
 		exec_main(cmd_list, envp);
 		print_lists(cmd_list);
 		if (!ft_strequ(input, ""))

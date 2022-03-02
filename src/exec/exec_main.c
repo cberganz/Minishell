@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/01 21:55:12 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 11:14:45 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	exec_main(t_list *cmd_list, char *envp[])
 		{
 			command_list = ((t_command *)cmd_list->content)->command_list;
 			command_parsing(command_list);
+			cmd_redirection_management(command_list);
 			split_args(command_list);
 			remove_quotes_list(command_list);
 			exec_commands(command_list, envp);
