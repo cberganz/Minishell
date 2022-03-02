@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 00:20:35 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:57:58 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ void	sig_handler(int sigcode);
 **	Execution
 */
 
-void	exec_main(t_list *cmd_list, char *envp[]);
-void	exec_bin(t_pipe_command *command, char *envp[]);
-int		exec_builtin(t_pipe_command *command, char *envp[]);
-void	forking(t_list *command_list, char *envp[]);
-void	wait_children(t_list *command_list);
-char	*get_path(char **exec_args);
+u_int8_t	exec_main(t_list *cmd_list, char *envp[]);
+void		exec_bin(t_pipe_command *command, char *envp[]);
+int			exec_builtin(t_pipe_command *command, char *envp[]);
+void		forking(t_list *command_list, char *envp[]);
+void		wait_children(t_list *command_list);
+char		*get_path(char **exec_args);
 
 /*
 **	Exit
@@ -171,7 +171,7 @@ char	*ft_filedup(char *s, int len_of_file);
 void	remove_file(int	len_of_file, char *s);
 void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
-int		heredoc_management(t_list *list);
+uint8_t	heredoc_management(t_list *list);
 void	close_heredoc_fds(t_list *list);
 
 #endif

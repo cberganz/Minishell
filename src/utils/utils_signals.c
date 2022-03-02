@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   utils_signals.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/23 18:34:04 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:18:39 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	sig_handler(int sigcode)
 	if (sigcode == SIGINT)
 	{
 		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay(); // Probleme ne met pas la fleche en rouge
+		if (g_status == -255)
+			close(STDIN_FILENO);
+		else
+		{
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay(); // Probleme ne met pas la fleche en rouge => peut etre reglé avec le close STDIN
+		}
 		g_status = 130;
 	}
 	if (sigcode == SIGQUIT || sigcode == SIGTSTP)

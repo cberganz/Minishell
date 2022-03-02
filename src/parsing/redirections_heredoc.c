@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 11:14:37 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:21:32 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,50 @@ int read_fd(int fd)
 }
 //test read document 
 
-void	write_in_tmp_file(t_pipe_command *cmd, int i)
+u_int8_t	check_eof_heredoc(char *input)
+{
+	if (!input)
+	{
+		if (g_status == 130)
+			return (1);
+		else
+		{
+			printf(RED "Minishell: warning: here-document at line 1 delimited by end-of-file\n" RESET);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+uint8_t	write_in_tmp_file(t_pipe_command *cmd, int i)
 {
 	int		len_of_file;
 	char	*end_word;
 	char	*input;
+	int		save_status;
 
 	input = "";
 	len_of_file = file_len(&cmd->cmd_content[i]);
 	end_word = ft_filedup(&cmd->cmd_content[i], len_of_file);
+	save_status = g_status;
+	g_status = -255;
 	input = garbage_addptr(readline("> "));
+	if (check_eof_heredoc(input))
+		return (1);
 	while (!ft_strequ(input, end_word))
 	{
 		write(cmd->fd_tmp, input, ft_strlen(input));
 		write(cmd->fd_tmp, "\n", 1);
 		input = garbage_addptr(readline("> "));
-		if (!input)
-			eof_exit();
+		if (check_eof_heredoc(input))
+			return (1);
 	}
+	g_status = save_status;
 	close(cmd->fd_tmp);
+	return (0);
 }
 
-void	heredoc_exec(t_pipe_command *cmd, int i, int file_nbr)
+uint8_t	heredoc_exec(t_pipe_command *cmd, int i, int file_nbr)
 {
 	char	*tmp_file;
 
@@ -71,10 +93,11 @@ void	heredoc_exec(t_pipe_command *cmd, int i, int file_nbr)
 	cmd->fd_tmp = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (cmd->fd_tmp == -1)
 		printf("Error opening file");
-	write_in_tmp_file(cmd, i);
+	if (write_in_tmp_file(cmd, i))
+		return (1);
 	cmd->fd_tmp = open(tmp_file, O_RDONLY);
 	unlink(tmp_file);
-	// read_fd(cmd->fd_tmp);
+	return (0);
 }
 
 uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr)
@@ -91,7 +114,8 @@ uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr)
 		else if (!ft_strncmp(&cmd->cmd_content[i], "<<", 2))
 		{
 			i += 2;
-			heredoc_exec(cmd, i, file_nbr);
+			if (heredoc_exec(cmd, i, file_nbr))
+				return (1);
 		}
 		else if (cmd->cmd_content[i])
 			i++;
@@ -99,7 +123,7 @@ uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr)
 	return (0);
 }
 
-int	heredoc_management(t_list *list)
+uint8_t	heredoc_management(t_list *list)
 {
 	t_list	*tmp;
 	int		y;

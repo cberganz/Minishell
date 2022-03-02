@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 11:14:45 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:57:25 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ static void	exec_commands(t_list *command_list, char *envp[])
 	}
 }
 
-void	exec_main(t_list *cmd_list, char *envp[])
+u_int8_t	exec_main(t_list *cmd_list, char *envp[])
 {
 	t_list	*command_list;
 	int		i;
 
 	i = 0;
-	heredoc_management(cmd_list);
+	if (heredoc_management(cmd_list))
+		return (1);
 	while (cmd_list)
 	{
 		if (g_status == 0 || ft_strequ(((t_command *)cmd_list->content)->control_op, "||")
@@ -48,4 +49,5 @@ void	exec_main(t_list *cmd_list, char *envp[])
 		cmd_list = cmd_list->next;
 		i++;
 	}
+	return (0);
 }
