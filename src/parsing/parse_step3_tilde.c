@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 04:24:39 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 21:54:36 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static void	insert(t_list *command_list, int start)
+static void	insert(t_list *command_list, int start, char **envp[])
 {
 	char	*to_insert;
 	char	*command;
 
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	to_insert = getenv("HOME");
+	to_insert = get_env("HOME", envp);
 	if (!to_insert)
 		to_insert = "";
 	if (ft_strinsert(&command, to_insert, start, 1))
@@ -60,7 +60,7 @@ static void	insert(t_list *command_list, int start)
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 }
 
-void	tilde_expansion(t_list *command_list, char *envp[])
+void	tilde_expansion(t_list *command_list, char **envp[])
 {
 	int		i;
 	char	*command;
@@ -69,7 +69,7 @@ void	tilde_expansion(t_list *command_list, char *envp[])
 	{
 		command = ((t_pipe_command *)command_list->content)->cmd_content;
 		if (command[0] == '~' && (ft_ischarset(command[1], "<>:/ \t\0", NULL) || command[1] == '\0'))
-			insert(command_list, 0);
+			insert(command_list, 0, envp);
 		while (flag(((t_pipe_command *)command_list->content)->cmd_content))
 		{
 			i = 0;
@@ -80,12 +80,11 @@ void	tilde_expansion(t_list *command_list, char *envp[])
 				if (command[i] == '~' && ft_ischarset(command[i - 1], "<> \t", NULL) &&
 					(ft_ischarset(command[i + 1], "<>:/ \t", NULL) || command[i + 1] == '\0'))
 				{
-					insert(command_list, i);
+					insert(command_list, i, envp);
 					break ;
 				}
 			}
 		}
 		command_list = command_list->next;
 	}
-	(void)envp; // to del
 }

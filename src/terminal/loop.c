@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 19:13:55 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:17:08 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	print_lists(t_list	*list)
 	}
 }
 
-void	prompt_loop(char *envp[])
+void	prompt_loop(char **envp[])
 {
 	char	*shell_prompt;
 	char	*input;
@@ -100,7 +100,6 @@ void	prompt_loop(char *envp[])
 
 	shell_prompt = create_prompt();
 	input = "";
-	(void)envp;
 	while (1)
 	{
 		save_in = dup(STDIN_FILENO);
@@ -114,7 +113,7 @@ void	prompt_loop(char *envp[])
 			shell_prompt = create_prompt();
 			continue ;
 		}
-		if (exec_main(cmd_list, &envp))
+		if (exec_main(cmd_list, envp))
 		{
 			dup2(save_in, STDIN_FILENO);
 			continue ;

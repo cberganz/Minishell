@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 19:15:00 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:18:54 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ extern int	g_status;
 
 void	print_start(void);
 char	*create_prompt(void);
-void	prompt_loop(char *envp[]);
+void	prompt_loop(char **envp[]);
 uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 void	errno_file_error(char *file, int exit_status);
@@ -100,9 +100,9 @@ t_list	*parse_step1(char *input);
 void	*single_pipe_parsing(t_list **command_list);
 char	**ft_split_pipe(const char *s, char *sep);//test
 
-void	command_parsing(t_list *command_list, char *envp[]);
-void	tilde_expansion(t_list *command_list, char *envp[]);
-void	variable_expansion(t_list *command_list, char *envp[]);
+void	command_parsing(t_list *command_list, char **envp[]);
+void	tilde_expansion(t_list *command_list, char **envp[]);
+void	variable_expansion(t_list *command_list, char **envp[]);
 void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
 
@@ -117,11 +117,11 @@ void	sig_handler(int sigcode);
 */
 
 uint8_t	exec_main(t_list *cmd_list, char **envp[]);
-void	exec_bin(t_pipe_command *command, char *envp[]);
+void	exec_bin(t_pipe_command *command, char **envp[]);
 int		exec_builtin(t_pipe_command *command, char **envp[], int exit);
 void	forking(t_list *command_list, char **envp[]);
 void	wait_children(t_list *command_list);
-char	*get_path(char **exec_args);
+char	*get_path(char **exec_args, char **envp[]);
 
 /*
 **	Bultins
@@ -131,7 +131,7 @@ uint8_t	builtin_exit(char **exec_args, int exit);
 int		is_builtin(char *exec_args);
 int		builtin_echo(char **exec_args, int exit);
 int		builtin_pwd(char **exec_args, int exit);
-int		builtin_env(char **exec_args, int exit, char *envp[]);
+int		builtin_env(char **exec_args, int exit, char **envp[]);
 int		builtin_cd(char **exec_args, int exit, char **envp[]);
 
 /*
@@ -146,8 +146,8 @@ void	eof_exit(void);
 **	Utils
 */
 
-char	*get_env(char *var, char *envp[]);
-void	set_env(char *var, char *content, char *envp[]);
+char	*get_env(char *var, char **envp[]);
+void	set_env(char *var, char *content, char **envp[]);
 char	*path_troncate(char *s, char *to_troncate);
 
 /*

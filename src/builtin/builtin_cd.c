@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by charles           #+#    #+#             */
-/*   Updated: 2022/03/02 18:44:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:27:04 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static void change_directory(char *path, char **envp[])
 	cwd = buff;//path_troncate(buff, "/./minishell");
 	if (!chdir(path))
 	{
-		set_env("OLDPWD", cwd, *envp);
-		if (ft_strequ(path, get_env("HOME", *envp)))
-			cwd = get_env("HOME", *envp);
+		set_env("OLDPWD", cwd, envp);
+		if (ft_strequ(path, get_env("HOME", envp)))
+			cwd = get_env("HOME", envp);
 		else
 		{
 			getcwd(buff, 4096);
 			cwd = buff;//path_troncate(buff, "/");
 		}
-		set_env("PWD", cwd, *envp);
+		set_env("PWD", cwd, envp);
 	}
 	else
 	{
@@ -47,17 +47,16 @@ static void change_directory(char *path, char **envp[])
 int	builtin_cd(char **exec_args, int exit, char **envp[])
 {
 	char	*path;
-//	char	buff[4097];
 
 	if (exec_args[1])
 	{
-		ft_putendl_fd("minishell: cd: too many arguments.", 2); // /n ?
+		ft_putendl_fd("minishell: cd: too many arguments.", 2);
 		if (exit)
 			free_and_exit(1);
 		return (1);
 	}
 	else if (!exec_args[0])
-		path = get_env("HOME", *envp);
+		path = get_env("HOME", envp);
 	else
 		path = exec_args[0];
 	if (!path)

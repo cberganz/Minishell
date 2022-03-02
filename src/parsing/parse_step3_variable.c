@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 04:17:53 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 21:52:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static char	*get_to_insert(char *s, int pos, int size, char *envp[])
+static char	*get_to_insert(char *s, int pos, int size, char **envp[])
 {
 	char	*to_find;
 	char	*to_insert;
@@ -111,7 +111,7 @@ static int	stop_len(char *s, int start)
 	return (stop);
 }
 
-static void	insert(t_list *command_list, int start, char *envp[])
+static void	insert(t_list *command_list, int start, char **envp[])
 {
 	int		stop;
 	char	*to_insert;
@@ -147,7 +147,7 @@ static void	jump_quotes(char *cmd, int *double_quote, int *i)
 		*double_quote = 0;
 }
 
-void	variable_expansion(t_list *command_list, char *envp[])
+void	variable_expansion(t_list *command_list, char **envp[])
 {
 	int		i;
 	int		double_quote;

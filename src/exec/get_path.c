@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:18:15 by charles           #+#    #+#             */
-/*   Updated: 2022/03/01 16:56:40 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/02 22:00:54 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	free_arr(char **arr)
 	mem_remove(arr);
 }
 
-char	*get_path(char **exec_args)
+char	*get_path(char **exec_args, char **envp[])
 {
 	int				i;
 	char			*bin_path;
 	char			**path;
 	struct stat		stat;
 
-	path = ft_split(getenv("PATH"), ":");
+	path = ft_split(get_env("PATH", envp), ":");
 	i = -1;
 	while (path && path[++i])
 	{

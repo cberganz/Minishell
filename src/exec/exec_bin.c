@@ -6,18 +6,18 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:18:04 by charles           #+#    #+#             */
-/*   Updated: 2022/03/01 19:18:01 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/02 22:02:28 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_bin(t_pipe_command *command, char *envp[])
+void	exec_bin(t_pipe_command *command, char **envp[])
 {
 	char	*path;
 	struct stat	stat;
 
-	path = get_path(command->exec_args);
+	path = get_path(command->exec_args, envp);
 	if (!path)
 	{
 		printf(RED "Minishell: command not found: %s\n" RESET, command->exec_args[0]);
@@ -25,7 +25,7 @@ void	exec_bin(t_pipe_command *command, char *envp[])
 	}
 	if (lstat(path, &stat) != -1 && (stat.st_mode & S_IFREG) && (stat.st_mode & S_IXUSR))
 	{
-		execve(path, command->exec_args, envp);
+		execve(path, command->exec_args, *envp);
 		perror(NULL); // set g_status ? How ?
 		exit(3); // TEST
 	}

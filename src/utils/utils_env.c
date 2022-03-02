@@ -6,31 +6,31 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 18:47:39 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:29:46 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *var, char *envp[])
+char	*get_env(char *var, char **envp[])
 {
 	int	size;
 	int	line;
 
 	line = 0;
-	while (envp[line])
+	while ((*envp)[line])
 	{
 		size = 0;
-		while (envp[line][size] && envp[line][size] != '=')
+		while ((*envp)[line][size] && (*envp)[line][size] != '=')
 			size++;
-		if (ft_strncmp(envp[line], var, size - 1) == 0)
-			return (ft_strdup(&envp[line][size + 1]));
+		if (ft_strncmp((*envp)[line], var, size) == 0)
+			return (ft_strdup(&(*envp)[line][size + 1]));
 		line++;
 	}
 	return ("");
 }
 
-void	set_env(char *var, char *content, char *envp[])
+void	set_env(char *var, char *content, char **envp[])
 {
 	char	*tmp;
 	int		line;
@@ -41,19 +41,21 @@ void	set_env(char *var, char *content, char *envp[])
 	tmp = ft_strjoin(tmp, content);
 	if (!tmp)
 		print_message("export: Allocation error.\n", RED, 1);
-	while (envp[line])
+	while ((*envp)[line])
 	{
 		size = 0;
-		while (envp[line][size] && envp[line][size] != '=')
+		while ((*envp)[line][size] && (*envp)[line][size] != '=')
 			size++;
-		if (ft_strncmp(envp[line], tmp, size))
+		if (ft_strncmp((*envp)[line], tmp, size))
 		{
-		//	mem_remove((*envp)[line]);
-			envp[line] = tmp;
+			mem_remove((*envp)[line]);
+			*envp[line] = tmp;
 			break ;
 		}
 		line++;
 	}
+	printf("%s\n", get_env(var, envp));
+	//builtin_env(NULL, 0, envp);
 }
 
 char	*path_troncate(char *s, char *to_troncate)

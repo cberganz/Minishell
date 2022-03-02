@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:18:09 by charles           #+#    #+#             */
-/*   Updated: 2022/03/02 04:51:14 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:01:49 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	forking(t_list *command_list, char **envp[])
 		{
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
-				exec_bin(command, *envp);
+				exec_bin(command, envp);
 			if (ret == 1)
 				free_and_exit(ret);
 		}

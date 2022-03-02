@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:17:48 by charles           #+#    #+#             */
-/*   Updated: 2022/03/02 04:47:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 22:19:18 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 //	else if (ft_strequ(exec_args[0], "unset"))
 //		return (builtin_unset(exec_args + 1));
 	else if (ft_strequ(command->exec_args[0], "env"))
-		return (builtin_env(command->exec_args + 1, exit, *envp));
+		return (builtin_env(command->exec_args + 1, exit, envp));
 	return (0);
 }
 
