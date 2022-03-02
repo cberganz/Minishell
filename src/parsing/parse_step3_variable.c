@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/01 19:31:09 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/02 04:17:53 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static char	*get_to_insert(char *s, int pos, int size)
+static char	*get_to_insert(char *s, int pos, int size, char *envp[])
 {
 	char	*to_find;
 	char	*to_insert;
@@ -85,10 +85,10 @@ static char	*get_to_insert(char *s, int pos, int size)
 	if (mem_alloc(size, (void **)&to_find))
 		print_message("Allocation error.\n", RED, 1);
 	ft_strlcpy(to_find, s + pos + 1, size);
-	to_insert = getenv(to_find);
+	to_insert = get_env(to_find, envp);
 	mem_remove(to_find);
-	if (!to_insert)
-		to_insert = "";
+//	if (!to_insert)
+//		to_insert = "";
 	if (previous_token_ismeta(s, pos) == 4)
 		return (NULL);
 	else if (previous_token_ismeta(s, pos) != 0)
@@ -111,7 +111,7 @@ static int	stop_len(char *s, int start)
 	return (stop);
 }
 
-static void	insert(t_list *command_list, int start)
+static void	insert(t_list *command_list, int start, char *envp[])
 {
 	int		stop;
 	char	*to_insert;
@@ -124,7 +124,7 @@ static void	insert(t_list *command_list, int start)
 		to_insert = ft_itoa(g_status);
 	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
 	{
-		to_insert = get_to_insert(command, start, stop);
+		to_insert = get_to_insert(command, start, stop, envp);
 		if (!to_insert)
 			return ;
 	}
@@ -147,7 +147,7 @@ static void	jump_quotes(char *cmd, int *double_quote, int *i)
 		*double_quote = 0;
 }
 
-void	variable_expansion(t_list *command_list)
+void	variable_expansion(t_list *command_list, char *envp[])
 {
 	int		i;
 	int		double_quote;
@@ -164,7 +164,7 @@ void	variable_expansion(t_list *command_list)
 			{
 				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
 				{
-					insert(command_list, i);
+					insert(command_list, i, envp);
 					break ;
 				}
 				jump_quotes(command, &double_quote, &i);

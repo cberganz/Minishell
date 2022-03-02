@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 11:19:54 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 04:24:39 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	insert(t_list *command_list, int start)
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 }
 
-void	tilde_expansion(t_list *command_list)
+void	tilde_expansion(t_list *command_list, char *envp[])
 {
 	int		i;
 	char	*command;
@@ -87,4 +87,5 @@ void	tilde_expansion(t_list *command_list)
 		}
 		command_list = command_list->next;
 	}
+	(void)envp; // to del
 }

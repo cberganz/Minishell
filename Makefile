@@ -32,6 +32,7 @@ SRC_FILES 	=	minishell.c				\
 				utils/utils_signals.c	\
 				utils/utils_print.c		\
 				utils/utils_exit.c		\
+				utils/utils_env.c		\
 				parsing/errors_token.c	\
 				parsing/errors_not_handled.c\
 				parsing/parse_step0_comments.c\
@@ -49,7 +50,13 @@ SRC_FILES 	=	minishell.c				\
 				exec/exec_bin.c			\
 				exec/exec_builtin.c		\
 				exec/forking.c			\
-				exec/get_path.c			
+				exec/get_path.c			\
+				builtin/builtin_exit.c	\
+				builtin/builtin_echo.c	\
+				builtin/builtin_pwd.c	\
+				builtin/builtin_env.c	\
+				builtin/builtin_cd.c	\
+				builtin/builtin_export.c
 
 SRC_BONUS_FILES = AVENIR.c
 

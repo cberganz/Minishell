@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 14:57:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:05:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ t_list	*parse_step1(char *input);
 void	*single_pipe_parsing(t_list **command_list);
 char	**ft_split_pipe(const char *s, char *sep);//test
 
-void	command_parsing(t_list *command_list);
-void	tilde_expansion(t_list *command_list);
-void	variable_expansion(t_list *command_list);
+void	command_parsing(t_list *command_list, char *envp[]);
+void	tilde_expansion(t_list *command_list, char *envp[]);
+void	variable_expansion(t_list *command_list, char *envp[]);
 void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
 
@@ -116,12 +116,32 @@ void	sig_handler(int sigcode);
 **	Execution
 */
 
+<<<<<<< HEAD
 u_int8_t	exec_main(t_list *cmd_list, char *envp[]);
 void		exec_bin(t_pipe_command *command, char *envp[]);
 int			exec_builtin(t_pipe_command *command, char *envp[]);
 void		forking(t_list *command_list, char *envp[]);
 void		wait_children(t_list *command_list);
 char		*get_path(char **exec_args);
+=======
+void	exec_main(t_list *cmd_list, char **envp[]);
+void	exec_bin(t_pipe_command *command, char *envp[]);
+int		exec_builtin(t_pipe_command *command, char **envp[], int exit);
+void	forking(t_list *command_list, char **envp[]);
+void	wait_children(t_list *command_list);
+char	*get_path(char **exec_args);
+>>>>>>> exec
+
+/*
+**	Bultins
+*/
+
+uint8_t	builtin_exit(char **exec_args, int exit);
+int		is_builtin(char *exec_args);
+int		builtin_echo(char **exec_args, int exit);
+int		builtin_pwd(char **exec_args, int exit);
+int		builtin_env(char **exec_args, int exit, char *envp[]);
+int		builtin_cd(char **exec_args, int exit, char **envp[]);
 
 /*
 **	Exit
@@ -130,6 +150,14 @@ char		*get_path(char **exec_args);
 void	free_and_exit(int exit_code);
 void	child_error_exit(int status_error, char *file);
 void	eof_exit(void);
+
+/*
+**	Utils
+*/
+
+char	*get_env(char *var, char *envp[]);
+void	set_env(char *var, char *content, char *envp[]);
+char	*path_troncate(char *s, char *to_troncate);
 
 /*
 **	Error management
@@ -149,6 +177,7 @@ void	eof_exit(void);
 present outside single quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
+# define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t	open_quotes(char *input);
