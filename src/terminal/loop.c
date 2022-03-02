@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 19:05:17 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:13:55 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,18 +114,12 @@ void	prompt_loop(char *envp[])
 			shell_prompt = create_prompt();
 			continue ;
 		}
-<<<<<<< HEAD
-		if (exec_main(cmd_list, envp))
+		if (exec_main(cmd_list, &envp))
 		{
 			dup2(save_in, STDIN_FILENO);
 			continue ;
 		}
-		print_lists(cmd_list);
-=======
-	//	cmd_redirection_management(cmd_list);//test + return (error) si renvoie 1, pour stop prog
-		exec_main(cmd_list, &envp);
 	//	print_lists(cmd_list);
->>>>>>> exec
 		if (!ft_strequ(input, ""))
 			add_history(input);
 		close_heredoc_fds(cmd_list);

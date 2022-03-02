@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 19:05:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/02 19:15:00 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,21 +116,12 @@ void	sig_handler(int sigcode);
 **	Execution
 */
 
-<<<<<<< HEAD
-u_int8_t	exec_main(t_list *cmd_list, char *envp[]);
-void		exec_bin(t_pipe_command *command, char *envp[]);
-int			exec_builtin(t_pipe_command *command, char *envp[]);
-void		forking(t_list *command_list, char *envp[]);
-void		wait_children(t_list *command_list);
-char		*get_path(char **exec_args);
-=======
-void	exec_main(t_list *cmd_list, char **envp[]);
+uint8_t	exec_main(t_list *cmd_list, char **envp[]);
 void	exec_bin(t_pipe_command *command, char *envp[]);
 int		exec_builtin(t_pipe_command *command, char **envp[], int exit);
 void	forking(t_list *command_list, char **envp[]);
 void	wait_children(t_list *command_list);
 char	*get_path(char **exec_args);
->>>>>>> exec
 
 /*
 **	Bultins
