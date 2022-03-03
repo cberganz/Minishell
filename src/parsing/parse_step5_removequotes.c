@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/02/27 15:28:44 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:45:54 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	remove_quotes_str(char **str)
 
 	str_i = 0;
 	nstr_i = 0;
-	if (mem_alloc(ft_strlen(*str), (void **)&nstr))
+	if (mem_alloc(ft_strlen(*str), (void **)&nstr, LOOP))
 		print_message("Allocation error.\n", RED, MALLOC_ERR);
 	while ((*str)[str_i])
 	{

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 22:29:46 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:41:42 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_env(char *var, char **envp[])
 		while ((*envp)[line][size] && (*envp)[line][size] != '=')
 			size++;
 		if (ft_strncmp((*envp)[line], var, size) == 0)
-			return (ft_strdup(&(*envp)[line][size + 1]));
+			return (ft_strdup(&(*envp)[line][size + 1], LOOP));
 		line++;
 	}
 	return ("");
@@ -37,8 +37,8 @@ void	set_env(char *var, char *content, char **envp[])
 	int		size;
 
 	line = 0;
-	tmp = ft_strjoin(var, "=");
-	tmp = ft_strjoin(tmp, content);
+	tmp = ft_strjoin(var, "=", MAIN);
+	tmp = ft_strjoin(tmp, content, MAIN);
 	if (!tmp)
 		print_message("export: Allocation error.\n", RED, 1);
 	while ((*envp)[line])
@@ -48,14 +48,13 @@ void	set_env(char *var, char *content, char **envp[])
 			size++;
 		if (ft_strncmp((*envp)[line], tmp, size))
 		{
-			mem_remove((*envp)[line]);
+			mem_remove((*envp)[line], MAIN);
 			*envp[line] = tmp;
 			break ;
 		}
 		line++;
 	}
-	printf("%s\n", get_env(var, envp));
-	//builtin_env(NULL, 0, envp);
+	//builtin_env(NULL, 0, envp); // TEST
 }
 
 char	*path_troncate(char *s, char *to_troncate)

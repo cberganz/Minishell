@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 00:48:33 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:44:13 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	iter_trim(t_list **lst)
 	while (tmp_lst)
 	{
 		tmp_string = ft_strtrim
-			(((t_pipe_command *)tmp_lst->content)->cmd_content, " ");
-		mem_remove(((t_pipe_command *)tmp_lst->content)->cmd_content);
+			(((t_pipe_command *)tmp_lst->content)->cmd_content, " ", LOOP);
+		mem_remove(((t_pipe_command *)tmp_lst->content)->cmd_content, LOOP);
 		((t_pipe_command *)tmp_lst->content)->cmd_content = tmp_string;
 		tmp_lst = tmp_lst->next;
 	}
@@ -32,7 +32,7 @@ t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd)
 {
 	t_pipe_command	*pipe_struct;
 
-	if (mem_alloc(sizeof(t_pipe_command), (void **) &pipe_struct))
+	if (mem_alloc(sizeof(t_pipe_command), (void **) &pipe_struct, LOOP))
 		return (NULL);
 	pipe_struct->infile = NULL;
 	pipe_struct->outfile = NULL;
@@ -54,7 +54,7 @@ t_list	*set_pipe_commands_list(char *command)
 
 	i = 0;
 	pipe_cmd_list = NULL;
-	pipe_cmds = ft_split_noquote(command, "|");// pas bon quand pipe est dans des "" ou '' split qund meme sur pipe idem pour || et &&
+	pipe_cmds = ft_split_noquote(command, "|", LOOP);// pas bon quand pipe est dans des "" ou '' split qund meme sur pipe idem pour || et &&
 	if (pipe_cmds == NULL)
 		return (NULL);
 	while (pipe_cmds[i] != NULL)
@@ -62,13 +62,13 @@ t_list	*set_pipe_commands_list(char *command)
 		cmd_struct = set_pipe_cmd_node(pipe_cmds[i]);
 		if (!cmd_struct)
 			return (NULL);
-		tmp = ft_lstnew(cmd_struct);
+		tmp = ft_lstnew(cmd_struct, LOOP);
 		if (!tmp)
 			return (NULL);
 		ft_lstadd_back(&pipe_cmd_list, tmp);
 		i++;
 	}
-	mem_remove(pipe_cmds);
+	mem_remove(pipe_cmds, LOOP);
 	return (pipe_cmd_list);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 15:21:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:47:27 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ uint8_t	write_in_tmp_file(t_pipe_command *cmd, int i)
 	end_word = ft_filedup(&cmd->cmd_content[i], len_of_file);
 	save_status = g_status;
 	g_status = -255;
-	input = garbage_addptr(readline("> "));
+	input = garbage_addptr(readline("> "), LOOP);
 	if (check_eof_heredoc(input))
 		return (1);
 	while (!ft_strequ(input, end_word))
 	{
 		write(cmd->fd_tmp, input, ft_strlen(input));
 		write(cmd->fd_tmp, "\n", 1);
-		input = garbage_addptr(readline("> "));
+		input = garbage_addptr(readline("> "), LOOP);
 		if (check_eof_heredoc(input))
 			return (1);
 	}
@@ -89,7 +89,7 @@ uint8_t	heredoc_exec(t_pipe_command *cmd, int i, int file_nbr)
 		close(cmd->fd_tmp);
 	while (cmd->cmd_content[i] == ' ' || cmd->cmd_content[i] == '\t')
 		i++;
-	tmp_file = ft_strjoin("file_test/tmp_file", ft_itoa(file_nbr));
+	tmp_file = ft_strjoin("file_test/tmp_file", ft_itoa(file_nbr, LOOP), LOOP);
 	cmd->fd_tmp = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (cmd->fd_tmp == -1)
 		printf("Error opening file");

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 21:52:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:45:18 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,17 @@ static char	*get_to_insert(char *s, int pos, int size, char **envp[])
 	char	*to_find;
 	char	*to_insert;
 
-	if (mem_alloc(size, (void **)&to_find))
+	if (mem_alloc(size, (void **)&to_find, LOOP))
 		print_message("Allocation error.\n", RED, 1);
 	ft_strlcpy(to_find, s + pos + 1, size);
 	to_insert = get_env(to_find, envp);
-	mem_remove(to_find);
+	mem_remove(to_find, LOOP);
 //	if (!to_insert)
 //		to_insert = "";
 	if (previous_token_ismeta(s, pos) == 4)
 		return (NULL);
 	else if (previous_token_ismeta(s, pos) != 0)
-		to_insert = ft_stradd_quotes(to_insert);
+		to_insert = ft_stradd_quotes(to_insert, LOOP);
 	return (to_insert);
 }
 
@@ -121,7 +121,7 @@ static void	insert(t_list *command_list, int start, char **envp[])
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
 	stop = stop_len(command, start); 
 	if (command[start + 1] == '?')
-		to_insert = ft_itoa(g_status);
+		to_insert = ft_itoa(g_status, LOOP);
 	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
 	{
 		to_insert = get_to_insert(command, start, stop, envp);

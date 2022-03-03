@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 00:48:12 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:46:26 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cmd_redirection_management(t_list *list)
 		if (pipe_redirection_management((t_pipe_command *)tmp->content))
 			return (1);
 		((t_pipe_command *)tmp->content)->cmd_content =
-			ft_strtrim(((t_pipe_command *)tmp->content)->cmd_content, " ");
+			ft_strtrim(((t_pipe_command *)tmp->content)->cmd_content, " ", LOOP);
 		if (!((t_pipe_command *)tmp->content)->cmd_content)
 			return (1);
 		/*

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 22:18:54 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:37:28 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@
 # define MAGENTA "\x1b[35m"
 # define CYAN    "\x1b[36m"
 # define RESET   "\x1b[0m"
+
+/*
+**	Garbages
+*/
+
+# define MAIN 0
+# define LOOP 1
 
 /*
 **	Defines

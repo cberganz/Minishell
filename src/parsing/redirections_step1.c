@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 00:52:30 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:46:12 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_filedup(char *s, int len_of_file)
 	char	*dest;
 	int		i;
 
-	if (mem_alloc(sizeof(char) * (len_of_file + 1), (void **)&dest))
+	if (mem_alloc(sizeof(char) * (len_of_file + 1), (void **)&dest, LOOP))
 		return (NULL);
 	i = 0;
 	while (i < len_of_file)

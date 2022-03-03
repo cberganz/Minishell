@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   utils_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:03:54 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/25 07:21:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:40:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	free_and_exit(int exit_code)
 {
-	del_garbage();
+	del_garbage(LOOP);
+	del_garbage(MAIN);
 	rl_clear_history();
 	exit(exit_code);
 }

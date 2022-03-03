@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:18 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/20 17:32:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:30:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_set(char c, char const *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s, char const *set)
+char	*ft_strtrim(char const *s, char const *set, int garbage)
 {
 	unsigned int	start;
 	size_t			len;
@@ -39,11 +39,11 @@ char	*ft_strtrim(char const *s, char const *set)
 		start++;
 	len = ft_strlen(s) - 1;
 	if (start == len + 1)
-		return (ft_strnew(0));
+		return (ft_strnew(0, garbage));
 	while (is_set(s[len], set))
 		len--;
 	len = len - start + 1;
-	str = ft_substr(s, start, len);
+	str = ft_substr(s, start, len, garbage);
 	if (!str)
 		return (NULL);
 	return (str);

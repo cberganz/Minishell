@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:18:15 by charles           #+#    #+#             */
-/*   Updated: 2022/03/02 22:00:54 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:49:09 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	free_arr(char **arr)
 	i = 0;
 	while (arr[i])
 	{
-		mem_remove(arr[i]);
+		mem_remove(arr[i], LOOP);
 		i++;
 	}
-	mem_remove(arr);
+	mem_remove(arr, LOOP);
 }
 
 char	*get_path(char **exec_args, char **envp[])
@@ -32,14 +32,14 @@ char	*get_path(char **exec_args, char **envp[])
 	char			**path;
 	struct stat		stat;
 
-	path = ft_split(get_env("PATH", envp), ":");
+	path = ft_split(get_env("PATH", envp), ":", LOOP);
 	i = -1;
 	while (path && path[++i])
 	{
-		bin_path = ft_strjoin(path[i], "/");
-		bin_path = ft_strjoin(bin_path, exec_args[0]);
+		bin_path = ft_strjoin(path[i], "/", LOOP);
+		bin_path = ft_strjoin(bin_path, exec_args[0], LOOP);
 		if (lstat(bin_path, &stat) == -1)
-			mem_remove(bin_path);
+			mem_remove(bin_path, LOOP);
 		else
 		{
 			free_arr(path);

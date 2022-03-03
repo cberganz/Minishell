@@ -6,7 +6,7 @@
 /*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 12:53:06 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/18 16:45:25 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:18:55 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ static int	len_needed(int n)
 	return (len);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(int n, int garbage)
 {
 	char			*str;
 	unsigned int	len;
 	unsigned int	nabs;
 
 	len = len_needed(n);
-	if (mem_alloc((len + 1) * sizeof(char), (void **)&str))
+	if (mem_alloc((len + 1) * sizeof(char), (void **)&str, garbage))
 		return (NULL);
 	str[len] = '\0';
 	if (n < 0)

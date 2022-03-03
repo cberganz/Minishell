@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 22:17:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 10:50:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int8_t	input_error(char **input, char **shell_prompt)
 	if (!*input)
 		eof_exit();
 	tmp = *input;
-	*input = ft_strtrim(*input, " ");
-	mem_remove(tmp);
+	*input = ft_strtrim(*input, " ", LOOP);
+	mem_remove(tmp, LOOP);
 	if (ft_strequ(*input, ""))
 		return (-1);
 	if (near_unexpected_token_error(input, shell_prompt))
@@ -44,7 +44,7 @@ int8_t	input_error(char **input, char **shell_prompt)
 
 uint8_t	input_first_read(char **input, char **shell_prompt)
 {
-	*input = garbage_addptr(readline(*shell_prompt));
+	*input = garbage_addptr(readline(*shell_prompt), LOOP);
 	if (input_error(input, shell_prompt))
 		return (1);
 	return (0);
@@ -108,7 +108,7 @@ void	prompt_loop(char **envp[])
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 		{
-			del_garbage();
+			del_garbage(LOOP);
 			input = "";
 			shell_prompt = create_prompt();
 			continue ;
@@ -122,7 +122,7 @@ void	prompt_loop(char **envp[])
 		if (!ft_strequ(input, ""))
 			add_history(input);
 		close_heredoc_fds(cmd_list);
-		del_garbage();
+		del_garbage(LOOP); // Ne pas del garbage envp et les pointeurs qu'il contient
 		input = "";
 		shell_prompt = create_prompt();
 	}
