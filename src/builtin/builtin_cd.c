@@ -6,7 +6,7 @@
 /*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by charles           #+#    #+#             */
-/*   Updated: 2022/03/02 22:39:27 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 12:05:51 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void change_directory(char *path, char **envp[])
 	char	buff[4097];
 
 	getcwd(buff, 4096);
-	cwd = buff;//path_troncate(buff, "/./minishell");
+	cwd = buff;
 	if (!chdir(path))
 	{
 		set_env("OLDPWD", cwd, envp);
@@ -27,7 +27,7 @@ static void change_directory(char *path, char **envp[])
 		else
 		{
 			getcwd(buff, 4096);
-			cwd = buff;//path_troncate(buff, "/");
+			cwd = buff;
 		}
 		set_env("PWD", cwd, envp);
 	}
@@ -48,7 +48,7 @@ int	builtin_cd(char **exec_args, int exit, char **envp[])
 {
 	char	*path;
 
-	if (exec_args[1])
+	if (exec_args[0] && exec_args[1])
 	{
 		ft_putendl_fd("minishell: cd: too many arguments.", 2);
 		if (exit)

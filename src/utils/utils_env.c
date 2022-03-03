@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 10:41:42 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 11:46:01 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	set_env(char *var, char *content, char **envp[])
 {
 	char	*tmp;
 	int		line;
-	int		size;
 
 	line = 0;
 	tmp = ft_strjoin(var, "=", MAIN);
@@ -43,18 +42,14 @@ void	set_env(char *var, char *content, char **envp[])
 		print_message("export: Allocation error.\n", RED, 1);
 	while ((*envp)[line])
 	{
-		size = 0;
-		while ((*envp)[line][size] && (*envp)[line][size] != '=')
-			size++;
-		if (ft_strncmp((*envp)[line], tmp, size))
+		if (ft_strnequ((*envp)[line], var, ft_strlen(var)))
 		{
 			mem_remove((*envp)[line], MAIN);
-			*envp[line] = tmp;
+			(*envp)[line] = tmp;
 			break ;
 		}
 		line++;
 	}
-	//builtin_env(NULL, 0, envp); // TEST
 }
 
 char	*path_troncate(char *s, char *to_troncate)
