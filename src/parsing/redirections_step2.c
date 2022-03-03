@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/02 00:48:12 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:45:13 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,21 @@ int	cmd_redirection_management(t_list *list)
 		((t_pipe_command *)tmp->content)->cmd_content =
 			ft_strtrim(((t_pipe_command *)tmp->content)->cmd_content, " ");
 		if (!((t_pipe_command *)tmp->content)->cmd_content)
-			return (1);
-		/*
-		** A delete // en bas => permet d'eviter les fds ouverts
-		*/
-		/**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 1)
-		/**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_IN]);
-		/**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 1)
-		/**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT]);
-		/*
-		** A delete // en haut => permet d'eviter les fds ouverts
-		*/
+			return (print_message(strerror(errno), RED, MALLOC_ERR), 1);
+		// /*
+		// ** A delete // en bas => permet d'eviter les fds ouverts
+		// */
+		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 1)
+		// /**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_IN]);
+		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 1)
+		// /**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT]);
+		// /*
+		// ** A delete // en haut => permet d'eviter les fds ouverts
+		// */
+
+
+		// dans process enfant faire une fonctions qui close tous les fds ouverts
+		// cad une fonction qui close les fds temporaires, et les fds in and out
 		tmp = tmp->next;
 	}
 	return (0);

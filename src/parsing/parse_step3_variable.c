@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_step3_variable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/01 19:31:09 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/02 19:58:56 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static uint8_t	flag(char *str)
 	return (0);
 }
 
-static char	*get_to_insert(char *s, int pos, int size)
+char	*get_to_insert(char *s, int pos, int size)
 {
 	char	*to_find;
 	char	*to_insert;
@@ -96,7 +96,7 @@ static char	*get_to_insert(char *s, int pos, int size)
 	return (to_insert);
 }
 
-static int	stop_len(char *s, int start)
+int	stop_len(char *s, int start)
 {
 	int	stop;
 
