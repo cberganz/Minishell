@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 17:34:01 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 15:45:04 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	ft_memdel(void **ap);
 void	*ft_memalloc(size_t size, int garbage);
 void	*ft_calloc(size_t nmemb, size_t size, int garbage);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+void	*ft_realloc(void *ptr, size_t prev_size, size_t new_size, int garbage);
 
 /*
 ** Get_next_line

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 16:43:41 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:29:16 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ char	*get_env(char *var, char **envp[])
 void	set_env(char *var, char *content, char **envp[])
 {
 	char	*tmp;
+	char	**new_envp;
 	int		line;
 
 	line = 0;
 	tmp = ft_strjoin(var, "=", MAIN);
 	tmp = ft_strjoin(tmp, content, MAIN);
 	if (!tmp)
-		print_message("export: Allocation error.\n", RED, 1);
+		print_message("minishell: Allocation error.\n", RED, 1);
 	while ((*envp)[line])
 	{
 		if (ft_strnequ((*envp)[line], var, ft_strlen(var)))
@@ -52,9 +53,22 @@ void	set_env(char *var, char *content, char **envp[])
 	}
 	if (!(*envp)[line])
 	{
-		ft_strlcpy((*envp)[line], var, ft_strlen(var));
-		ft_strlcat((*envp)[line], "=", 1);
-		ft_strlcat((*envp)[line], content, ft_strlen(content));
+		if (mem_alloc((line + 2) * sizeof(char *), (void **)&new_envp, MAIN))
+			print_message("minishell: Allocation error.\n", RED, 1);
+		line = 0;
+		while ((*envp)[line])
+		{
+			new_envp[line] = (*envp)[line];
+			line++;
+		}
+		if (mem_alloc(ft_strlen(var) + ft_strlen(content) + 2, (void **)&new_envp[line], MAIN))
+			print_message("minishell: Allocation error.\n", RED, 1);
+		ft_strlcpy(new_envp[line], var, ft_strlen(var) + 1);
+		ft_strlcpy(&new_envp[line][ft_strlen(var)], "=", 2);
+		ft_strlcpy(&new_envp[line][ft_strlen(var) + 1], content, ft_strlen(content) + 1);
+		new_envp[line + 1] = NULL;
+		mem_remove((*envp), MAIN);
+		(*envp) = new_envp;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:10 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 15:08:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 15:37:33 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,53 +20,13 @@ static uint8_t	is_wildcard(char *arg)
 			arg += quote_len(&(*arg), '"') + 1;
 		else if (*arg == '\'')
 			arg += quote_len(&(*arg), '\'') + 1;
-		else if (*arg == '*')
+		else if (*arg == '*' || *arg == '?')
 			return (1);
 		arg++;
 	}
 	return (0);
 }
 
-//static char	*get_match(char *arg, char *file)
-//{
-//	int		arg_i;
-//	int		file_i;
-//
-//	arg_i = 0;
-//	file_i = 0;
-//	while (arg[arg_i] && file[file_i])
-//	{
-//		if (arg[arg_i] == file[file_i])
-//		{
-//			arg_i++;
-//			file_i++;
-//		}
-//		else if (arg[arg_i] == '*' && arg[arg_i + 1] != '*')
-//		{
-//			while (file[file_i] && (!ft_strnequ(&file[file_i], &arg[arg_i + 1], ft_strlento(&arg[arg_i + 1], '*')) || !arg[arg_i + 1])) // len +1 ?
-//				file_i++;
-//			if (!file[file_i])
-//			{
-//				arg_i++;
-//				break ;
-//			}
-//			if (ft_strnequ(&file[file_i], &arg[arg_i + 1], ft_strlento(&arg[arg_i + 1], '*')))
-//			{
-//				file_i += ft_strlento(&arg[arg_i + 1], '*');
-//				arg_i += ft_strlento(&arg[arg_i + 1], '*') + 1;
-//			}
-//			else
-//				break ;
-//		}
-//		else if (arg[arg_i + 1] == '*')
-//			arg_i++;
-//		else
-//			break ;
-//	}
-//	if (!arg[arg_i] && !file[file_i])
-//		return (ft_strjoin(file, " ", LOOP));
-//	return ("");
-//}
 static char	*get_match(char *arg, char *file)
 {
 	int		arg_i;
@@ -89,8 +49,9 @@ static char	*get_match(char *arg, char *file)
 			arg_i++;
 		if (arg[arg_i - 1] == '*' && arg[arg_i]) 
 		{
-			while (file[file_i] && (!ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*'))
-					|| (!ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*') + 1) && !arg[arg_i + 1])))
+			while (file[file_i]
+				&& !ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*')
+				|| (!ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*') + 1) && !arg[arg_i + 1])))
 				file_i++;
 			if (!file[file_i])
 				return ("");
@@ -125,6 +86,8 @@ static char	*get_dir_infos(char *arg)
 			directory = readdir(dir);
 		}
 		closedir(dir);
+		if (narg[0] == '\0')
+			return (arg);
 		return (narg);
 	}
 	return (NULL);

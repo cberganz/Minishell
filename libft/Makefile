@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/03/04 17:34:21 by cberganz         ###   ########.fr        #
+#    Updated: 2022/03/05 15:45:20 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			mem/ft_memdel.c		\
 			mem/ft_memmove.c	\
 			mem/ft_memset.c		\
+			mem/ft_realloc.c	\
 			stdio/ft_putchar_fd.c\
 			stdio/ft_putstr_fd.c\
 			stdio/ft_putendl_fd.c\
