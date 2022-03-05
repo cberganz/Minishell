@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 01:32:54 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:48:35 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	is_builtin(char *exec_args)
 {
 	return (ft_strequ(exec_args, "exit")
-			|| ft_strequ(exec_args, "echo")
-			|| ft_strequ(exec_args, "cd")
-			|| ft_strequ(exec_args, "pwd")
-			|| ft_strequ(exec_args, "export")
-			|| ft_strequ(exec_args, "unset")
-			|| ft_strequ(exec_args, "env"));
+		|| ft_strequ(exec_args, "echo")
+		|| ft_strequ(exec_args, "cd")
+		|| ft_strequ(exec_args, "pwd")
+		|| ft_strequ(exec_args, "export")
+		|| ft_strequ(exec_args, "unset")
+		|| ft_strequ(exec_args, "env"));
 }
 
 int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
@@ -41,4 +41,3 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 		return (builtin_env(command->exec_args + 1, exit, envp));
 	return (0);
 }
-

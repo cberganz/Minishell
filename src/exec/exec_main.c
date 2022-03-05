@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 17:47:29 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:47:50 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ uint8_t	exec_main(t_list *cmd_list, char **envp[])
 		return (1);
 	while (cmd_list)
 	{
-		if (g_status == 0 || ft_strequ(((t_command *)cmd_list->content)->control_op, "||")
-				|| ((t_command *)cmd_list->content)->control_op == NULL)
+		if (g_status == 0
+			|| ft_strequ(((t_command *)cmd_list->content)->control_op, "||")
+			|| ((t_command *)cmd_list->content)->control_op == NULL)
 		{
 			command_list = ((t_command *)cmd_list->content)->command_list;
 			command_parsing(command_list, envp);
 			cmd_redirection_management(command_list);
 			split_args(command_list);
-			wildcard(command_list); //TEST
+			wildcard(command_list);
 			remove_quotes_list(command_list);
 			exec_commands(command_list, envp);
 		}

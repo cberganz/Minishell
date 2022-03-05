@@ -6,13 +6,13 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 16:29:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 20:07:51 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void change_directory(char *path, char **envp[])
+static void	change_directory(char *path, char **envp[])
 {
 	char	*cwd;
 	char	buff[4097];
@@ -32,17 +32,7 @@ static void change_directory(char *path, char **envp[])
 		set_env("PWD", cwd, envp);
 	}
 	else
-	{
-		printf("cd: ");
-		if (access(path, F_OK) == -1)
-			printf("no such file or directory: ");
-		else if (access(path, R_OK) == -1)
-			printf("permission denied: ");
-		else
-			printf("not a directory: ");
-		printf("%s\n", path);
-	}
-	//set_env("TRUCUU", "TEST", envp);
+		print_dirpath_err(path);
 }
 
 int	builtin_cd(char **exec_args, int exit, char **envp[])

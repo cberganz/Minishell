@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/02 21:54:36 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:34:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static uint8_t	flag(char *str)
 	{
 		jump_quotes(str, &i);
 		if (str[i] && str[i] == '~' && ft_ischarset(str[i - 1], "<> ", NULL) &&
-				(ft_ischarset(str[i + 1], "<>:/ ", NULL) || str[i + 1] == '\0'))
+			(ft_ischarset(str[i + 1], "<>:/ ", NULL) || str[i + 1] == '\0'))
 			return (1);
 	}
 	return (0);

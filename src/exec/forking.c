@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 01:33:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:44:18 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	forking(t_list *command_list, char **envp[])
 
 void	wait_children(t_list *command_list)
 {
-	int	exit;
-	int(stat);
+	int				exit;
+	int				stat;
 	t_pipe_command	*command;
 
 	exit = 0;
@@ -52,9 +52,8 @@ void	wait_children(t_list *command_list)
 		{
 			g_status = WEXITSTATUS(stat);
 			if (WEXITSTATUS(stat) == 1)
-				free_and_exit(0); // also handle malloc error on child and print message ?
+				free_and_exit(0);
 		}
 		command_list = command_list->next;
 	}
 }
-

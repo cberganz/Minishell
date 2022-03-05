@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/03 10:44:13 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:33:07 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_list	*set_pipe_commands_list(char *command)
 
 	i = 0;
 	pipe_cmd_list = NULL;
-	pipe_cmds = ft_split_noquote(command, "|", LOOP);// pas bon quand pipe est dans des "" ou '' split qund meme sur pipe idem pour || et &&
+	pipe_cmds = ft_split_noquote(command, "|", LOOP);
 	if (pipe_cmds == NULL)
 		return (NULL);
 	while (pipe_cmds[i] != NULL)

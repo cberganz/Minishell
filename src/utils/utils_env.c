@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 16:29:16 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:27:32 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ char	*path_troncate(char *s, char *to_troncate)
 	}
 	return (s);
 }
-

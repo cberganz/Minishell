@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:38 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 01:31:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:40:28 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ int	builtin_pwd(char **exec_args, int exit)
 	if (exit)
 		free_and_exit(0);
 	(void)exec_args;
-	return(0);
+	return (0);
 }

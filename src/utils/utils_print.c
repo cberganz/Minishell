@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/02/27 11:54:11 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 20:04:18 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,17 @@ void	errno_file_error(char *file, int exit_status)
 	write(2, RESET, ft_strlen(RESET));
 	write(2, "\n", 1);
 	free_and_exit(exit_status);
+}
+
+void	print_dirpath_err(char *path)
+{
+	ft_putstr_fd("cd: ", 2);
+	if (access(path, F_OK) == -1)
+		ft_putstr_fd("no such file or directory: ", 2);
+	else if (access(path, R_OK) == -1)
+		ft_putstr_fd("permission denied: ", 2);
+	else
+		ft_putstr_fd("not a directory: ", 2);
+	ft_putendl_fd(path, 2);
+	g_status = 1;
 }

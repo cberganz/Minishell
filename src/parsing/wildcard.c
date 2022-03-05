@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:10 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 15:37:33 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 18:58:19 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*get_match(char *arg, char *file)
 		if (arg[arg_i - 1] == '*' && arg[arg_i]) 
 		{
 			while (file[file_i]
-				&& !ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*')
+				&& (!ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*'))
 				|| (!ft_strnequ(&file[file_i], &arg[arg_i], ft_strlento(&arg[arg_i], '*') + 1) && !arg[arg_i + 1])))
 				file_i++;
 			if (!file[file_i])

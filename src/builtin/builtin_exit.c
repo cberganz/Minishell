@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 01:31:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:40:59 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ uint8_t	builtin_exit(char **exec_args, int exit)
 	{
 		if (!is_numeric(exec_args[0]))
 		{
-			printf(RED "Minishell: exit: %s :not a numeric argument.\n" RESET, exec_args[0]);
+			printf(RED "Minishell: exit: %s :not a numeric argument.\n"
+				RESET, exec_args[0]);
 			exit_status = 2;
 		}
 		else
