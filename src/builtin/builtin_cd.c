@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charles <cberganz@student.42.fr>           +#+  +:+       +#+        */
+/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 02:34:46 by charles           #+#    #+#             */
-/*   Updated: 2022/03/03 12:05:51 by cberganz         ###   ########.fr       */
+/*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
+/*   Updated: 2022/03/04 01:30:42 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void change_directory(char *path, char **envp[])
 			printf("not a directory: ");
 		printf("%s\n", path);
 	}
+	//set_env("TRUCUU", "TEST", envp);
 }
 
 int	builtin_cd(char **exec_args, int exit, char **envp[])

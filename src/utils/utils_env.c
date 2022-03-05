@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 11:46:01 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:43:41 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ void	set_env(char *var, char *content, char **envp[])
 			break ;
 		}
 		line++;
+	}
+	if (!(*envp)[line])
+	{
+		ft_strlcpy((*envp)[line], var, ft_strlen(var));
+		ft_strlcat((*envp)[line], "=", 1);
+		ft_strlcat((*envp)[line], content, ft_strlen(content));
 	}
 }
 

@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/03/01 21:15:54 by charles          ###   ########.fr        #
+#    Updated: 2022/03/04 17:34:21 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			string/ft_strlcat.c	\
 			string/ft_strlcpy.c	\
 			string/ft_strlen.c	\
+			string/ft_strlento.c\
 			string/ft_strmap.c	\
 			string/ft_strmapi.c	\
 			string/ft_strncat.c	\

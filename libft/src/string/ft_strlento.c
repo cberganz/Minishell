@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnequ.c                                       :+:      :+:    :+:   */
+/*   ft_strlento.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 13:33:48 by cberganz          #+#    #+#             */
-/*   Updated: 2021/11/24 13:33:49 by cberganz         ###   ########.fr       */
+/*   Created: 2022/03/04 17:32:39 by cberganz          #+#    #+#             */
+/*   Updated: 2022/03/04 17:33:40 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strnequ(char const *s1, char const *s2, size_t n)
+size_t	ft_strlento(const char *s, char c)
 {
-	if (!s1 || !s2)
-		return (0);
-	else if (ft_strncmp(s1, s2, n) == 0)
-		return (1);
-	else
-		return (0);
+	size_t	len;
+
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
 }

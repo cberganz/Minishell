@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/03 10:37:28 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:42:50 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdint.h>
@@ -112,6 +113,7 @@ void	tilde_expansion(t_list *command_list, char **envp[]);
 void	variable_expansion(t_list *command_list, char **envp[]);
 void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
+void	wildcard(t_list *command_list);
 
 /*
 **	Signals

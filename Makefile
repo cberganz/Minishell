@@ -46,6 +46,7 @@ SRC_FILES 	=	minishell.c				\
 				parsing/redirections_step1.c\
 				parsing/redirections_step2.c\
 				parsing/redirections_heredoc.c\
+				parsing/wildcard.c		\
 				exec/exec_main.c		\
 				exec/exec_bin.c			\
 				exec/exec_builtin.c		\

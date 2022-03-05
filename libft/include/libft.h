@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 10:35:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:34:01 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*ft_strncat(char *dest, const char *src, size_t n);
 char	*ft_strmap(char const *s, char (*f)(char), int garbage);
 char	*ft_strdup(const char *s, int garbage);
 size_t	ft_strlen(const char *s);
+size_t	ft_strlento(const char *s, char c);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	ft_strclr(char *s);
