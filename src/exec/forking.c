@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forking.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:44:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 12:44:44 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,25 @@ void	forking(t_list *command_list, char **envp[])
 {
 	t_pipe_command	*command;
 	int				ret;
+	t_pipe_command	*prev;
 
+	prev = NULL;
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
-		// pipe
+		if (pipe(command->fd_pipe) == -1)
+			print_message("Minishell: Fork() error.\n", RED, 1);
 		command->pid = fork();
 		if (command->pid == 0)
 		{
+			if (!prev || command->fd_redirection[STDIN_FILENO] != 0)
+				dup2(command->fd_redirection[STDIN_FILENO], STDIN_FILENO);
+			else
+				dup2(prev->fd_pipe[STDIN_FILENO], STDIN_FILENO);
+			if (!command_list->next || command->fd_redirection[STDOUT_FILENO])
+				dup2(command->fd_pipe[STDOUT_FILENO], command->fd_redirection[STDOUT_FILENO]);
+			else
+				dup2(command->fd_pipe[STDOUT_FILENO], STDOUT_FILENO);
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);
@@ -32,6 +43,7 @@ void	forking(t_list *command_list, char **envp[])
 		}
 		else if (command->pid < 0)
 			print_message("Minishell: Fork() error.\n", RED, -1);
+		prev = command;
 		command_list = command_list->next;
 	}
 }
