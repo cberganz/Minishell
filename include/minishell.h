@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 11:28:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:33:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,9 +207,9 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
 uint8_t heredoc_management(t_list *list, char ***envp);
 void	close_heredoc_fds(t_list *list);
-char	*get_to_insert_hd(char *s, int pos, int size, char **envp[]);
-int		stop_len_hd(char *s, int start);
-void	remove_quotes_str_hd(char **str);
+char	*get_to_insert(char *s, int pos, int size, char **envp[]);
+int		stop_len(char *s, int start);
+void	remove_quotes_str(char **str);
 uint8_t	check_eof_heredoc(char *input);
 void	heredoc_var_expand(int var_expand, char **input, char ***envp);
 

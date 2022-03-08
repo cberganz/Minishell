@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 11:27:06 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:33:54 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ void	insert_var_str(char **str, int start, char ***envp)
 
 	to_insert = NULL;
 	command = *str;
-	stop = stop_len_hd(command, start); 
+	stop = stop_len(command, start); 
 	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status, LOOP);
 	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
 	{
-		to_insert = get_to_insert_hd(command, start, stop, envp);// faire remonter envp
+		to_insert = get_to_insert(command, start, stop, envp);// faire remonter envp
 		if (!to_insert)
 			return ;
 	}

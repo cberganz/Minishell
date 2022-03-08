@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 11:27:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:33:38 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ uint8_t	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char *
 	char	*input;
 
 	input = "";
-	remove_quotes_str_hd(&end_word);
+	remove_quotes_str(&end_word);
 	input = garbage_addptr(readline("> "), LOOP);
 	if (check_eof_heredoc(input))
 		return (1);

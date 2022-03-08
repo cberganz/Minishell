@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/03 10:45:54 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:34:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	quotes(char *str, char *nstr, int *str_i, int *nstr_i)
 	}
 }
 
-static void	remove_quotes_str(char **str)
+void	remove_quotes_str(char **str)
 {
 	char	*nstr;
 	int		str_i;
