@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:48:35 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:54:57 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 		return (builtin_cd(command->exec_args + 1, exit, envp));
 	else if (ft_strequ(command->exec_args[0], "pwd"))
 		return (builtin_pwd(command->exec_args + 1, exit));
-//	else if (ft_strequ(exec_args[0], "export"))
-//		return (builtin_export(exec_args + 1));
-//	else if (ft_strequ(exec_args[0], "unset"))
-//		return (builtin_unset(exec_args + 1));
+	else if (ft_strequ(command->exec_args[0], "export"))
+		return (builtin_export(command->exec_args + 1, exit, envp));
+	else if (ft_strequ(command->exec_args[0], "unset"))
+		return (builtin_unset(command->exec_args + 1, exit, envp));
 	else if (ft_strequ(command->exec_args[0], "env"))
 		return (builtin_env(command->exec_args + 1, exit, envp));
 	return (0);
