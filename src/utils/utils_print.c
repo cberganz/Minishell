@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 20:04:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:46:44 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	errno_file_error(char *file, int exit_status)
 	write(2, file, ft_strlen(file));
 	write(2, RESET, ft_strlen(RESET));
 	write(2, "\n", 1);
-	free_and_exit(exit_status);
+	if (exit_status)
+		free_and_exit(exit_status);
 }
 
 void	print_dirpath_err(char *path)

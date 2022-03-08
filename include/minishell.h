@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 11:33:18 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:53:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
 void	wildcard(t_list *command_list);
 
+// char	*get_to_insert(char *s, int pos, int size);
+int		stop_len(char *s, int start);
+
+void	remove_quotes_str(char **str);
+
 /*
 **	Signals
 */
@@ -182,7 +187,7 @@ present outside single quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
-# define EOF_HEREDOC "bash: avertissement : « here-document » à la ligne 1 délimité par la fin du fichier\n"
+# define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t	open_quotes(char *input);

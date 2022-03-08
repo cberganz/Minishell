@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/03 10:46:12 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:47:06 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	len_of_file = file_len(&cmd->cmd_content[i]);
 	cmd->outfile = ft_filedup(&cmd->cmd_content[i], len_of_file);
 	if (cmd->outfile == NULL)
-		return (NULL);
-	//check access si erreur sortir + print error avec exit + free du garbage
+		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	if (!ft_strncmp(operator, ">>", 2))
 		cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
@@ -84,11 +83,6 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 		errno_file_error(cmd->outfile, 1);
 	return ((void *)1);
 }
-
-/*
-*** ajout d'un access pour verifier le droits des fichiers et l'existence des ficiers
-*** peut etre faire les redirections dans les childs a cause de ca => tres probable
-*/
 
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 {
@@ -104,9 +98,7 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	{
 		cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
 		if (cmd->infile == NULL)
-			return (NULL);
-	
-		//check access si erreur sortir + print error avec exit + free du garbage
+			return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);	
 		cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
 		if (cmd->fd_redirection[FD_IN] == -1)
 			errno_file_error(cmd->infile, 1);

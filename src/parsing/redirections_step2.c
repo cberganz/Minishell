@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 14:40:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:48:05 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ int	cmd_redirection_management(t_list *list)
 		/*
 		** A delete // en bas => permet d'eviter les fds ouverts
 		*/
+			// return (print_message(strerror(errno), RED, MALLOC_ERR), 1);
+		// /*
+		// ** A delete // en bas => permet d'eviter les fds ouverts
+		// */
 		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 1)
 		// /**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_IN]);
 		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 1)
