@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:47:50 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:29:30 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ uint8_t	exec_main(t_list *cmd_list, char **envp[])
 	int		i;
 
 	i = 0;
-	if (heredoc_management(cmd_list))
+	if (heredoc_management(cmd_list, envp))
 		return (1);
 	while (cmd_list)
 	{

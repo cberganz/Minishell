@@ -33,6 +33,7 @@ SRC_FILES 	=	minishell.c				\
 				utils/utils_print.c		\
 				utils/utils_exit.c		\
 				utils/utils_env.c		\
+				utils/utils_heredoc.c	\
 				parsing/errors_token.c	\
 				parsing/errors_not_handled.c\
 				parsing/parse_step0_comments.c\
@@ -47,6 +48,8 @@ SRC_FILES 	=	minishell.c				\
 				parsing/redirections_step2.c\
 				parsing/redirections_heredoc.c\
 				parsing/wildcard.c		\
+				parsing/redirections_heredoc_loop.c\
+                 parsing/redirections_heredoc_variables.c\
 				exec/exec_main.c		\
 				exec/exec_bin.c			\
 				exec/exec_builtin.c		\
@@ -57,7 +60,8 @@ SRC_FILES 	=	minishell.c				\
 				builtin/builtin_pwd.c	\
 				builtin/builtin_env.c	\
 				builtin/builtin_cd.c	\
-				builtin/builtin_export.c
+				builtin/builtin_export.c\
+				builtin/builtin_unset.c
 
 SRC_BONUS_FILES = AVENIR.c
 

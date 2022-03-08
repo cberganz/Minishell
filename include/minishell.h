@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/05 19:54:41 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:28:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,9 @@ int		builtin_echo(char **exec_args, int exit);
 int		builtin_pwd(char **exec_args, int exit);
 int		builtin_env(char **exec_args, int exit, char **envp[]);
 int		builtin_cd(char **exec_args, int exit, char **envp[]);
+int		builtin_export(char **exec_args, int exit, char **envp[]);
+int		builtin_unset(char **exec_args, int exit, char **envp[]);
+char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
 
 /*
 **	Exit
@@ -179,6 +182,7 @@ present outside single quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
+# define EOF_HEREDOC "bash: avertissement : « here-document » à la ligne 1 délimité par la fin du fichier\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t	open_quotes(char *input);
@@ -201,7 +205,12 @@ char	*ft_filedup(char *s, int len_of_file);
 void	remove_file(int	len_of_file, char *s);
 void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
-uint8_t	heredoc_management(t_list *list);
+uint8_t heredoc_management(t_list *list, char ***envp);
 void	close_heredoc_fds(t_list *list);
+char	*get_to_insert_hd(char *s, int pos, int size, char **envp[]);
+int		stop_len_hd(char *s, int start);
+void	remove_quotes_str_hd(char **str);
+uint8_t	check_eof_heredoc(char *input);
+void	heredoc_var_expand(int var_expand, char **input, char ***envp);
 
 #endif
