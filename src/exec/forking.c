@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 12:44:44 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 13:05:06 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ void	forking(t_list *command_list, char **envp[])
 				dup2(command->fd_redirection[STDIN_FILENO], STDIN_FILENO);
 			else
 				dup2(prev->fd_pipe[STDIN_FILENO], STDIN_FILENO);
-			if (!command_list->next || command->fd_redirection[STDOUT_FILENO])
-				dup2(command->fd_pipe[STDOUT_FILENO], command->fd_redirection[STDOUT_FILENO]);
+			if (!command_list->next || command->fd_redirection[STDOUT_FILENO] != 1)
+				dup2(command->fd_redirection[STDOUT_FILENO], STDOUT_FILENO);
 			else
 				dup2(command->fd_pipe[STDOUT_FILENO], STDOUT_FILENO);
+			// if (command->fd_redirection[STDIN_FILENO] != 0)
+			// 	close(command->fd_redirection[STDIN_FILENO]);
+			// if (command->fd_redirection[STDOUT_FILENO] != 1)
+				// close(command->fd_redirection[STDOUT_FILENO]);
+			//close heredoc
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);
