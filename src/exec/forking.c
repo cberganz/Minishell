@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 15:13:57 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:42:12 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ void	forking(t_list *command_list, char **envp[])
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
-		if (pipe(command->fd_pipe) == -1)
-			print_message("Minishell: Pipe() error.\n", RED, 1);
+		if (command_list->next != NULL)
+		{
+			if (pipe(command->fd_pipe) == -1)
+				print_message("Minishell: Pipe() error.\n", RED, 1);
+		}
 		command->pid = fork();
 		if (command->pid == 0)
 		{
@@ -38,11 +41,17 @@ void	forking(t_list *command_list, char **envp[])
 			if (!command_list->next || command->fd_redirection[FD_OUT] != 1)
 			{
 				dup2(command->fd_redirection[FD_OUT], STDOUT_FILENO);
-				if (command->fd_redirection[FD_IN] != 0)
+				if (command->fd_redirection[FD_OUT] != 1)
 					close(command->fd_redirection[FD_OUT]);
 			}
 			else
 				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
+			if (prev)
+			{
+				// close(command->fd_pipe[]);
+				close(prev->fd_pipe[1]);
+				close(prev->fd_pipe[0]);
+			}
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);
@@ -67,6 +76,15 @@ void	wait_children(t_list *command_list)
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
+		if (command->fd_redirection[FD_IN] != 0)
+			close(command->fd_redirection[FD_IN]);
+		if (command->fd_redirection[FD_OUT] != 1)
+			close(command->fd_redirection[FD_OUT]);
+		if (command_list->next)
+		{
+			close(command->fd_pipe[1]);
+			close(command->fd_pipe[0]);
+		}
 		waitpid(command->pid, &stat, WEXITSTATUS(stat));
 		if (WIFEXITED(stat))
 		{
