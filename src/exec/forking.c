@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 13:05:06 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:13:57 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,26 @@ void	forking(t_list *command_list, char **envp[])
 	{
 		command = (t_pipe_command *)command_list->content;
 		if (pipe(command->fd_pipe) == -1)
-			print_message("Minishell: Fork() error.\n", RED, 1);
+			print_message("Minishell: Pipe() error.\n", RED, 1);
 		command->pid = fork();
 		if (command->pid == 0)
 		{
-			if (!prev || command->fd_redirection[STDIN_FILENO] != 0)
-				dup2(command->fd_redirection[STDIN_FILENO], STDIN_FILENO);
+			if (!prev || command->fd_redirection[FD_IN] != 0)
+			{
+				dup2(command->fd_redirection[FD_IN], STDIN_FILENO);
+				if (command->fd_redirection[FD_IN] != 0)
+					close(command->fd_redirection[FD_IN]);
+			}
 			else
-				dup2(prev->fd_pipe[STDIN_FILENO], STDIN_FILENO);
-			if (!command_list->next || command->fd_redirection[STDOUT_FILENO] != 1)
-				dup2(command->fd_redirection[STDOUT_FILENO], STDOUT_FILENO);
+				dup2(prev->fd_pipe[FD_IN], STDIN_FILENO);
+			if (!command_list->next || command->fd_redirection[FD_OUT] != 1)
+			{
+				dup2(command->fd_redirection[FD_OUT], STDOUT_FILENO);
+				if (command->fd_redirection[FD_IN] != 0)
+					close(command->fd_redirection[FD_OUT]);
+			}
 			else
-				dup2(command->fd_pipe[STDOUT_FILENO], STDOUT_FILENO);
-			// if (command->fd_redirection[STDIN_FILENO] != 0)
-			// 	close(command->fd_redirection[STDIN_FILENO]);
-			// if (command->fd_redirection[STDOUT_FILENO] != 1)
-				// close(command->fd_redirection[STDOUT_FILENO]);
-			//close heredoc
+				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);

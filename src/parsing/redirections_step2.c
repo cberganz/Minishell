@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/03 10:46:26 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/08 14:40:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	cmd_redirection_management(t_list *list)
 		/*
 		** A delete // en bas => permet d'eviter les fds ouverts
 		*/
-		/**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 1)
-		/**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_IN]);
-		/**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 1)
-		/**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT]);
+		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_IN] != 1)
+		// /**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_IN]);
+		// /**/if (((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 0 && ((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT] != 1)
+		// /**/	close(((t_pipe_command *)tmp->content)->fd_redirection[FD_OUT]);
 		/*
 		** A delete // en haut => permet d'eviter les fds ouverts
 		*/
