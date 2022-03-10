@@ -6,23 +6,27 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 18:11:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:46:21 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    close_all_fds(t_pipe_command *command, t_pipe_command *prev)
+void    close_all_fds(t_pipe_command *command, t_pipe_command *prev, t_list *command_list)
 {
 	if (command->fd_redirection[FD_IN] != 0)
 		close(command->fd_redirection[FD_IN]);
 	if (command->fd_redirection[FD_OUT] != 1)
 		close(command->fd_redirection[FD_OUT]);
-	if (prev)
+	if (command->pid == 0 && command_list->next != NULL)
 	{
-		close(prev->fd_pipe[0]);
-		close(prev->fd_pipe[1]);
+		close(command->fd_pipe[FD_OUT]);
+		close(command->fd_pipe[FD_IN]);
 	}
+	else if (prev != NULL)
+		close(prev->fd_pipe[FD_IN]);
+	if (command_list->next != NULL)
+		close(command->fd_pipe[FD_OUT]);
 }
 
 void    forking(t_list *command_list, char **envp[])
@@ -51,10 +55,8 @@ void    forking(t_list *command_list, char **envp[])
 				dup2(command->fd_redirection[FD_OUT], STDOUT_FILENO);
 			else
 				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
-			//closing fds
-			close_all_fds(command, prev);
-			//closing fds
-			ret = exec_builtin(command, envp, 1);
+			close_all_fds(command, prev, command_list);
+			ret = exec_builtin(command, envp, 0);
 			if (!ret)
 				exec_bin(command, envp);
 			if (ret == 1)
@@ -62,7 +64,7 @@ void    forking(t_list *command_list, char **envp[])
 		}
 		else if (command->pid < 0)
 			print_message("Minishell: Fork() error.\n", RED, -1);
-		close_all_fds(command, prev);
+		close_all_fds(command, prev, command_list);
 		prev = command;
 		command_list = command_list->next;
 	}

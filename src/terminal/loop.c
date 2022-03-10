@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/04 00:30:40 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/10 21:47:34 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	prompt_loop(char **envp[])
 	input = "";
 	while (1)
 	{
-		save_in = dup(STDIN_FILENO);
+		save_in = dup(STDIN_FILENO);// close ce save in
 		if (input_first_read(&input, &shell_prompt))
 			continue ;
 		cmd_list = global_parsing(input);
