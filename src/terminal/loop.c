@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 02:53:09 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 03:18:02 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	prompt_loop(char **envp[])
 		if (!ft_strequ(input, ""))
 			add_history(input);
 		close_heredoc_fds(cmd_list);
-		del_garbage(LOOP); // Ne pas del garbage envp et les pointeurs qu'il contient
+		del_garbage(LOOP);
 		input = "";
 		shell_prompt = create_prompt();
 	}

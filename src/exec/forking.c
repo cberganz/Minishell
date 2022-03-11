@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 03:03:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 03:48:31 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void    wait_children(t_list *command_list)
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
-		waitpid(command->pid, &stat, WEXITSTATUS(stat));
+		waitpid(command->pid, &stat, 0);
 		if (WIFEXITED(stat))
 		{
 			g_status = WEXITSTATUS(stat);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 00:28:25 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 05:57:51 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static uint8_t	is_nflag(char *arg)
 int	builtin_echo(char **exec_args, int exit)
 {
 	int	nflag;
+	int	save_fd;
 
+	save_fd = 0;
 	nflag = 0;
 	while (*exec_args && is_nflag(*exec_args))
 	{

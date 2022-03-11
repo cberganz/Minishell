@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 03:04:02 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 05:58:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ int		builtin_cd(char **exec_args, int exit, char **envp[]);
 int		builtin_export(char **exec_args, int exit, char **envp[]);
 int		builtin_unset(char **exec_args, int exit, char **envp[]);
 char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
+int		close_save_fd(int fd);
+void	builtin_redirections(t_pipe_command *command, int *save_fd);
 
 /*
 **	Exit
