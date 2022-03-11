@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/10 22:36:50 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:53:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,14 @@ void	prompt_loop(char **envp[])
 			shell_prompt = create_prompt();
 			continue ;
 		}
-		if (exec_main(cmd_list, envp))
+		else if (exec_main(cmd_list, envp) == 1)
 		{
+			close(STDIN_FILENO);
 			dup2(save_in, STDIN_FILENO);
+			// close(save_in);
 			continue ;
 		}
-		//print_lists(cmd_list);
+		// print_lists(cmd_list);
 		if (!ft_strequ(input, ""))
 			add_history(input);
 		close_heredoc_fds(cmd_list);

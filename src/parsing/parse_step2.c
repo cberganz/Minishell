@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/05 19:33:07 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:19:52 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd)
 	pipe_struct->fd_tmp = 0;
 	pipe_struct->exec_args = NULL;
 	pipe_struct->cmd_content = pipe_cmd;
+	pipe_struct->redirection_error = 0;
 	return (pipe_struct);
 }
 

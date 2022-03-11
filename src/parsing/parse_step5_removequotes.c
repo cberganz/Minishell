@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 15:51:36 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/10 23:50:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	remove_quotes_str(char **str)
 	*str = nstr;
 }
 
-static uint8_t	isquote_in(char *str)
+uint8_t	isquote_in(char *str)
 {
 	while (*str)
 	{

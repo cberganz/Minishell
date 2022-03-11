@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 15:53:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:32:54 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
 
 typedef struct s_pipe_command
 {
+	int		redirection_error;
 	char	*infile_operator;
 	char	*outfile_operator;
 	char	*infile;
@@ -114,6 +115,7 @@ void	variable_expansion(t_list *command_list, char **envp[]);
 void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
 void	wildcard(t_list *command_list);
+uint8_t	isquote_in(char *str);
 
 // char	*get_to_insert(char *s, int pos, int size);
 int		stop_len(char *s, int start);

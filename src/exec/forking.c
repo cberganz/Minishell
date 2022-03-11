@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/10 21:46:21 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:52:35 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void    forking(t_list *command_list, char **envp[])
 		command->pid = fork();
 		if (command->pid == 0)
 		{
-			if (!prev || command->fd_redirection[FD_IN] != 0)
+			if (command->redirection_error)
+				free_and_exit(1);
+			if (!prev || command->fd_redirection[FD_IN] != 0) 
 				dup2(command->fd_redirection[FD_IN], STDIN_FILENO);
 			else
 				dup2(prev->fd_pipe[FD_IN], STDIN_FILENO);
