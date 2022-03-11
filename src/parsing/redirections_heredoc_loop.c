@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 15:57:01 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/10 23:51:56 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ uint8_t	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char *
 	char	*input;
 
 	input = "";
-	remove_quotes_str(&end_word);
+	if (isquote_in(end_word))
+		remove_quotes_str(&end_word);
 	input = garbage_addptr(readline("> "), LOOP);
 	if (check_eof_heredoc(input))
 		return (1);
@@ -79,7 +80,8 @@ uint8_t	write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 		var_expand = 0;
 	save_status = g_status;
 	g_status = -255;
-	heredoc_loop(end_word, var_expand, cmd, envp);
+	if (heredoc_loop(end_word, var_expand, cmd, envp) == 1)
+		return (1);
 	g_status = save_status;
 	close(cmd->fd_tmp);
 	return (0);

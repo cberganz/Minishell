@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 00:17:06 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 03:03:46 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	is_builtin(char *exec_args)
 
 int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 {
-	if (ft_strequ(command->exec_args[0], "exit"))
+	if (command->redirection_error)
+		return (1);
+	else if (ft_strequ(command->exec_args[0], "exit"))
 		return (builtin_exit(command->exec_args + 1, exit));
 	else if (ft_strequ(command->exec_args[0], "echo"))
 		return (builtin_echo(command->exec_args + 1, exit));

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 15:47:06 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:50:28 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 {
 	int	len_of_file;
 
-	if (cmd->fd_redirection[FD_OUT] != 0 && cmd->fd_redirection[FD_OUT] != 1)
+	if (cmd->fd_redirection[FD_OUT] != 1)
 		close(cmd->fd_redirection[FD_OUT]);
 	cmd->outfile_operator = operator;
 	while (cmd->cmd_content[i] == operator[0] || cmd->cmd_content[i] == ' ')
@@ -75,12 +75,18 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	if (cmd->outfile == NULL)
 		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
 	remove_file(len_of_file, &cmd->cmd_content[i]);
-	if (!ft_strncmp(operator, ">>", 2))
-		cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (!ft_strncmp(operator, ">", 1))
-		cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (cmd->fd_redirection[FD_OUT] == -1)
-		errno_file_error(cmd->outfile, 1);
+	if (!cmd->redirection_error)
+	{
+		if (!ft_strncmp(operator, ">>", 2))
+			cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		else if (!ft_strncmp(operator, ">", 1))
+			cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (cmd->fd_redirection[FD_OUT] == -1)
+		{
+			cmd->redirection_error = 1;
+			errno_file_error(cmd->outfile, 1);
+		}
+	}
 	return ((void *)1);
 }
 
@@ -88,23 +94,29 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 {
 	int	len_of_file;
 
-	if (cmd->fd_redirection[FD_IN] != 0 && cmd->fd_redirection[FD_IN] != 1)
-		close(cmd->fd_redirection[FD_OUT]);
+	if (cmd->fd_redirection[FD_IN] != 0)
+		close(cmd->fd_redirection[FD_IN]);
 	cmd->infile_operator = operator;
 	while (cmd->cmd_content[i] == operator[0] || cmd->cmd_content[i] == ' ')
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
-	if (ft_strncmp(operator, "<<", 2))
+	if (!cmd->redirection_error)
 	{
-		cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-		if (cmd->infile == NULL)
-			return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);	
-		cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
-		if (cmd->fd_redirection[FD_IN] == -1)
-			errno_file_error(cmd->infile, 1);
+		if (ft_strncmp(operator, "<<", 2))
+		{
+			cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
+			if (cmd->infile == NULL)
+				return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);//exit si erreur dans process enfant 
+			cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
+			if (cmd->fd_redirection[FD_IN] == -1)
+			{
+				cmd->redirection_error = 1;
+				return (errno_file_error(cmd->infile, 1), (void *)1);
+			}
+		}
+		else
+			cmd->fd_redirection[FD_IN] = cmd->fd_tmp;
 	}
-	else
-		cmd->fd_redirection[FD_IN] = cmd->fd_tmp;
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	return ((void *)1);
 }
