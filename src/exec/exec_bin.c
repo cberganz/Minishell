@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:41 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:45:09 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:41:39 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,28 @@ void	exec_bin(t_pipe_command *command, char **envp[])
 	char		*path;
 	struct stat	stat;
 
-	path = get_path(command->exec_args, envp);
+	path = NULL;
+	if (ft_ischarset(command->exec_args[0][0], "./", NULL))
+	{
+		if (command->exec_args[0][1] == '\0')
+			path = NULL;
+		else
+			path = command->exec_args[0];
+	}
+	else if (command->exec_args[0][0] != '\0')
+		path = get_path(command->exec_args, envp);
 	if (!path)
 	{
-		printf(RED "Minishell: command not found: %s\n"
-			RESET, command->exec_args[0]);
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(command->exec_args[0], 2);
+		ft_putendl_fd(": command not found", 2);
 		free_and_exit(127);
 	}
 	if (lstat(path, &stat) != -1 && (stat.st_mode & S_IFREG)
 		&& (stat.st_mode & S_IXUSR))
 	{
 		execve(path, command->exec_args, *envp);
-		perror(NULL); // set g_status ? How ?
-		exit(3); // TEST
+		perror("minishell: ");
+		free_and_exit(1);
 	}
 }

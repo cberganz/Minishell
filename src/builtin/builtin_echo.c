@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/04 01:30:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 00:28:25 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ int	builtin_echo(char **exec_args, int exit)
 		nflag = 1;
 		exec_args++;
 	}
-	while (*exec_args)
+	while (*exec_args && *(exec_args + 1))
 	{
 		printf("%s ", *exec_args);
 		exec_args++;
 	}
+	printf("%s", *exec_args);
 	if (!nflag)
 		printf("\n");
 	if (exit)

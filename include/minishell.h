@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 15:53:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/10 23:46:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char	*get_path(char **exec_args, char **envp[]);
 **	Bultins
 */
 
-uint8_t	builtin_exit(char **exec_args, int exit);
+int		builtin_exit(char **exec_args, int exit);
 int		is_builtin(char *exec_args);
 int		builtin_echo(char **exec_args, int exit);
 int		builtin_pwd(char **exec_args, int exit);

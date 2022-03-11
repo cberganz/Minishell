@@ -6,7 +6,7 @@
 #    By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 14:42:18 by cberganz          #+#    #+#              #
-#    Updated: 2022/03/05 15:45:20 by cberganz         ###   ########.fr        #
+#    Updated: 2022/03/11 02:09:16 by cberganz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,7 @@ SRC_NAME	= ctype/ft_isalnum.c\
 			string/ft_strinsert.c\
 			string/ft_stradd_quotes.c\
 			string/ft_split_noquote.c\
+			string/ft_strarr_size.c\
 			gnl/get_next_line.c	\
 			gnl/get_next_line_utils.c\
 			garbage_collector/del_garbage.c\

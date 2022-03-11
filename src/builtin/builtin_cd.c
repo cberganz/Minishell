@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 18:47:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 00:39:44 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_cd(char **exec_args, int exit, char **envp[])
 
 	if (exec_args[0] && exec_args[1])
 	{
-		ft_putendl_fd("minishell: cd: too many arguments.", 2);
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
 		if (exit)
 			free_and_exit(1);
 		return (1);
@@ -51,7 +51,7 @@ int	builtin_cd(char **exec_args, int exit, char **envp[])
 	else
 		path = exec_args[0];
 	if (!path)
-		print_message("cd: Allocation error.\n", RED, 1);
+		print_message("cd: Allocation error\n", RED, 1);
 	change_directory(path, envp);
 	if (exit)
 		free_and_exit(0);

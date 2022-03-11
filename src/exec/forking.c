@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/10 21:46:21 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 01:09:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void    forking(t_list *command_list, char **envp[])
 			else
 				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
 			close_all_fds(command, prev, command_list);
-			ret = exec_builtin(command, envp, 0);
+			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);
 			if (ret == 1)
 				free_and_exit(ret);
 		}
 		else if (command->pid < 0)
-			print_message("Minishell: Fork() error.\n", RED, -1);
+			print_message("Minishell: Fork() error.\n", RED, 1);
 		close_all_fds(command, prev, command_list);
 		prev = command;
 		command_list = command_list->next;

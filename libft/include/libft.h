@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 15:45:04 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:08:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
-int		ft_tolower(int c);
+char	ft_tolower(char c);
 int		ft_toupper(int c);
 int		ft_ischarset(int c, char *charset, int (*func_ptr)(int));
 char	*ft_itoa(int n, int garbage);
@@ -108,6 +108,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_stradd_quotes(char *str, int garbage);
 int8_t	ft_strinsert(char **src, char *to_insert, int start, int stop);
 char	**ft_split_noquote(const char *s, char *sep, int garbage);
+int		ft_strarr_size(char **arr);
 
 /*
 ** Memory

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:10 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 18:58:19 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 02:59:55 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,57 @@ static uint8_t	is_wildcard(char *arg)
 	while (*arg)
 	{
 		if (*arg == '"')
-			arg += quote_len(&(*arg), '"') + 1;
+			arg += quote_len(&(*arg), '"');
 		else if (*arg == '\'')
-			arg += quote_len(&(*arg), '\'') + 1;
+			arg += quote_len(&(*arg), '\'');
 		else if (*arg == '*' || *arg == '?')
 			return (1);
 		arg++;
 	}
 	return (0);
+}
+
+static char	*sort_str(char *str)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	char	**split;
+	char	**lower;
+
+	split = ft_split(str, " ", LOOP);
+	lower = malloc((ft_strarr_size(split) + 1) * sizeof(char *));
+	if (!split || !lower)
+		print_message("minishell: Allocation error\n", RED, 1);
+	i = -1;
+	while (split[++i])
+		lower[i] = ft_strmap(split[i], ft_tolower, LOOP);
+	i = -1;
+	while (split[++i])
+	{
+		j = i;
+		while (split[++j])
+		{
+			if (ft_strcmp(lower[i], lower[j]) > 0)
+			{
+				tmp = split[i];
+				split[i] = split[j];
+				split[j] = tmp;
+				tmp = lower[i];
+				lower[i] = lower[j];
+				lower[j] = tmp;
+			}
+		}
+	}
+	i = -1;
+	tmp = "";
+	while (split[++i] && split[i + 1])
+	{
+		tmp = ft_strjoin(tmp, split[i], LOOP);
+		tmp = ft_strjoin(tmp, " ", LOOP);
+	}
+	tmp = ft_strjoin(tmp, split[i], LOOP);
+	return (tmp);
 }
 
 static char	*get_match(char *arg, char *file)
@@ -88,7 +131,7 @@ static char	*get_dir_infos(char *arg)
 		closedir(dir);
 		if (narg[0] == '\0')
 			return (arg);
-		return (narg);
+		return (sort_str(narg));
 	}
 	return (NULL);
 }
