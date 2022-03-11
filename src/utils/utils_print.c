@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 01:44:57 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 05:19:54 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	errno_file_error(char *file, int exit_status)
 		free_and_exit(exit_status);
 }
 
-void	print_dirpath_err(char *path)
+int	print_dirpath_err(char *path)
 {
 	ft_putstr_fd("cd: ", 2);
 	if (access(path, F_OK) == -1)
@@ -80,5 +80,5 @@ void	print_dirpath_err(char *path)
 	else
 		ft_putstr_fd("not a directory: ", 2);
 	ft_putendl_fd(path, 2);
-	g_status = 1;
+	return (1);
 }

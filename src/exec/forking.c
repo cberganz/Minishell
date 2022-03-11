@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 01:09:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 05:55:20 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,9 @@ void    wait_children(t_list *command_list)
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
-		waitpid(command->pid, &stat, WEXITSTATUS(stat));
+		waitpid(command->pid, &stat, 0);
 		if (WIFEXITED(stat))
-		{
 			g_status = WEXITSTATUS(stat);
-			// if (WEXITSTATUS(stat) == 1)
-				// free_and_exit(0);
-		}
 		command_list = command_list->next;
 	}
 }
