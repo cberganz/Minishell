@@ -6,40 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/10 23:50:14 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 06:16:41 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//static void	remove_quotes_str(char **str) // To test, found some errors
-//{
-//	int	i;
-//
-//	i = 0;
-//	while (*(*str + i))
-//	{
-//		if ((*(*str + i) == '"' && *(*str + i + 1) == '"')
-//			|| (*(*str + i) == '\'' && *(*str + i + 1) == '\''))
-//			ft_strcpy(&(*(*str + i)), &(*(*str + i + 2)));
-//		else if (*(*str + i) == '"')
-//		{
-//			ft_strcpy(&(*(*str + i)), &(*(*str + i + 1)));
-//			i += quote_len(&(*(*str + i)), '"');
-//			ft_strcpy(&(*(*str + i)), &(*(*str + i + 1)));
-//			i--;
-//		}
-//		else if (*(*str + i) == '\'')
-//		{
-//			ft_strcpy(&(*(*str + i)), &(*(*str + i + 1)));
-//			i += quote_len(&(*(*str + i)), '\'');
-//			ft_strcpy(&(*(*str + i)), &(*(*str + i + 1)));
-//			i--;
-//		}
-//		if (*(*str + i) && *(*str + i) != '\'' && *(*str + i) != '\"')
-//			i++;
-//	}
-//}
 
 static void	quotes(char *str, char *nstr, int *str_i, int *nstr_i)
 {
@@ -75,7 +46,7 @@ void	remove_quotes_str(char **str)
 
 	str_i = 0;
 	nstr_i = 0;
-	if (mem_alloc(ft_strlen(*str), (void **)&nstr, LOOP))
+	if (mem_alloc(ft_strlen(*str) + 1, (void **)&nstr, LOOP))
 		print_message("Allocation error.\n", RED, MALLOC_ERR);
 	while ((*str)[str_i])
 	{

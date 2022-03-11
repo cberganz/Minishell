@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 05:58:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/11 06:17:44 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void	eof_exit(void);
 char	*get_env(char *var, char **envp[]);
 void	set_env(char *var, char *content, char **envp[]);
 char	*path_troncate(char *s, char *to_troncate);
-void	print_dirpath_err(char *path);
+int		print_dirpath_err(char *path);
 
 /*
 **	Error management

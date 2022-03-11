@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:10 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 02:59:55 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/11 05:35:06 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,14 @@ static char	*get_dir_infos(char *arg)
 	DIR				*dir;
 	struct dirent	*directory;
 	char			*narg;
+	char			*cwd;
 
 	if (!is_wildcard(arg))
 		return (NULL);
 	narg = "";
-	dir = opendir(getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	dir = opendir(cwd);
+	free(cwd);
 	if (dir)
 	{
 		directory = readdir(dir);
