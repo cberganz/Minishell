@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 16:06:52 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:14:01 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	remove_file(int	len_of_file, char *s)
 
 void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
-	int	len_of_file;
+	int		len_of_file;
+	char	*ambigous_redirect;
 
 	if (cmd->fd_redirection[FD_OUT] != 1)
 		close(cmd->fd_redirection[FD_OUT]);
@@ -72,12 +73,17 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char *
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
 	cmd->outfile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-	redirection_var_expand(1, &cmd->outfile, envp, "?\'\"_@#*-");//test
 	if (cmd->outfile == NULL)
 		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
+	redirection_var_expand(1, &cmd->outfile, envp, "?\'\"_@#*-");//test
 	if (!cmd->outfile[0])
 	{
-		print_message("Minishell: Ambigous redirection\n", RED, 0);
+		print_message("Minishell: ", RED, 0);
+		ambigous_redirect = ft_filedup(&cmd->cmd_content[i], len_of_file);
+		if (ambigous_redirect == NULL)
+			return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
+		print_message(ambigous_redirect, RED, 0);
+		print_message(": Ambigous redirection\n", RED, 0);
 		printf (RESET);
 		cmd->redirection_error = 2;
 	}
@@ -99,7 +105,8 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char *
 
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
-	int	len_of_file;
+	int		len_of_file;
+	char	*ambigous_redirect;
 
 	if (cmd->fd_redirection[FD_IN] != 0)
 		close(cmd->fd_redirection[FD_IN]);
@@ -107,14 +114,25 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char **
 	while (cmd->cmd_content[i] == operator[0] || cmd->cmd_content[i] == ' ')
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
-	if (!cmd->redirection_error)
+	if (ft_strncmp(operator, "<<", 2))
 	{
-		if (ft_strncmp(operator, "<<", 2))
+		cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
+		if (cmd->infile == NULL)
+			return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);//exit si erreur dans process enfant 
+		redirection_var_expand(1, &cmd->infile, envp, "?\'\"_@#*-");//test
+		if (!cmd->infile[0])
 		{
-			cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-			redirection_var_expand(1, &cmd->infile, envp, "?\'\"_@#*-");//test
-			if (cmd->infile == NULL)
-				return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);//exit si erreur dans process enfant 
+			print_message("Minishell: ", RED, 0);
+			ambigous_redirect = ft_filedup(&cmd->cmd_content[i], len_of_file);
+			if (ambigous_redirect == NULL)
+				return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
+			print_message(ambigous_redirect, RED, 0);
+			print_message(": Ambigous redirection\n", RED, 0);
+			printf (RESET);
+			cmd->redirection_error = 2;
+		}
+		if (!cmd->redirection_error)
+		{
 			cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
 			if (cmd->fd_redirection[FD_IN] == -1)
 			{
@@ -122,9 +140,9 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char **
 				return (errno_file_error(cmd->infile, 1), (void *)1);
 			}
 		}
-		else
-			cmd->fd_redirection[FD_IN] = cmd->fd_tmp;
 	}
+	else if (!cmd->redirection_error)
+		cmd->fd_redirection[FD_IN] = cmd->fd_tmp;
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	return ((void *)1);
 }
