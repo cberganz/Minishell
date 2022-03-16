@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/08 15:52:03 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:50:17 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static uint8_t	flag(char *str)
 			i++;
 			while (str[i] && str[i] != '"')
 			{
-				if (str[i] == '$' && ft_ischarset(str[i + 1], "?", ft_isalnum)
+				if (str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_", ft_isalnum)
 					&& previous_token_ismeta(str, i) != 4)
 					return (1);
 				i++;
@@ -93,6 +93,8 @@ char	*get_to_insert(char *s, int pos, int size, char **envp[])
 		return (NULL);
 	else if (previous_token_ismeta(s, pos) != 0)
 		to_insert = ft_stradd_quotes(to_insert, LOOP);
+	if (to_insert == NULL)
+		print_message("Minishell: Allocation error\n", RED, 1);
 	return (to_insert);
 }
 
@@ -111,7 +113,7 @@ int	stop_len(char *s, int start)
 	return (stop);
 }
 
-static void	insert(t_list *command_list, int start, char **envp[])
+static int	insert(t_list *command_list, int start, char **envp[])
 {
 	int		stop;
 	char	*to_insert;
@@ -126,11 +128,12 @@ static void	insert(t_list *command_list, int start, char **envp[])
 	{
 		to_insert = get_to_insert(command, start, stop, envp);
 		if (!to_insert)
-			return ;
+			return (0);
 	}
 	if (ft_strinsert(&command, to_insert, start, stop))
 		print_message("Allocation error.\n", RED, 1);
 	((t_pipe_command *)command_list->content)->cmd_content = command;
+	return ((int)ft_strlen(to_insert));
 }
 
 static void	jump_quotes(char *cmd, int *double_quote, int *i)
@@ -155,19 +158,15 @@ void	variable_expansion(t_list *command_list, char **envp[])
 
 	while (command_list)
 	{
-		while (flag(((t_pipe_command *)command_list->content)->cmd_content))
+		while (flag(&((t_pipe_command *)command_list->content)->cmd_content[i]))
 		{
-			i = -1;
 			double_quote = 0;
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			while (command[++i])
 			{
-				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
-				{
-					insert(command_list, i, envp);
-					break ;
-				}
 				jump_quotes(command, &double_quote, &i);
+				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
+					i += insert(command_list, i, envp) - 1;
 			}
 		}
 		command_list = command_list->next;

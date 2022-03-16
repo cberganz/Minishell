@@ -24,7 +24,7 @@ HEADER_BONUS= $(INCLUDE)minishell_bonus.h
 
 CC			= clang
 
-CFLAGS		= -Wall -Wextra -Werror -g3
+CFLAGS		= -Wall -Wextra -Werror -g
 
 SRC_FILES 	=	minishell.c				\
 				terminal/loop.c			\

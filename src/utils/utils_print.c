@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 06:18:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:30:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	print_start(void)
 void	print_message(char *msg, char *color, int exit_status)
 {
 	// printf("%s", color);
-	write(2, color, ft_strlen(RED));
+	write(2, color, ft_strlen(color));
 	write(2, msg, ft_strlen(msg));
+	write(2, RESET, ft_strlen(RESET));
 	// printf("\b%s\n" RESET, msg);
 	if (exit_status)
 		free_and_exit(exit_status);
