@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/14 20:50:17 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 13:11:30 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,17 +156,19 @@ void	variable_expansion(t_list *command_list, char **envp[])
 	int		double_quote;
 	char	*command;
 
+	i = 0;
 	while (command_list)
 	{
 		while (flag(&((t_pipe_command *)command_list->content)->cmd_content[i]))
 		{
 			double_quote = 0;
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
-			while (command[++i])
+			while (command[i])
 			{
 				jump_quotes(command, &double_quote, &i);
 				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
 					i += insert(command_list, i, envp) - 1;
+				i++;
 			}
 		}
 		command_list = command_list->next;

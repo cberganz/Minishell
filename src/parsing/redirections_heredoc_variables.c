@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/08 11:33:54 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 13:11:33 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	jump_quotes(char *cmd, int *double_quote, int *i)
 		*double_quote = 0;
 }
 
-void	insert_var_str(char **str, int start, char ***envp)
+int	insert_var_str(char **str, int start, char ***envp)
 {
 	int		stop;
 	char	*to_insert;
@@ -106,11 +106,12 @@ void	insert_var_str(char **str, int start, char ***envp)
 	{
 		to_insert = get_to_insert(command, start, stop, envp);// faire remonter envp
 		if (!to_insert)
-			return ;
+			return (0);
 	}
 	if (ft_strinsert(&command, to_insert, start, stop))
 		print_message("Allocation error.\n", RED, 1);
 	*str = command;
+	return ((int)ft_strlen(to_insert));
 }
 
 void	heredoc_var_expand(int var_expand, char **input, char ***envp)
@@ -118,20 +119,18 @@ void	heredoc_var_expand(int var_expand, char **input, char ***envp)
 	int		i;
 	int		double_quote;
 
+	i = 0;
 	if (var_expand == 1)
 	{
-		while (flag(*input))
+		while (flag(&(*input)[i]))
 		{
-			i = -1;
 			double_quote = 0;
-			while ((*input)[++i])
+			while ((*input)[i])
 			{
 				if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1], "?\'\"_@#*-", ft_isalnum))
-				{
-					insert_var_str(input, i, envp);
-					break ;
-				}
+					i += insert_var_str(input, i, envp);
 				jump_quotes(*input, &double_quote, &i);
+				i++;
 			}
 		}
 	}
