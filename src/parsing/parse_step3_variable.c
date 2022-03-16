@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 13:11:30 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:16:06 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_to_insert(char *s, int pos, int size, char **envp[])
 	ft_strlcpy(to_find, s + pos + 1, size);
 	to_insert = get_env(to_find, envp);
 	mem_remove(to_find, LOOP);
-//	if (!to_insert)
+//	if (!to_insert) // to remove ?
 //		to_insert = "";
 	if (previous_token_ismeta(s, pos) == 4)
 		return (NULL);

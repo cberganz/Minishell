@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/10 23:55:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:04:14 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	builtin_exit(char **exec_args, int exit)
 {
 	int	exit_status;
 
-	exit_status = 0;
+	exit_status = g_status;
 	if (!exit)
 		ft_putendl_fd("exit", 1);
 	if (exec_args[0] && exec_args[1])
