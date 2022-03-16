@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 11:32:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 13:58:23 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ void	prompt_loop(char **envp[])
 	input = "";
 	while (1)
 	{
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, sig_handler);
+		signal(SIGTSTP, sig_handler);
 		save_in = dup(STDIN_FILENO);// close ce save in
 		if (input_first_read(&input, &shell_prompt))
 			continue ;
