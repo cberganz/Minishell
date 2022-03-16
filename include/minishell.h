@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/14 18:39:40 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:08:16 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,19 +209,19 @@ int		quote_len(char *sub_input, char quote);
 # define FD_OUT 1
 
 
-int		cmd_redirection_management(t_list *list);
+int		cmd_redirection_management(t_list *list, char ***envp);
 int		file_len(char *s);
 char	*ft_filedup(char *s, int len_of_file);
 void	remove_file(int	len_of_file, char *s);
-void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
-void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i);
+void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp);
+void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp);
 uint8_t heredoc_management(t_list *list, char ***envp);
 void	close_heredoc_fds(t_list *list);
 char	*get_to_insert(char *s, int pos, int size, char **envp[]);
 int		stop_len(char *s, int start);
 void	remove_quotes_str(char **str);
 uint8_t	check_eof_heredoc(char *input);
-void	heredoc_var_expand(int var_expand, char **input, char ***envp);
+void	redirection_var_expand(int var_expand, char **input, char ***envp, char *charset);
 int		ambigous_redirect(char *file);
 
 #endif

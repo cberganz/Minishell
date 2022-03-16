@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 13:11:33 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:08:54 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	jump_quotes(char *cmd, int *double_quote, int *i)
 		*double_quote = 0;
 }
 
-int	insert_var_str(char **str, int start, char ***envp)
+int	insert_var_str(char **str, int start, char ***envp, char *charset)
 {
 	int		stop;
 	char	*to_insert;
@@ -102,7 +102,7 @@ int	insert_var_str(char **str, int start, char ***envp)
 	stop = stop_len(command, start); 
 	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status, LOOP);
-	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
+	else if (ft_ischarset(command[start + 1], /*"_@#*-"*/charset, ft_isalnum))
 	{
 		to_insert = get_to_insert(command, start, stop, envp);// faire remonter envp
 		if (!to_insert)
@@ -114,7 +114,7 @@ int	insert_var_str(char **str, int start, char ***envp)
 	return ((int)ft_strlen(to_insert));
 }
 
-void	heredoc_var_expand(int var_expand, char **input, char ***envp)
+void	redirection_var_expand(int var_expand, char **input, char ***envp, char *charset)
 {
 	int		i;
 	int		double_quote;
@@ -127,11 +127,12 @@ void	heredoc_var_expand(int var_expand, char **input, char ***envp)
 			double_quote = 0;
 			while ((*input)[i])
 			{
-				if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1], "?\'\"_@#*-", ft_isalnum))
-					i += insert_var_str(input, i, envp);
+				if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1], /*"?_@#*-"*/charset, ft_isalnum))
+					i += insert_var_str(input, i, envp, charset);
 				jump_quotes(*input, &double_quote, &i);
 				i++;
 			}
 		}
 	}
 }
+

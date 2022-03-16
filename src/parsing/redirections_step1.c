@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/14 19:40:21 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:06:52 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	remove_file(int	len_of_file, char *s)
 	}
 }
 
-void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
+void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
 	int	len_of_file;
 
@@ -72,6 +72,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
 	cmd->outfile = ft_filedup(&cmd->cmd_content[i], len_of_file);
+	redirection_var_expand(1, &cmd->outfile, envp, "?\'\"_@#*-");//test
 	if (cmd->outfile == NULL)
 		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
 	if (!cmd->outfile[0])
@@ -96,7 +97,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	return ((void *)1);
 }
 
-void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
+void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
 	int	len_of_file;
 
@@ -111,6 +112,7 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 		if (ft_strncmp(operator, "<<", 2))
 		{
 			cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
+			redirection_var_expand(1, &cmd->infile, envp, "?\'\"_@#*-");//test
 			if (cmd->infile == NULL)
 				return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);//exit si erreur dans process enfant 
 			cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
