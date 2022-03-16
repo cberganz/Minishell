@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:12 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/14 16:42:44 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:59:32 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_env(char **exec_args, char **envp[])
 	line = 0;
 	while ((*envp)[line])
 	{
-		printf("%s\n", (*envp)[line]);
+		ft_putendl_fd((*envp)[line], 1);
 		line++;
 	}
 	// if (exit)

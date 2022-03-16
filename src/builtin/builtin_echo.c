@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 15:16:05 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 18:29:49 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ int	builtin_echo(char **exec_args)
 	}
 	while (*exec_args && *(exec_args + 1))
 	{
-		printf("%s ", *exec_args);
+		ft_putstr_fd(*exec_args, 1);
+		ft_putstr_fd(" ", 1);
 		exec_args++;
 	}
 	if (*exec_args)
-		printf("%s", *exec_args);
+		ft_putstr_fd(*exec_args, 1);
 	if (!nflag)
-		printf("\n");
+		ft_putendl_fd("", 1);
 	// if (exit)
 	// 	free_and_exit(0);
 	return (0);
