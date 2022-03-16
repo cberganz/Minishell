@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 03:18:02 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 11:32:58 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ int8_t	input_error(char **input, char **shell_prompt)
 
 uint8_t	input_first_read(char **input, char **shell_prompt)
 {
+	int	save_status;
+
+	save_status = g_status;
+	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
+	g_status = save_status;
 	if (input_error(input, shell_prompt))
 		return (1);
 	return (0);

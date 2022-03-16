@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/10 23:45:05 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 11:36:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sig_handler(int sigcode)
 		printf("\n");
 		if (g_status == -255)
 			close(STDIN_FILENO);
-		else
+		else if (g_status == -256)
 		{
 			rl_replace_line("", 0);
 			rl_on_new_line();

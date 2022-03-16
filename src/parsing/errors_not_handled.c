@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/01 21:18:50 by charles          ###   ########.fr       */
+/*   Updated: 2022/03/16 11:37:56 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ static uint8_t	check_not_interpreted(char *sub_input)
 {
 	if (*sub_input == ';')
 		return (1);
+	else if (*sub_input == '[')
+		return (1);
+	else if (*sub_input == ']')
+		return (1);
 	else if (*sub_input == '(')
 		return (1);
 	else if (*sub_input == ')')
@@ -74,6 +78,8 @@ static uint8_t	check_not_interpreted(char *sub_input)
 	else if (*sub_input == '&')
 		return (1);
 	else if (*sub_input == '`')
+		return (1);
+	else if (!ft_strncmp(sub_input, ">|", 2))
 		return (1);
 	else if (!ft_strncmp(sub_input, "<>", 2))//pas sujet au changement avec double quote => devrait etre affiche 
 		return (1);
