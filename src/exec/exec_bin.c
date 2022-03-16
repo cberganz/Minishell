@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:41 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 06:17:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 23:38:10 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,27 @@ void	exec_bin(t_pipe_command *command, char **envp[])
 		ft_putendl_fd(": command not found", 2);
 		free_and_exit(127);
 	}
-	if (lstat(path, &stat) != -1 && (stat.st_mode & S_IFREG)
-		&& (stat.st_mode & S_IXUSR))
+	if (lstat(path, &stat) != -1)
 	{
-		execve(path, command->exec_args, *envp);
-		perror("minishell: ");
-		free_and_exit(1);
+		if ((stat.st_mode & S_IXUSR) && (stat.st_mode & S_IFREG))
+		{
+			execve(path, command->exec_args, *envp);
+			perror("minishell: ");
+			free_and_exit(1);
+		}
+		else
+		{
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(command->exec_args[0], 2);
+			ft_putendl_fd(": permission denied", 2);
+			free_and_exit(126);
+		}
 	}
 	else
 	{
-		ft_putstr_fd("Minishell: permission denied: ", 2);
-		ft_putendl_fd(command->exec_args[0], 2);
-		free_and_exit(126);
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(command->exec_args[0], 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		free_and_exit(127);
 	}
 }
