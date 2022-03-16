@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/14 18:39:40 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:00:27 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int		exec_builtin(t_pipe_command *command, char **envp[], int exit);
 void	forking(t_list *command_list, char **envp[]);
 void	wait_children(t_list *command_list);
 char	*get_path(char **exec_args, char **envp[]);
+void	child_sig_handler(int sigcode);
 
 /*
 **	Bultins

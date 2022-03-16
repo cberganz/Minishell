@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/14 19:27:40 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:00:15 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void    forking(t_list *command_list, char **envp[])
 	t_pipe_command	*prev;
 	prev = NULL;
 
+	signal(SIGQUIT, child_sig_handler);
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
