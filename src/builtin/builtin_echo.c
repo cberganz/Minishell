@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/14 17:41:25 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:47:24 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static uint8_t	is_nflag(char *arg)
 {
-	if (*arg != '-' || *(arg + 1) != 'n')
+	if (*arg != '-' || *arg == '\0')
 		return (0);
 	arg++;
 	while (*arg && *arg == 'n')
@@ -24,10 +24,12 @@ static uint8_t	is_nflag(char *arg)
 	return (0);
 }
 
-int	builtin_echo(char **exec_args, int exit)
+int	builtin_echo(char **exec_args)
 {
 	int	nflag;
+	int	save_fd;
 
+	save_fd = 0;
 	nflag = 0;
 	while (*exec_args && is_nflag(*exec_args))
 	{
@@ -39,11 +41,10 @@ int	builtin_echo(char **exec_args, int exit)
 		printf("%s ", *exec_args);
 		exec_args++;
 	}
-	if (*exec_args)
-		printf("%s", *exec_args);
+	printf("%s", *exec_args);
 	if (!nflag)
 		printf("\n");
-	if (exit)
-		free_and_exit(0);
+	// if (exit)
+	// 	free_and_exit(0);
 	return (0);
 }

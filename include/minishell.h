@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 06:17:44 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:39:40 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,16 @@ char	*get_path(char **exec_args, char **envp[]);
 
 int		builtin_exit(char **exec_args, int exit);
 int		is_builtin(char *exec_args);
-int		builtin_echo(char **exec_args, int exit);
-int		builtin_pwd(char **exec_args, int exit);
-int		builtin_env(char **exec_args, int exit, char **envp[]);
-int		builtin_cd(char **exec_args, int exit, char **envp[]);
-int		builtin_export(char **exec_args, int exit, char **envp[]);
-int		builtin_unset(char **exec_args, int exit, char **envp[]);
+int		builtin_echo(char **exec_args);
+int		builtin_pwd(char **exec_args);
+int		builtin_env(char **exec_args, char **envp[]);
+int		builtin_cd(char **exec_args, char **envp[]);
+int		builtin_export(char **exec_args, char **envp[]);
+int		builtin_unset(char **exec_args, char **envp[]);
 char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
 int		close_save_fd(int fd);
 void	builtin_redirections(t_pipe_command *command, int *save_fd);
+int		export_print_env(char *envp[]);
 
 /*
 **	Exit
@@ -221,5 +222,6 @@ int		stop_len(char *s, int start);
 void	remove_quotes_str(char **str);
 uint8_t	check_eof_heredoc(char *input);
 void	heredoc_var_expand(int var_expand, char **input, char ***envp);
+int		ambigous_redirect(char *file);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 05:19:11 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:39:59 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,31 @@ char	**remove_var(char **envp[], char *env_var)
 	char			**new_envp;
 
 	line = 0;
+	j = 0;
 	while ((*envp)[line])
+	{
+		if ((*envp)[line] == env_var)
+		{
+			line++;
+			continue ;
+		}
+		j++;
 		line++;
+	}
 	// new_envp = mem_alloc(i * sizeof(char *), (void **)&new_envp, MAIN);
-	if (mem_alloc(line * sizeof(char *), (void **)&new_envp, MAIN))
+	if (mem_alloc((line + 1) * sizeof(char *), (void **)&new_envp, MAIN))
 		print_message("minishell: Allocation error.\n", RED, 1);
 	if (new_envp == NULL)
 		return (NULL);
 	line = 0;
 	j = 0;
-	while ((*envp)[line])
+	while ((*envp)[line] != NULL)
 	{
 		if ((*envp)[line] == env_var)
+		{
 			line++;
+			continue ;
+		}
 		new_envp[j] = (*envp)[line];
 		j++;
 		line++;
@@ -58,7 +70,7 @@ char	**remove_var(char **envp[], char *env_var)
 	return (new_envp);
 }
 
-int	builtin_unset(char **exec_args, int exit, char **envp[])
+int	builtin_unset(char **exec_args, char **envp[])
 {
 	char	*env_var;
 	int		error;
@@ -68,7 +80,9 @@ int	builtin_unset(char **exec_args, int exit, char **envp[])
 	{
 		if ((!ft_isalpha(*exec_args[0]) && *exec_args[0] != '_') || !ft_var_name_isalnum(*exec_args))
 		{
-			print_message("Minishell: export: « PARAM » : identifiant non valable\n", RED, 0);// revoir message erreur en anglais
+			print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
+			print_message(*exec_args, RED, 0);// revoir message erreur en anglais
+			print_message("» : not a valid identifier\n", RED, 0);
 			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
 		}
 		env_var = env_variable_exist(*envp, *exec_args, ft_strlen(*exec_args));
@@ -76,7 +90,7 @@ int	builtin_unset(char **exec_args, int exit, char **envp[])
 			*envp = remove_var(envp, env_var);//secure
 		exec_args++;
 	}
-	if (exit)
-		free_and_exit(error);
+	// if (exit)
+	// 	free_and_exit(error);
 	return (error);
 }

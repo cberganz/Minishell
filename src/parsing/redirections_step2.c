@@ -6,11 +6,23 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 01:36:39 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:40:35 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ambigous_redirect(char *file)
+{
+	if (file[0] == '$')
+	{
+		print_message("Minishell: ", RED, 0);
+		print_message(file, RED, 0);
+		print_message(": ambiguous redirect\n", RED, 0);
+		return (1);
+	}
+	return (0);
+}
 
 uint8_t pipe_redirection_management(t_pipe_command *cmd)
 {

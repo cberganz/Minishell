@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 06:16:24 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/14 19:40:21 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i)
 	cmd->outfile = ft_filedup(&cmd->cmd_content[i], len_of_file);
 	if (cmd->outfile == NULL)
 		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
+	if (!cmd->outfile[0])
+	{
+		print_message("Minishell: Ambigous redirection\n", RED, 0);
+		printf (RESET);
+		cmd->redirection_error = 2;
+	}
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	if (!cmd->redirection_error)
 	{

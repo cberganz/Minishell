@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 05:17:28 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/14 18:26:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,26 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	return (0);
 }
 
-int	builtin_export(char **exec_args, int exit, char **envp[])
+int	builtin_export(char **exec_args, char **envp[])
 {
 	char	*equal_ptr;
 	int		ret_name_alnum;
 	int		error;
 
 	error = 0;
+	if (!(*exec_args))
+	{
+		export_print_env(*envp);
+		return (0);
+	}
 	while (*exec_args)
 	{
 		ret_name_alnum = ft_var_name_isalnum(*exec_args);
 		if ((!ft_isalpha(*exec_args[0]) && *exec_args[0] != '_') || !ret_name_alnum)
 		{
-			print_message("Minishell: export: « PARAM » : identifiant non valable\n", RED, 0);// revoir message erreur en anglais
+			print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
+			print_message(*exec_args, RED, 0);// revoir message erreur en anglais
+			print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
 			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
 		}
 		equal_ptr = ft_strchr(*exec_args, '=');
@@ -100,7 +107,7 @@ int	builtin_export(char **exec_args, int exit, char **envp[])
 			return (1);
 		exec_args++;
 	}
-	if (exit)
-		free_and_exit(error);
+	// if (exit)
+	// 	free_and_exit(error);
 	return (error);
 }
