@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 16:09:29 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 04:09:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input,
 		printf(RED "%s '%s'.\n" RESET, msg, token);
 	*input = "";
 	g_status = 2;
-	*shell_prompt = create_prompt();
+//	*shell_prompt = create_prompt(); A REMETRE
+	(void)shell_prompt;
 	return (1);
 }
 
@@ -76,7 +77,7 @@ void	errno_file_error(char *file, int exit_status)
 
 int	print_dirpath_err(char *path)
 {
-	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	if (access(path, F_OK) == -1)
 		ft_putstr_fd("no such file or directory: ", 2);
 	else if (access(path, R_OK) == -1)

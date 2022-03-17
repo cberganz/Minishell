@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 23:07:20 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 02:25:11 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static void	exec_commands(t_list *command_list, char **envp[])
 
 	command = (t_pipe_command *)command_list->content;
 	if (is_builtin(command->exec_args[0]) && !command_list->next)
-	{
 		g_status = exec_builtin(command, envp, 0);
-		return ;
-	}
 	else
 	{
 		forking(command_list, envp);

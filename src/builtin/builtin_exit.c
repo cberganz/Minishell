@@ -6,22 +6,50 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 18:28:36 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 01:29:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Additional tests to do for this function
 uint8_t	is_numeric(char *s)
 {
-	if (*s == '-')
-		s++;
-	while (*s)
+	int		i;
+	char	*ll_min;
+	char	*ll_max;
+	int		over;
+	int		under;
+	int		ll;
+
+	i = ft_strlen(s) - 1;
+	over = 0;
+	under = 0;
+	ll = 18;
+	ll_min = "9223372036854775808";
+	ll_max = "9223372036854775807";
+	while (i >= 0 && ll >= 0)
 	{
-		if (!ft_isdigit(*s))
-			return (0);
-		s++;
+		if (!ft_isdigit(s[i]))
+		{
+			if (s[i] == '-' && i == 0)
+				break ;
+			else
+				return (0);
+		}
+		if (s[i] > ll_max[ll] || (over == 1 && s[i] == ll_max[ll]))
+			over = 1;
+		else
+			over = 0;
+		if (s[i] > ll_min[ll] || (under == 1 && s[i] == ll_min[ll]))
+			under = 1;
+		else
+			under = 0;
+		i--;
+		ll--;
 	}
+	if ((ll < 0 && i >= 0 && i == 0 && (s[i] != '-' || under)) || (ll < 0 && i != 0 && (over || under)))
+		return (0);
 	return (1);
 }
 

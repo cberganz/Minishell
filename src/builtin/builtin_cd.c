@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 17:59:11 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 04:09:00 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ static int	change_directory(char *path, char **envp[])
 	char	*cwd;
 	char	buff[4097];
 
-	getcwd(buff, 4096);
-	cwd = buff;
+//	getcwd(buff, 4096);
+	cwd = get_env("PWD", envp);//buff;
+	if (path[0] == '.' && path[1] == '\0')
+		path = ft_strjoin(cwd, "/.", LOOP);
+	else if (path[0] == '.' && path[1] == '.' && path[2] == '\0')
+		path = ft_strjoin(cwd, "/..", LOOP);
 	if (!chdir(path))
 	{
 		set_env("OLDPWD", cwd, envp);
@@ -61,7 +65,7 @@ int	builtin_cd(char **exec_args, char **envp[])
 	else
 		path = exec_args[0];
 	if (!path)
-		print_message("cd: Allocation error\n", RED, 1);
+		print_message("minishell: cd: Allocation error\n", RED, 1);
 	ret = change_directory(path, envp);
 	// if (exit)
 	// 	free_and_exit(ret);
