@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 16:42:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 14:47:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,38 @@ static uint8_t	previous_token_ismeta(char *command, int i)
 	return (0);
 }
 
-static uint8_t	flag(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == '"')
-		{
-			i++;
-			while (str[i] && str[i] != '"')
-			{
-				if (str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_", ft_isalnum)
-					&& previous_token_ismeta(str, i) != 4)
-					return (1);
-				i++;
-			}
-		}
-		if (str[i] && str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-				i++;
-		}
-		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_\'\"",
-				ft_isalnum) && previous_token_ismeta(str, i) != 4)
-			return (1);
-		if (str[i])
-			i++;
-	}
-	return (0);
-}
+//static uint8_t	flag(char *str)
+//{
+//	int	i;
+//
+//	i = 0;
+//	while (str && str[i])
+//	{
+//		if (str[i] == '"')
+//		{
+//			i++;
+//			while (str[i] && str[i] != '"')
+//			{
+//				if (str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_", ft_isalnum)
+//					&& previous_token_ismeta(str, i) != 4)
+//					return (1);
+//				i++;
+//			}
+//		}
+//		if (str[i] && str[i] == '\'')
+//		{
+//			i++;
+//			while (str[i] && str[i] != '\'')
+//				i++;
+//		}
+//		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_\'\"",
+//				ft_isalnum) && previous_token_ismeta(str, i) != 4)
+//			return (1);
+//		if (str[i])
+//			i++;
+//	}
+//	return (0);
+//}
 
 char	*get_to_insert(char *s, int pos, int size, char **envp[])
 {
@@ -159,18 +159,20 @@ void	variable_expansion(t_list *command_list, char **envp[])
 	i = 0;
 	while (command_list)
 	{
-		while (flag(&((t_pipe_command *)command_list->content)->cmd_content[i]))
+	//	while (flag(&((t_pipe_command *)command_list->content)->cmd_content[i]))
+	//	{
+		double_quote = 0;
+		command = ((t_pipe_command *)command_list->content)->cmd_content;
+		while (command[i])
 		{
-			double_quote = 0;
+			jump_quotes(command, &double_quote, &i);
+			if (command[i] == '$' && (ft_ischarset(command[i + 1], "?_@#*-", ft_isalnum)
+					|| (!double_quote && ft_ischarset(command[i + 1], "\'\"", NULL))))
+				i += insert(command_list, i, envp) - 1;
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
-			while (command[i])
-			{
-				jump_quotes(command, &double_quote, &i);
-				if (command[i] == '$' && ft_ischarset(command[i + 1], "?\'\"_@#*-", ft_isalnum))
-					i += insert(command_list, i, envp) - 1;
-				i++;
-			}
+			i++;
 		}
+	//	}
 		command_list = command_list->next;
 	}
 }
