@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 23:09:37 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 15:55:57 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	write_until_equal(char *str, int fd)
 	i = 0;
 	while (str[i] != '=' && str[i])
 		i++;
+	if (str[i] == '=')
+		i++;
 	write(fd, str, i);
 	write(fd, "\"", 1);
 }
@@ -29,6 +31,8 @@ void	write_after_equal(char *str, int fd)
 
 	i = 0;
 	while (str[i] != '=' && str[i])
+		i++;
+	if (str[i] == '=')
 		i++;
 	write(fd, &str[i], ft_strlen(&str[i]));
 	write(fd, "\"\n", 2);
