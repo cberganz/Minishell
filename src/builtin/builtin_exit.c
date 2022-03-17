@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 13:13:54 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:31:42 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	builtin_exit(char **exec_args, int exit)
 
 	exit_status = g_status;
 	if (!exit)
-		ft_putendl_fd("exit", 1);//peut etre fd strerr
+		ft_putendl_fd("exit", 2);//peut etre fd strerr
 	if (exec_args[0] && exec_args[1])
 	{
 		ft_putendl_fd("Minishell: exit: too many arguments", 2);
