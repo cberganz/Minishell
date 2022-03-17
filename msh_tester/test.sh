@@ -137,7 +137,6 @@ if [ "$1" == "cd" ] || [ "$1" == "all" ]; then
   exec_test 'cd /Users && pwd'
   exec_test 'cd && pwd'
   exec_test 'cd . && pwd'
-  exec_test 'cd - && pwd && cd && cd -'
   exec_test 'mkdir test_dir && cd test_dir && rm -rf ../test_dir && cd . && cd .. && pwd'
 fi
 
