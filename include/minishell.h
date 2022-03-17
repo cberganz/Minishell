@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/17 13:21:35 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:24:29 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ present outside single quotes.\n"
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
-# define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file\n"
+# define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t	open_quotes(char *input);

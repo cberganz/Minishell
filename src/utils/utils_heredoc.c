@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/10 23:41:17 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:24:17 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint8_t	check_eof_heredoc(char *input)
 			return (1);
 		else
 		{
-			printf(RED EOF_HEREDOC RESET);
+			ft_putendl_fd(EOF_HEREDOC, 2);
 			return (1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 16:07:18 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:48:07 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int read_fd(int fd)
 }
 //test read document 
 
-uint8_t	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char ***envp)
+static void	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char ***envp)
 {
 	char	*input;
 
@@ -47,9 +47,9 @@ uint8_t	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char *
 		remove_quotes_str(&end_word);
 	input = garbage_addptr(readline("> "), LOOP);
 	if (check_eof_heredoc(input))
-		return (1);
+		return ;
 	if (ft_strequ(input, end_word))
-			return (0);
+		return ;
 	redirection_var_expand(var_expand, &input, envp, "?_@#*-");
 	while (!ft_strequ(input, end_word))
 	{
@@ -57,15 +57,14 @@ uint8_t	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, char *
 		write(cmd->fd_tmp, "\n", 1);
 		input = garbage_addptr(readline("> "), LOOP);
 		if (check_eof_heredoc(input))
-			return (1);
+			break ;
 		if (ft_strequ(input, end_word))
 			break ;
 		redirection_var_expand(var_expand, &input, envp, "?_@#*-");
 	}
-	return (0);
 }
 
-uint8_t	write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
+static void	write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 {
 	int		len_of_file;
 	char	*end_word;
@@ -80,11 +79,9 @@ uint8_t	write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 		var_expand = 0;
 	save_status = g_status;
 	g_status = -255;
-	if (heredoc_loop(end_word, var_expand, cmd, envp) == 1)
-		return (1);
+	heredoc_loop(end_word, var_expand, cmd, envp);
 	g_status = save_status;
 	close(cmd->fd_tmp);
-	return (0);
 }
 
 uint8_t	heredoc_exec(t_pipe_command *cmd, int i, char *file_nbr, char ***envp)
@@ -95,14 +92,13 @@ uint8_t	heredoc_exec(t_pipe_command *cmd, int i, char *file_nbr, char ***envp)
 		close(cmd->fd_tmp);
 	while (cmd->cmd_content[i] == ' ' || cmd->cmd_content[i] == '\t')
 		i++;
-	tmp_file = ft_strjoin("file_test/tmp_file", file_nbr, LOOP);
+	tmp_file = ft_strjoin("tmp_file", file_nbr, LOOP);
 	if (!tmp_file)
 		return (print_message(strerror(errno), RED, MALLOC_ERR), 1);
 	cmd->fd_tmp = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (cmd->fd_tmp == -1)
 		return (errno_file_error("tmpfile", 0), 1);
-	if (write_in_tmp_file(cmd, i, envp))
-		return (1);
+	write_in_tmp_file(cmd, i, envp);
 	cmd->fd_tmp = open(tmp_file, O_RDONLY);
 	if (cmd->fd_tmp == -1)
 		return (errno_file_error("tmpfile", 0), 1);
