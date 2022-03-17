@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 04:09:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:26:40 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,19 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input,
 		char **shell_prompt)
 {
 	if (!token)
-		printf(RED "%s" RESET, msg);
+	{
+		print_message(msg, RED, 0);// modif ici
+		print_message("\n", RED, 0);// modif ici
+	}
 	else
-		printf(RED "%s '%s'.\n" RESET, msg, token);
+	{
+		print_message(msg, RED, 0);//modif ici
+		print_message(" '", RED, 0);//modif ici
+		print_message(token, RED, 0);//modif ici
+		print_message("'.\n", RED, 0);//modif ici
+		// printf(RED "%s '%s'.\n" RESET, msg, token);
+	}
 	*input = "";
-	g_status = 2;
 //	*shell_prompt = create_prompt(); A REMETRE
 	(void)shell_prompt;
 	return (1);

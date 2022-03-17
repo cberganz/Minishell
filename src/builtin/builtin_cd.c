@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 04:09:00 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:11:13 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	change_directory(char *path, char **envp[])
 		return (print_dirpath_err(path));
 }
 
-int	builtin_cd(char **exec_args, char **envp[])
+int	builtin_cd(char **exec_args, char **envp[], int exit)
 {
 	char	*path;
 	int		ret;
@@ -49,8 +49,8 @@ int	builtin_cd(char **exec_args, char **envp[])
 	if (exec_args[0] && exec_args[1])
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		// if (exit)
-		// 	free_and_exit(1);
+		if (exit)
+			free_and_exit(1);
 		return (1);
 	}
 	else if (!exec_args[0])
@@ -65,9 +65,9 @@ int	builtin_cd(char **exec_args, char **envp[])
 	else
 		path = exec_args[0];
 	if (!path)
-		print_message("minishell: cd: Allocation error\n", RED, 1);
+		print_message("cd: Allocation error\n", RED, 1);
 	ret = change_directory(path, envp);
-	// if (exit)
-	// 	free_and_exit(ret);
+	if (exit)
+		free_and_exit(ret);
 	return (ret);
 }

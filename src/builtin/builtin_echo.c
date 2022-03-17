@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 18:29:49 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/16 22:52:53 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static uint8_t	is_nflag(char *arg)
 	return (0);
 }
 
-int	builtin_echo(char **exec_args)
+int	builtin_echo(char **exec_args, int exit, int fd)
 {
 	int	nflag;
 	int	save_fd;
@@ -36,17 +36,17 @@ int	builtin_echo(char **exec_args)
 		nflag = 1;
 		exec_args++;
 	}
-	while (*exec_args && *(exec_args + 1))
+	while (*exec_args && *(exec_args + fd))
 	{
-		ft_putstr_fd(*exec_args, 1);
+		ft_putstr_fd(*exec_args, fd);
 		ft_putstr_fd(" ", 1);
 		exec_args++;
 	}
 	if (*exec_args)
-		ft_putstr_fd(*exec_args, 1);
+		ft_putstr_fd(*exec_args, fd);
 	if (!nflag)
-		ft_putendl_fd("", 1);
-	// if (exit)
-	// 	free_and_exit(0);
+		ft_putendl_fd("", fd);
+	if (exit)
+		free_and_exit(0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/17 03:14:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:21:35 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,16 +146,15 @@ void	child_sig_handler(int sigcode);
 
 int		builtin_exit(char **exec_args, int exit);
 int		is_builtin(char *exec_args);
-int		builtin_echo(char **exec_args);
-int		builtin_pwd(char **exec_args);
-int		builtin_env(char **exec_args, char **envp[]);
-int		builtin_cd(char **exec_args, char **envp[]);
-int		builtin_export(char **exec_args, char **envp[]);
-int		builtin_unset(char **exec_args, char **envp[]);
+int		builtin_echo(char **exec_args, int exit, int fd);
+int		builtin_pwd(char **exec_args, int exit, int fd);
+int		builtin_env(char **exec_args, char **envp[], int exit, int fd);
+int		builtin_cd(char **exec_args, char **envp[], int exit);
+int		builtin_export(char **exec_args, char **envp[], int exit, int fd);
+int		builtin_unset(char **exec_args, char **envp[], int exit);
 char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
 int		close_save_fd(int fd);
-void	builtin_redirections(t_pipe_command *command, int *save_fd);
-int		export_print_env(char *envp[]);
+int		export_print_env(char *envp[], int fd);
 
 /*
 **	Exit

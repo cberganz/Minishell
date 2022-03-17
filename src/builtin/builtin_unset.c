@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/14 18:39:59 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/16 23:06:21 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**remove_var(char **envp[], char *env_var)
 	return (new_envp);
 }
 
-int	builtin_unset(char **exec_args, char **envp[])
+int	builtin_unset(char **exec_args, char **envp[], int exit)
 {
 	char	*env_var;
 	int		error;
@@ -90,7 +90,7 @@ int	builtin_unset(char **exec_args, char **envp[])
 			*envp = remove_var(envp, env_var);//secure
 		exec_args++;
 	}
-	// if (exit)
-	// 	free_and_exit(error);
+	if (exit)
+		free_and_exit(error);
 	return (error);
 }
