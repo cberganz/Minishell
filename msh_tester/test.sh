@@ -219,7 +219,7 @@ if [ "$1" == "redirect" ] || [ "$1" == "all" ]; then
   exec_test 'cat | <Makefile cat && hello'
   exec_test 'cat <test.sh <ls'
   exec_test 'cat << stop && 1 && stop &&'
-  exec_test 'cat << stop && 1\EOF && stopa && stop'
+  exec_test 'cat << stop && 1OF && stopa && stop'
   exec_test 'cat <test.sh <<stop && 1 && stop'
   exec_test 'cat <<stop<ls && 1 && stop'
   exec_test 'cat <test.sh << stop1 <<stop2 && a && b && c && stop1 && run2 && stop2'

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/18 07:16:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/19 14:29:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char **
 			if (cmd->fd_redirection[FD_IN] == -1)
 			{
 				cmd->redirection_error = 1;
+				remove_file(len_of_file, &cmd->cmd_content[i]);
 				return (errno_file_error(cmd->infile, 1), (void *)1);
 			}
 		}
