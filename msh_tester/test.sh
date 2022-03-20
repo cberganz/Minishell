@@ -37,6 +37,7 @@ fi
 function exec_test()
 {
   
+  rm -f msh_log
   # execute commands, separated by ';' in minishell, using nfifo
   ./minishell <$pipe >msh_log 2>&-  &
   mshpid=$!
@@ -62,11 +63,12 @@ function exec_test()
   fi
 
   echo 'exit' > $pipe 
-  sleep 0.04
+  sleep 0.02
   wait $!
   ES_1=$?
   TEST1=$(cat msh_log)
 
+  rm -f msh_log
   # execute commands in bash
   bash -posix < $pipe >msh_log 2>&-  &
   IFS=';' read -ra CMND <<< "$@"
@@ -78,7 +80,6 @@ function exec_test()
   ES_2=$?
   TEST2=$(cat msh_log)
 
-  sleep 0.04
   # compare result
   if [ "$TEST1" == "$TEST2" ] && [ "$ES_1" == "$ES_2" ]; then
     printf "$BOLDGREEN%s$RESET" "✓ "
@@ -100,7 +101,7 @@ function exec_test()
     echo
   fi
   ((TOTAL++))
-  sleep 0.08
+  sleep 0.02
 }
 
 if [ "$1" == "" ] || [ "$1" == "help" ]; then
@@ -694,20 +695,20 @@ fi
 # BONUS OPERATOR && || ()
 if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   printf $BOLDMAGENTA"\n\tBONUS OPERATOR \$\$ || () \n"$RESET
-  exec_test "true ; ls"
-  exec_test "false;ls"
+  exec_test "true && ls"
+  exec_test "false&&ls"
   exec_test "true||ls"
   exec_test "false || ls"
-  exec_test "true || echo 1 ; echo 2"
-  exec_test "false || echo 1 ; echo 2"
-  exec_test "true || (echo 1 ; echo 2)"
-  exec_test "true || echo 1 ; echo 2 || echo 3"
+  exec_test "true || echo 1 && echo 2"
+  exec_test "false || echo 1 && echo 2"
+  exec_test "true || (echo 1 && echo 2)"
+  exec_test "true || echo 1 && echo 2 || echo 3"
   exec_test "(ls)"
   exec_test "( ls )"
-  exec_test "true || (echo 1 ; echo 2) || echo 3"
-  exec_test "true || (echo 1 ; echo 2) ; echo 3"
-  exec_test "(true || (echo 1 ; echo 2) ; echo 3)"
-  exec_test "true || ((echo 1 ; echo 2) ; echo 3)"
+  exec_test "true || (echo 1 && echo 2) || echo 3"
+  exec_test "true || (echo 1 && echo 2) && echo 3"
+  exec_test "(true || (echo 1 && echo 2) && echo 3)"
+  exec_test "true || ((echo 1 && echo 2) && echo 3)"
   exec_test "( )"
   exec_test " ls )"
   exec_test "( ls " 
