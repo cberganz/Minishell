@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:55 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/19 14:34:12 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:51:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static uint8_t	is_nflag(char *arg)
 	if (*arg != '-' || *arg == '\0')
 		return (0);
 	arg++;
+	if (*arg != 'n')
+		return (0);
 	while (*arg && *arg == 'n')
 		arg++;
 	if (*arg == '\0')

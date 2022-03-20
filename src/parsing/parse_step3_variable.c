@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 14:47:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:45:43 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,6 @@ static uint8_t	previous_token_ismeta(char *command, int i)
 	return (0);
 }
 
-//static uint8_t	flag(char *str)
-//{
-//	int	i;
-//
-//	i = 0;
-//	while (str && str[i])
-//	{
-//		if (str[i] == '"')
-//		{
-//			i++;
-//			while (str[i] && str[i] != '"')
-//			{
-//				if (str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_", ft_isalnum)
-//					&& previous_token_ismeta(str, i) != 4)
-//					return (1);
-//				i++;
-//			}
-//		}
-//		if (str[i] && str[i] == '\'')
-//		{
-//			i++;
-//			while (str[i] && str[i] != '\'')
-//				i++;
-//		}
-//		if (str[i] && str[i] == '$' && ft_ischarset(str[i + 1], "?@#*-_\'\"",
-//				ft_isalnum) && previous_token_ismeta(str, i) != 4)
-//			return (1);
-//		if (str[i])
-//			i++;
-//	}
-//	return (0);
-//}
-
 char	*get_to_insert(char *s, int pos, int size, char **envp[])
 {
 	char	*to_find;
@@ -87,8 +54,6 @@ char	*get_to_insert(char *s, int pos, int size, char **envp[])
 	ft_strlcpy(to_find, s + pos + 1, size);
 	to_insert = get_env(to_find, envp);
 	mem_remove(to_find, LOOP);
-//	if (!to_insert) // to remove ?
-//		to_insert = "";
 	if (previous_token_ismeta(s, pos) == 4)
 		return (NULL);
 	else if (previous_token_ismeta(s, pos) != 0)

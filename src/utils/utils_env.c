@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:27:32 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 10:45:41 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 char	*get_env(char *var, char **envp[])
 {
-	int	size;
-	int	line;
+	size_t	size;
+	int		line;
 
-	line = 0;
-	while ((*envp)[line])
+	line = -1;
+	while ((*envp)[++line])
 	{
 		size = 0;
 		while ((*envp)[line][size] && (*envp)[line][size] != '=')
 			size++;
+		if (size != ft_strlen(var))
+			continue ;
 		if (ft_strncmp((*envp)[line], var, size) == 0)
 			return (ft_strdup(&(*envp)[line][size + 1], LOOP));
-		line++;
 	}
 	return ("");
 }
