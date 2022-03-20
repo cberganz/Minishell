@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 01:04:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 15:21:37 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	exec_commands(t_list *command_list, char **envp[])
 		g_status = exec_builtin(command, envp, 0);
 	else
 	{
+		if (!command_list->next)
+			set_env("_", command->exec_args[0], envp);
 		forking(command_list, envp);
 		wait_children(command_list);
 	}
