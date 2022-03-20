@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/19 15:19:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:38:13 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 	else if (ft_strequ(command->exec_args[0], "unset"))
 		return (builtin_unset(command->exec_args + 1, envp, exit));
 	else if (ft_strequ(command->exec_args[0], "env"))
+	{
+		set_env("_", "env", envp);
 		return (builtin_env(command->exec_args + 1, envp, exit, fd));
+	}
 	return (0);
 }

@@ -6,23 +6,36 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 15:21:37 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:28:27 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+
+void	set_dollar_underscore(t_list *command_list, char **envp[], t_pipe_command *command)
+{
+	int	i;
+
+	i = 0;
+	if (!command->exec_args[0])
+		return ;
+	while (command->exec_args[i])
+		i++;
+	if (!command_list->next)
+		set_env("_", command->exec_args[i - 1], envp);
+}
 
 static void	exec_commands(t_list *command_list, char **envp[])
 {
 	t_pipe_command	*command;
 
 	command = (t_pipe_command *)command_list->content;
+	set_dollar_underscore(command_list, envp, command);
 	if (is_builtin(command->exec_args[0]) && !command_list->next)
 		g_status = exec_builtin(command, envp, 0);
 	else
 	{
-		if (!command_list->next)
-			set_env("_", command->exec_args[0], envp);
 		forking(command_list, envp);
 		wait_children(command_list);
 	}
