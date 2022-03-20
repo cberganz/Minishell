@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/20 10:30:24 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:27:16 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, ch
 		return ;
 	if (ft_strequ(input, end_word))
 		return ;
-	redirection_var_expand(var_expand, &input, envp, "?_@#*-");
+	redirection_var_expand(var_expand, &input, envp, "?$_@#*-");
 	while (!ft_strequ(input, end_word))
 	{
 		write(cmd->fd_tmp, input, ft_strlen(input));
@@ -60,7 +60,7 @@ static void	heredoc_loop(char *end_word, int var_expand, t_pipe_command *cmd, ch
 			break ;
 		if (ft_strequ(input, end_word))
 			break ;
-		redirection_var_expand(var_expand, &input, envp, "?_@#*-");
+		redirection_var_expand(var_expand, &input, envp, "?$_@#*-");
 	}
 }
 

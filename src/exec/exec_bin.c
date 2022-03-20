@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:41 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/16 23:38:10 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:18:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	exec_bin(t_pipe_command *command, char **envp[])
 	path = NULL;
 	if (command->exec_args[0] && ft_ischarset(command->exec_args[0][0], "./", NULL))
 	{
-		if (command->exec_args[0][1] == '\0')
+		if (command->exec_args[0][1] == '\0' || (command->exec_args[0][0] == '.'
+			&& command->exec_args[0][1] == '.' && command->exec_args[0][2] == '\0'))
 			path = NULL;
 		else
 			path = command->exec_args[0];

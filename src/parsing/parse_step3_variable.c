@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 10:45:43 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:22:37 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	stop_len(char *s, int start)
 	int	stop;
 
 	stop = 1;
-	if (ft_ischarset(s[start + stop], "?@#*-", ft_isdigit))
+	if (ft_ischarset(s[start + stop], "?$@#*-", ft_isdigit))
 		stop++;
 	else if (!ft_ischarset(s[start + stop], "\'\"", NULL))
 	{
@@ -89,7 +89,7 @@ static int	insert(t_list *command_list, int start, char **envp[])
 	stop = stop_len(command, start); 
 	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status, LOOP);
-	else if (ft_ischarset(command[start + 1], "\'\"_@#*-", ft_isalnum))
+	else if (ft_ischarset(command[start + 1], "\'\"_$@#*-", ft_isalnum))
 	{
 		to_insert = get_to_insert(command, start, stop, envp);
 		if (!to_insert)
@@ -121,23 +121,20 @@ void	variable_expansion(t_list *command_list, char **envp[])
 	int		double_quote;
 	char	*command;
 
-	i = 0;
 	while (command_list)
 	{
-	//	while (flag(&((t_pipe_command *)command_list->content)->cmd_content[i]))
-	//	{
+		i = 0;
 		double_quote = 0;
 		command = ((t_pipe_command *)command_list->content)->cmd_content;
 		while (command[i])
 		{
 			jump_quotes(command, &double_quote, &i);
-			if (command[i] == '$' && (ft_ischarset(command[i + 1], "?_@#*-", ft_isalnum)
+			if (command[i] == '$' && (ft_ischarset(command[i + 1], "?_$@#*-", ft_isalnum)
 					|| (!double_quote && ft_ischarset(command[i + 1], "\'\"", NULL))))
 				i += insert(command_list, i, envp) - 1;
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			i++;
 		}
-	//	}
 		command_list = command_list->next;
 	}
 }
