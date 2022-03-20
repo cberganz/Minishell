@@ -59,8 +59,9 @@ SRC_FILES 	=	minishell.c				\
 				builtin/builtin_pwd.c	\
 				builtin/builtin_env.c	\
 				builtin/builtin_cd.c	\
-				builtin/builtin_export.c\
+				builtin/builtin_export_1.c\
 				builtin/builtin_export_2.c\
+				builtin/builtin_export_3.c\
 				builtin/builtin_unset.c
 
 SRC_BONUS_FILES = AVENIR.c
