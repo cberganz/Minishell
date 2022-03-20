@@ -123,7 +123,7 @@ fi
 
 # PARSING
 if [ "$1" == "parsing" ] || [ "$1" == "all" ]; then
-  printf $BOLDMAGENTA"\n\tECHO TESTS\n"$RESET
+  printf $BOLDMAGENTA"\n\tPARSING\n"$RESET
   exec_test 'echo "\s"'
   exec_test 'echo "bip | bip ; coyotte > < "'
   exec_test 'echo $USER$var$USER$USER$USERtest$USER user42$USERuser42$USERtestuser42'
@@ -315,7 +315,7 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
 	exec_test 'echo test'
 	exec_test 'echo $TEST'
 	exec_test 'echo "$TEST"'
-	exec_test "echo '$TEST'"
+	exec_test 'echo '$TEST''
 	exec_test 'echo "$TEST$TEST$TEST"'
 	exec_test 'echo "$TEST$TEST=lol$TEST"'
 	exec_test 'echo " $TEST lol $TEST"'
@@ -575,9 +575,9 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test 'echo "||"'
   exec_test '<'
   exec_test 'rm -f ls && cat < ls > ls'
-  exec_test "grep -z"
-  exec_test "ls'| 'wc -l"
-  exec_test "/ls"
+  exec_test 'grep -z'
+  exec_test 'ls"| "wc -l'
+  exec_test '/ls'
 fi
 
 # SIGNALS
@@ -680,13 +680,6 @@ if [ "$1" == "bonus" ] || [ "$1" == "quote" ] || [ "$1" == "wildcard" ] || [ "$1
   chmod 755 minishell
 fi
 
-# BONUS QUOTES
-if [ "$1" == "bonus" ] || [ "$1" == "quote" ]; then
-  printf $BOLDMAGENTA"\n\tBONUS QUOTE\n"$RESET
-  exec_test "echo '"$USER"'"
-  exec_test "echo "'$USER'""
-fi
-
 # BONUS WILDCARD
 if [ "$1" == "bonus" ] || [ "$1" == "wildcard" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
@@ -720,7 +713,6 @@ if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   exec_test " ls )"
   exec_test "( ls " 
 fi
-
 
 if [[ "$1" != "" ]] && (( $TOTAL > 0)); then
   PROCENT=$(( $GOOD * 100  / $TOTAL ))
