@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 15:02:46 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 11:37:56 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/19 21:26:14 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,31 +59,27 @@ uint8_t	open_quotes(char *input)
 	return (1);
 }
 
-static uint8_t	check_not_interpreted(char *sub_input)
+static uint8_t	check_not_interpreted(char *sub_input, int i)
 {
-	if (*sub_input == ';')
+	if (sub_input[i] == ';')
 		return (1);
-	else if (*sub_input == '[')
+	else if (sub_input[i] == '[')
 		return (1);
-	else if (*sub_input == ']')
+	else if (sub_input[i] == ']')
 		return (1);
-	else if (*sub_input == '(')
+	else if (sub_input[i] == '\\')
 		return (1);
-	else if (*sub_input == ')')
+	else if (sub_input[i] == '!')
 		return (1);
-	else if (*sub_input == '\\')
+	else if (sub_input[i] == '&')
 		return (1);
-	else if (*sub_input == '!')
+	else if (sub_input[i] == '`')
 		return (1);
-	else if (*sub_input == '&')
+	else if (!ft_strncmp(&sub_input[i], ">|", 2))
 		return (1);
-	else if (*sub_input == '`')
+	else if (!ft_strncmp(&sub_input[i], "<>", 2))//pas sujet au changement avec double quote => devrait etre affiche 
 		return (1);
-	else if (!ft_strncmp(sub_input, ">|", 2))
-		return (1);
-	else if (!ft_strncmp(sub_input, "<>", 2))//pas sujet au changement avec double quote => devrait etre affiche 
-		return (1);
-	else if (!ft_strncmp(sub_input, "<<<", 3))
+	else if (!ft_strncmp(&sub_input[i], "<<<", 3))
 		return (1);
 	return (0);
 }
@@ -107,7 +103,7 @@ uint8_t	not_interpreted_characters(char *input)
 			i += quote_len(&input[i], '\'');
 		else if (!strncmp(&input[i], "&&", 2))
 			i += 2;
-		else if (check_not_interpreted(&input[i]))
+		else if (check_not_interpreted(input, i))
 			return (1);
 		if (input[i])
 			i++;

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 02:56:05 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/19 20:37:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,18 @@ uint8_t	near_unexpected_token_error(char **input, char **shell_prompt)
 	unexpected_token = charset_token_error(*input);
 	if (not_interpreted_characters(*input))
 		return (print_first_check_error(WRONG_CHAR_ERR_MSG,
-				NULL, input, shell_prompt));
+				NULL, input/*, shell_prompt*/));
 	else if (unexpected_token)
 		return (print_first_check_error(NEAR_TOKEN_ERR_MSG,
-				unexpected_token, input, shell_prompt));
+				unexpected_token, input/*, shell_prompt*/));
 	else if (open_quotes(*input))
 		return (print_first_check_error(QUOTES_ERR_MSG,
-				NULL, input, shell_prompt));
+				NULL, input/*, shell_prompt*/));
+	else if (parenthesis_checker(*input))
+		return (1);
 	else if (pipe_is_open(*input))
 		return (print_first_check_error(OPEN_PIPE_ERR_MSG,
-				NULL, input, shell_prompt));
+				NULL, input/*, shell_prompt*/));
+	(void)shell_prompt; // TO REMOVE
 	return (0);
 }

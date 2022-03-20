@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/19 15:19:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 00:07:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@
 */
 
 # define DO_NOT_CLOSE_PROG 0
+# define PREVIOUS 1
+# define NEXT 2
 
 /*
 **	Structures
@@ -80,6 +82,7 @@ typedef struct s_command
 	char	*control_op;
 	char	*command;
 	t_list	*command_list;
+	int		nb_parenthesis;
 }	t_command;
 
 /*
@@ -185,10 +188,11 @@ int		print_dirpath_err(char *path);
 # define FD_ERR 1
 
 # define ARGS_ERR_MSG "Error : Invalid number of arguments.\n"
-# define QUOTES_ERR_MSG "Minishell: open quotes are not interpreted.\n"
-# define OPEN_PIPE_ERR_MSG "Minishell: open pipe are not interpreted.\n"
+# define QUOTES_ERR_MSG "Minishell: open quotes are not interpreted."
+# define PARENTHESIS_ERR_MSG "Minishell: open parenthesis are not interpreted."
+# define OPEN_PIPE_ERR_MSG "Minishell: open pipe are not interpreted."
 # define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token \
-present outside single quotes.\n"
+present outside single quotes."
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
@@ -196,9 +200,9 @@ present outside single quotes.\n"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
 uint8_t	open_quotes(char *input);
+uint8_t	parenthesis_checker(char *input);
 uint8_t	not_interpreted_characters(char *input);
-uint8_t	print_first_check_error(char *msg, char *token, char **input,
-			char **shell_prompt);
+uint8_t	print_first_check_error(char *msg, char *token, char **input/*, char **shell_prompt*/);
 int		quote_len(char *sub_input, char quote);
 
 /*

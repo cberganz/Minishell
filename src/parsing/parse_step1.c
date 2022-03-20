@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 10:42:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 00:49:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	set_control_op(t_list **lst, char *input)
 	}
 }
 
-static void	iter_trim(t_list **lst)
+static void	iter_trim(t_list **lst, char *trim)
 {
 	t_list	*tmp_lst;
 	char	*tmp_string;
@@ -53,14 +53,14 @@ static void	iter_trim(t_list **lst)
 	tmp_lst = *lst;
 	while (tmp_lst)
 	{
-		tmp_string = ft_strtrim(((t_command *)tmp_lst->content)->command, " ", LOOP);
+		tmp_string = ft_strtrim(((t_command *)tmp_lst->content)->command, trim, LOOP);
 		mem_remove(((t_command *)tmp_lst->content)->command, LOOP);
 		((t_command *)tmp_lst->content)->command = tmp_string;
 		tmp_lst = tmp_lst->next;
 	}
 }
 
-static void	*parse(char *input, t_list **lst)
+static void	parse(char *input, t_list **lst)
 {
 	char		**splited_input;
 	t_command	*tmp;
@@ -69,14 +69,38 @@ static void	*parse(char *input, t_list **lst)
 	while (*splited_input)
 	{
 		if (mem_alloc(sizeof(t_command), (void **)&tmp, LOOP))
-			print_message("Allocation error.\n", RED, MALLOC_ERR);
+			print_message("minishell: Allocation error.\n", RED, MALLOC_ERR);
 		tmp->command = *splited_input;
 		tmp->control_op = NULL;
 		ft_lstadd_back(lst, ft_lstnew(tmp, LOOP));
 		splited_input++;
 	}
 	set_control_op(lst, input);
-	return ((void *)1);
+}
+
+static void	parse_parenthesis(t_list *command_list)
+{
+	char	*s;
+	int		i;
+	int		count;
+
+	count = 0;
+	while (command_list)
+	{
+		i = -1;
+		s = ((t_command *)command_list->content)->command;
+		while (s[++i] && s[i] == '(')
+			count++;
+		((t_command *)command_list->content)->nb_parenthesis = count;
+		while (s[i] && s[i] != ')')
+			i++;
+		while (s[i] && s[i] == ')')
+		{
+			count--;
+			i++;
+		}
+		command_list = command_list->next;
+	}
 }
 
 t_list	*parse_step1(char *input)
@@ -87,6 +111,8 @@ t_list	*parse_step1(char *input)
 		return (NULL);
 	command_list = NULL;
 	parse(input, &command_list);
-	iter_trim(&command_list);
+	iter_trim(&command_list, " ");
+	parse_parenthesis(command_list);
+	iter_trim(&command_list, "() ");
 	return (command_list);
 }

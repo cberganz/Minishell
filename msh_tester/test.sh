@@ -346,7 +346,6 @@ if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   exec_test "( )"
   exec_test " ls )"
   exec_test "( ls " 
-  exec_test "ls && (touch 1 && pwd) && "
 fi
 
 

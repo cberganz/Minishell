@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/19 14:34:10 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/19 23:34:06 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 void	print_start(void)
 {
-	ft_putstr_fd("\033[2J", 2);
-	ft_putstr_fd("\033[100A", 2);
-	ft_putstr_fd("\n /$$      /$$ /$$$$$$ /$$   /$$ /$$$$$$", 2);
-	ft_putstr_fd("  /$$$$$$  /$$   /$$ /$$$$$$$$ /$$       /$$      \n", 2);
-	ft_putstr_fd("| $$$    /$$$|_  $$_/| $$$ | $$|_  $$_/", 2);
-	ft_putstr_fd(" /$$__  $$| $$  | $$| $$_____/| $$      | $$      \n", 2);
-	ft_putstr_fd("| $$$$  /$$$$  | $$  | $$$$| $$  | $$  ", 2);
-	ft_putstr_fd("| $$  \\__/| $$  | $$| $$      | $$      | $$      \n", 2);
-	ft_putstr_fd("| $$ $$/$$ $$  | $$  | $$ $$ $$  | $$  ", 2);
-	ft_putstr_fd("|  $$$$$$ | $$$$$$$$| $$$$$   | $$      | $$      \n", 2);
-	ft_putstr_fd("| $$  $$$| $$  | $$  | $$  $$$$  | $$  ", 2);
-	ft_putstr_fd(" \\____  $$| $$__  $$| $$__/   | $$      | $$      \n", 2);
-	ft_putstr_fd("| $$\\  $ | $$  | $$  | $$\\  $$$  | $$  ", 2);
-	ft_putstr_fd(" /$$  \\ $$| $$  | $$| $$      | $$      | $$      \n", 2);
-	ft_putstr_fd("| $$ \\/  | $$ /$$$$$$| $$ \\  $$ /$$$$$$", 2);
-	ft_putstr_fd("|  $$$$$$/| $$  | $$| $$$$$$$$| $$$$$$$$| $$$$$$$$\n", 2);
-	ft_putstr_fd("|__/     |__/|______/|__/  \\__/|______/", 2);
-	ft_putstr_fd(" \\______/ |__/  |__/|________/|________/|________/\n\n\n", 2);
+//	ft_putstr_fd("\033[2J", 2);
+//	ft_putstr_fd("\033[100A", 2);
+	ft_putstr_fd("\n            $$\\         $$\\", 2);
+	ft_putendl_fd("        $$\\             $$\\$$\\", 2);
+	ft_putstr_fd("            \\_|        ", 2); 
+	ft_putendl_fd(" \\_|        $$|             $$|$$|", 2);
+	ft_putstr_fd("$$$$$\\$$$\\  $$\\ $$$$$$\\ $$\\", 2);
+	ft_putendl_fd(" $$$$$$\\$$$$$$\\  $$$$$\\ $$|$$|", 2);
+	ft_putstr_fd("$$ _$$ _$$\\ $$ |$$ __$$\\$$|", 2);
+	ft_putendl_fd("$$  ___|$$ __$$\\$$ __$$\\$$|$$|", 2);
+	ft_putstr_fd("$$/ $$/ $$ |$$ |$$|  $$|$$|", 2);
+	ft_putendl_fd("\\$$$$$\\ $$|  $$|$$$$$$$|$$|$$|", 2);
+	ft_putstr_fd("$$| $$| $$ |$$ |$$|  $$|$$|", 2);
+	ft_putendl_fd(" \\___$$\\$$|  $$|$$  ___|$$|$$|", 2);
+	ft_putstr_fd("$$| $$| $$ |$$ |$$|  $$|$$|", 2);
+	ft_putendl_fd("$$$$$$ |$$|  $$|\\$$$$$$\\$$|$$|", 2);
+	ft_putstr_fd("\\_| \\_| \\__|\\__|\\_|  \\_|\\_|", 2);
+	ft_putendl_fd("\\_____/ \\_|  \\_| \\_____|\\_|\\_|\n", 2);
 }
 
 void	print_message(char *msg, char *color, int exit_status)
@@ -45,8 +45,7 @@ void	print_message(char *msg, char *color, int exit_status)
 		free_and_exit(exit_status);
 }
 
-uint8_t	print_first_check_error(char *msg, char *token, char **input,
-		char **shell_prompt)
+uint8_t	print_first_check_error(char *msg, char *token, char **input/*, char **shell_prompt*/)
 {
 	if (!token)
 	{
@@ -56,7 +55,7 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input,
 	else
 	{
 		print_message(msg, RED, 0);//modif ici
-		print_message(" '", RED, 0);//modif ici
+		print_message(" `", RED, 0);//modif ici
 		print_message(token, RED, 0);//modif ici
 		print_message("'.\n", RED, 0);//modif ici
 		// printf(RED "%s '%s'.\n" RESET, msg, token);
@@ -64,7 +63,7 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input,
 	*input = "";
 	g_status = 2;
 //	*shell_prompt = create_prompt(); A REMETRE
-	(void)shell_prompt;
+//	(void)shell_prompt;
 	return (1);
 }
 

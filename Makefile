@@ -35,6 +35,7 @@ SRC_FILES 	=	minishell.c				\
 				utils/utils_env.c		\
 				utils/utils_heredoc.c	\
 				parsing/errors_token.c	\
+				parsing/parse_parenthesis.c\
 				parsing/errors_not_handled.c\
 				parsing/parse_step0_comments.c\
 				parsing/parse_step1.c	\
