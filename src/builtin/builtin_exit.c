@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 13:31:42 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 11:34:55 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,43 @@ uint8_t	is_numeric(char *s)
 	return (1);
 }
 
+static uint8_t	too_many_sign(char *s)
+{
+	int	count;
+
+	count = 0;
+	while (*s)
+	{
+		if (*s == '+')
+			count++;
+		s++;
+	}
+	if (count > 1)
+		return (1);
+	else
+		return (0);
+}
+
 int	builtin_exit(char **exec_args, int exit)
 {
 	int	exit_status;
 
 	exit_status = g_status;
 	if (!exit)
-		ft_putendl_fd("exit", 2);//peut etre fd strerr
-	if (exec_args[0] && exec_args[1])
+		ft_putendl_fd("exit", 2);
+	if (exec_args[0])
 	{
-		ft_putendl_fd("Minishell: exit: too many arguments", 2);
-		return (1);
-	}
-	else if (exec_args[0])
-	{
-		if (!is_numeric(exec_args[0]))
+		if (too_many_sign(exec_args[0]) || !is_numeric(ft_strtrim(exec_args[0], " +", LOOP)))
 		{
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(exec_args[0], 2);
 			ft_putendl_fd(": numeric argument required", 2);
 			exit_status = 2;
+		}
+		else if (exec_args[1])
+		{
+			ft_putendl_fd("Minishell: exit: too many arguments", 2);
+			return (1);
 		}
 		else
 			exit_status = ft_atoi(exec_args[0]);
