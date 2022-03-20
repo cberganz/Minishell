@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:18 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 05:55:24 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/20 14:46:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,16 @@ char	*get_path(char **exec_args, char **envp[])
 	char			**path;
 	struct stat		stat;
 
-	path = ft_split(get_env("PATH", envp), ":", LOOP);
+	path = NULL;
+	bin_path = get_env("PATH", envp);
+	if (!bin_path)
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(exec_args[0], 2);
+		ft_putendl_fd(": No such file or directory", 2);
+		free_and_exit(127);
+	}
+	path = ft_split(bin_path, ":", LOOP);
 	i = -1;
 	while (path && path[++i])
 	{

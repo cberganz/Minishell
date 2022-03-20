@@ -62,7 +62,7 @@ function exec_test()
   fi
 
   echo 'exit' > $pipe 
-  sleep 0.01
+  sleep 0.04
   wait $!
   ES_1=$?
   TEST1=$(cat msh_log)
@@ -78,6 +78,7 @@ function exec_test()
   ES_2=$?
   TEST2=$(cat msh_log)
 
+  sleep 0.04
   # compare result
   if [ "$TEST1" == "$TEST2" ] && [ "$ES_1" == "$ES_2" ]; then
     printf "$BOLDGREEN%s$RESET" "✓ "
@@ -125,7 +126,7 @@ fi
 if [ "$1" == "parsing" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tPARSING\n"$RESET
   exec_test 'echo "\s"'
-  exec_test 'echo "bip | bip ; coyotte > < "'
+  exec_test 'echo "bip | bip && coyotte > < "'
   exec_test 'echo $USER$var$USER$USER$USERtest$USER user42$USERuser42$USERtestuser42'
   exec_test 'echo $USER$var$USER$USER$USERtest$USER'
   exec_test '$'
@@ -134,8 +135,7 @@ if [ "$1" == "parsing" ] || [ "$1" == "all" ]; then
   exec_test 'echo '"abc"''
   exec_test 'echo "'abc'"'
   exec_test 'echo "" bonjour'
-  exec_test 'echo[TAB]a'
-  exec_test 'echo\ a'
+  exec_test 'echo	a'
   exec_test 'export ""  et unset ""'
   exec_test 'export "test=ici"=coucou'
   exec_test 'echo $test'
@@ -146,7 +146,7 @@ fi
 # ECHO TESTS
 if [ "$1" == "echo" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tECHO TESTS\n"$RESET
-  exec_test 'pwd && pwd'
+  exec_test 'pwd ; pwd'
   exec_test 'echo test tout'
   exec_test 'echo -n test tout'
   exec_test 'echo -n -n -n test tout'
@@ -245,45 +245,44 @@ fi
 # CD TESTS
 if [ "$1" == "cd" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tCD TESTS\n"$RESET
-  exec_test 'cd .. && pwd'
-  exec_test 'cd /Users && pwd'
-  exec_test 'cd && pwd'
-  exec_test 'cd . && pwd'
-  exec_test 'mkdir test_dir && cd test_dir && rm -rf ../test_dir && cd . && cd .. && pwd'
-  exec_test 'cd .a && pwd'
-  exec_test 'cd && pwd'
-  exec_test 'cd .. && pwd'
-  exec_test 'cd . && pwd'
-  exec_test 'cd /Users && pwd'
-  exec_test 'cd // && pwd'
-  exec_test 'cd '//' && pwd'
-  exec_test 'cd ////// && pwd'
-  exec_test 'cd ./././ && pwd'
-  exec_test 'cd / && pwd'
-  exec_test 'cd '/etc' && pwd'
-  exec_test 'cd '/var' && pwd'
-  exec_test 'cd "$PWD/file_tests" && pwd'
-  exec_test 'cd "doesntexist" && pwd'
-  exec_test 'cd "doesntexist">/dev/null && pwd'
-  exec_test 'cd ../../.. && pwd'
-  exec_test 'cd "wtf" >/dev/null && pwd'
-  exec_test 'cd ../../../../../../../../../../../../../../.. && pwd'
-  exec_test 'cd .. && pwd'
-  exec_test 'cd ? && pwd'
-  exec_test 'cd + && pwd'
-  exec_test 'cd _ && pwd'
-  exec_test 'cd woof && pwd'
-  exec_test 'cd bark bark && pwd'
-  exec_test 'cd '/' && pwd'
-  exec_test 'cd $PWD/file_tests && pwd'
-  exec_test 'cd $OLDPWD/something && pwd'
-  exec_test 'cd ../../../../../.. && pwd' 
-  exec_test 'cd /home/user42/ && pwd'
-  exec_test 'cd too many arguments && pwd'
-  exec_test 'cd ./ && pwd'
-  exec_test 'cd a/b && pwd'
-  exec_test 'cd .. && pwd'
-  exec_test 'cd home/.. && pwd'
+  exec_test 'cd .. ; pwd'
+  exec_test 'cd /Users ; pwd'
+  exec_test 'cd ; pwd'
+  exec_test 'cd . ; pwd'
+  exec_test 'mkdir test_dir ; cd test_dir ; rm -rf ../test_dir ; cd . ; cd .. ; pwd'
+  exec_test 'cd .a ; pwd'
+  exec_test 'cd ; pwd'
+  exec_test 'cd .. ; pwd'
+  exec_test 'cd . ; pwd'
+  exec_test 'cd /Users ; pwd'
+  exec_test 'cd // ; pwd'
+  exec_test 'cd ////// ; pwd'
+  exec_test 'cd ./././ ; pwd'
+  exec_test 'cd / ; pwd'
+  exec_test 'cd '/etc' ; pwd'
+  exec_test 'cd '/var' ; pwd'
+  exec_test 'cd "$OLDPWD" ; pwd'
+  exec_test 'cd "doesntexist" ; pwd'
+  exec_test 'cd "doesntexist">/dev/null ; pwd'
+  exec_test 'cd ../../.. ; pwd'
+  exec_test 'cd "wtf" >/dev/null ; pwd'
+  exec_test 'cd ../../../../../../../../../../../../../../.. ; pwd'
+  exec_test 'cd .. ; pwd'
+  exec_test 'cd ? ; pwd'
+  exec_test 'cd + ; pwd'
+  exec_test 'cd _ ; pwd'
+  exec_test 'cd woof ; pwd'
+  exec_test 'cd bark bark ; pwd'
+  exec_test 'cd '/' ; pwd'
+  exec_test 'cd $OLDPWD ; pwd'
+  exec_test 'cd $OLDPWD/.. ; pwd'
+  exec_test 'cd ../../../../../.. ; pwd' 
+  exec_test 'cd /home/user42/ ; pwd'
+  exec_test 'cd too many arguments ; pwd'
+  exec_test 'cd ./ ; pwd'
+  exec_test 'cd a/b ; pwd'
+  exec_test 'cd .. ; pwd'
+  exec_test 'cd home/.. ; pwd'
 fi
 
 # PIPE TESTS
@@ -307,7 +306,6 @@ if [ "$1" == "pipe" ] || [ "$1" == "all" ]; then
   exec_test 'sleep 0.1 | exit'
 fi
 
-
 # ENV EXPANSIONS
 if [ "$1" == "env" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tENV EXPANSIONS TESTS\n"$RESET
@@ -329,37 +327,37 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
 	exec_test 'echo $TEST $TEST'
 	exec_test 'echo "$1TEST"'
 	exec_test 'echo "$T1TEST"'
-    exec_test 'export TEST=BLA && echo "test"'
-    exec_test 'export TEST=BLA && echo $TEST'
-    exec_test 'export TEST=BLA && echo "$TEST"'
-    exec_test 'export TEST=BLA && echo '$TEST''
-    exec_test 'export TEST=BLA && echo "$TEST$TEST$TEST"'
-    exec_test 'export TEST=BLA && echo "$TEST$TEST=lol$TEST"'
-    exec_test 'export TEST=BLA && echo "   $TEST lol $TEST"'
-    exec_test 'export TEST=BLA && echo $TEST$TEST$TEST'
-    exec_test 'export TEST=BLA && echo $TEST$TEST=lol$TEST""lol'
-    exec_test 'export TEST=BLA && echo    $TEST lol $TEST'
-    exec_test 'export TEST=BLA && echo test "" test "" test'
-    exec_test 'export TEST=BLA && echo "$TEST"'
-    exec_test 'export TEST=BLA && echo "$=TEST"'
-    exec_test 'export TEST=BLA && echo "$ "'
-    exec_test 'export TEST=BLA && echo "$ f"'
-    exec_test 'export TEST=BLA && echo " $ "'
-    exec_test 'export TEST=BLA && echo " $ $USER"'
-    exec_test 'export TEST=BLA && echo ""$ '
-    exec_test 'export TEST=BLA && echo $"" '
-    exec_test 'export TEST=BLA && echo $'' '
-    exec_test 'export TEST=BLA && echo X'"$"""''
-    exec_test 'export TEST=BLA && echo "$?TEST"'
-    exec_test 'export TEST=BLA && echo $TEST $TEST'
-    exec_test 'export TEST=BLA && echo "$1TEST"'
-    exec_test 'export TEST=BLA && echo "$T1TEST"'
-    exec_test 'export CHEVRON=">" && echo bla $CHEVRON yo && ls'
-    exec_test 'echo " $" && echo "$" && echo "$""" && echo "$"XX"" && echo X"$"""'
+    exec_test 'export TEST=BLA ; echo "test"'
+    exec_test 'export TEST=BLA ; echo $TEST'
+    exec_test 'export TEST=BLA ; echo "$TEST"'
+    exec_test 'export TEST=BLA ; echo '$TEST''
+    exec_test 'export TEST=BLA ; echo "$TEST$TEST$TEST"'
+    exec_test 'export TEST=BLA ; echo "$TEST$TEST=lol$TEST"'
+    exec_test 'export TEST=BLA ; echo "   $TEST lol $TEST"'
+    exec_test 'export TEST=BLA ; echo $TEST$TEST$TEST'
+    exec_test 'export TEST=BLA ; echo $TEST$TEST=lol$TEST""lol'
+    exec_test 'export TEST=BLA ; echo    $TEST lol $TEST'
+    exec_test 'export TEST=BLA ; echo test "" test "" test'
+    exec_test 'export TEST=BLA ; echo "$TEST"'
+    exec_test 'export TEST=BLA ; echo "$=TEST"'
+    exec_test 'export TEST=BLA ; echo "$ "'
+    exec_test 'export TEST=BLA ; echo "$ f"'
+    exec_test 'export TEST=BLA ; echo " $ "'
+    exec_test 'export TEST=BLA ; echo " $ $USER"'
+    exec_test 'export TEST=BLA ; echo ""$ '
+    exec_test 'export TEST=BLA ; echo $"" '
+    exec_test 'export TEST=BLA ; echo $'' '
+    exec_test 'export TEST=BLA ; echo X'"$"""''
+    exec_test 'export TEST=BLA ; echo "$?TEST"'
+    exec_test 'export TEST=BLA ; echo $TEST $TEST'
+    exec_test 'export TEST=BLA ; echo "$1TEST"'
+    exec_test 'export TEST=BLA ; echo "$T1TEST"'
+    exec_test 'export CHEVRON=">" ; echo bla $CHEVRON yo ; ls'
+    exec_test 'echo " $" ; echo "$" ; echo "$""" ; echo "$"XX"" ; echo X"$"""'
     exec_test 'echo $'
     exec_test 'echo " $ "'
     exec_test 'echo " $? "'
-    exec_test 'echo $''$""$' '$" "$'?'$"?"$'? '$"? "" $ "" $? "'
+    exec_test 'echo $''?$""$' '$" "$'?'$"?"$'? '$"? "" $ "" $? "'
     exec_test 'echo $'USER''
     exec_test 'echo $"USER"'
     exec_test 'echo $'USER ''
@@ -372,7 +370,7 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
     exec_test 'echo $"USERR "'
     exec_test 'echo " $ "'
     exec_test 'echo " $USERR "'
-    exec_test 'echo $''$""$' '$" "$'USER'$"USER"$'USER '$"USER "" $ "" $USER "'
+    exec_test 'echo $''?$""$' '$" "$'USER'$"USER"$'USER '$"USER "" $ "" $USER "'
     exec_test 'echo $?$?$?$?$?$?$?$'
     exec_test 'echo $'USER''
     exec_test 'echo $"USER"'
@@ -396,17 +394,17 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
     exec_test 'echo $'? ''
     exec_test 'echo $"? "'
     exec_test 'echo " $"USER'
-    exec_test 'export var="truc" && echo $var'
-    exec_test 'export var="truc" && echo $var | cat -e'
+    exec_test 'export var="truc" ; echo $var'
+    exec_test 'export var="truc" ; echo $var | cat -e'
     exec_test 'echo "$tests""Makefile"'
     exec_test 'echo "$tests"Makefile'
     exec_test 'echo "$tests" "Makefile"'
     exec_test '$bla'
-    exec_test 'export var="truc" && echo $var bonjour && export $var'
+    exec_test 'export var="truc" ; echo $var bonjour ; export $var'
     exec_test 'export test=123'
-    exec_test 'export var= s\ -la && l$var'
-    exec_test 'export var=at && c$var Makefile'
-    exec_test 'export loop='bonjour$loop' && echo $loop'
+    exec_test 'export var= s -la ; l$var'
+    exec_test 'export var=at ; c$var Makefile'
+    exec_test 'export loop='bonjour$loop' ; echo $loop'
 fi
 
 # EXPORT
@@ -415,137 +413,136 @@ if [ "$1" == "export" ] || [ "$1" == "all" ]; then
   ENV_SHOW="env | sort | grep -v SHLVL | grep -v _="
   EXPORT_SHOW="export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD"
   exec_test 'export ='
-  exec_test 'export 1TEST= &&' $ENV_SHOW
-  exec_test 'export TEST &&' $EXPORT_SHOW
-  exec_test 'export ""="" && ' $ENV_SHOW
-  exec_test 'export TES=T="" && ' $ENV_SHOW
-  exec_test 'export TE+S=T="" && ' $ENV_SHOW
-  exec_test 'export TEST=LOL && echo $TEST && ' $ENV_SHOW
-  exec_test 'export TEST=LOL && echo $TEST$TEST$TEST=lol$TEST'
-  exec_test 'export TEST1=LOL TEST2=PIKAPIKA && echo $TEST && ' $ENV_SHOW
-  exec_test 'export TEST1=LOL TEST2' $ENV_SHOW
-  exec_test 'export TEST=LOL && unset TEST' $ENV_SHOW
-  exec_test 'export TEST=LOL && export TEST+=LOL && echo $TEST && ' $ENV_SHOW
+  exec_test "export 1TEST= ; $ENV_SHOW"
+  exec_test "export TEST ; $EXPORT_SHOW"
+  exec_test "export ""="" ; $ENV_SHOW"
+  exec_test "export TES=T="" ; $ENV_SHOW"
+  exec_test "export TE+S=T="" ; $ENV_SHOW"
+  exec_test "export TEST=LOL ; echo $TEST ; $ENV_SHOW"
+  exec_test "export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST"
+  exec_test "export TEST1=LOL TEST2=PIKAPIKA ; echo $TEST ; $ENV_SHOW"
+  exec_test "export TEST1=LOL TEST2 $ENV_SHOW"
+  exec_test "export TEST=LOL ; unset TEST $ENV_SHOW"
+  exec_test "export TEST=LOL ; export TEST+=LOL ; echo $TEST ; $ENV_SHOW"
   exec_test $ENV_SHOW
   exec_test $EXPORT_SHOW
-  exec_test 'export TEST="ls -l - a" && echo $TEST && ' $ENV_SHOW
-  exec_test 'export TEST=BLA && echo test        test'
-  exec_test 'unset _ && env'
-  exec_test 'export TESTFCGFCSGFC && env'
-  exec_test 'export TESTNBKJNLJ='rferfh$re"f' && env | sort'
-  exec_test 'export TESTNBKJNLJdgf="'rferfh$ref'" && env | sort'
-  exec_test 'export TESTNBKJNLJtcfgvhjbk="rferfh$re'f" && env | sort'
-  exec_test 'export = && env | sort'
-  exec_test 'export 1TESTHBGUHBUHB= && env | sort'
-  exec_test 'export TESTOUHOSIOUNXJKNK 34khh -deded && env | sort'
-  exec_test 'export ""="" && env | sort'
-  exec_test 'export "=" && env | sort'
-  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL2='"' && env | sort'
-  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL3="'" && env | sort'
-  exec_test 'export "$" && env | sort'
-  exec_test 'export TESTJHBSJCBJHSC111=T="" && env | sort'
-  exec_test 'export TESTNJNCKJDCKDCKDJN222+S=T="" && env | sort'
-  exec_test 'export TESTKXSLXSLX333=LOL && env | sort'
-  exec_test 'export TESTYGVSBNJKHBXGJHN444=LOL && env | sort'
-  exec_test 'export TESTREDTUHINJO555=LOL && env | sort'
-  exec_test 'export TESTYRFTGUIHUJOKL666=lol && env | sort'
-  exec_test 'export TESTYRFTGUIHUJOKL666=LOLdfgtgh && env | sort'
-  exec_test 'export TESTYTFUGYHIUNJ777="ls       -l     - a" && env | sort'
-  exec_test 'export | grep TEST && env | sort'
-  exec_test 'export arg='"hello"' && env | sort'
-  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL4="$" && env | sort'
-  exec_test 'export TESTrsxydtcfyvgubhnijomkonjbhiugv=bla && export TESTtdcvhbknlm="YO" && export TESTjknmlmklnj='kuhkuhk' && export TESTjkndfv='"kuhku"hk' && export TESTjkndfvnj='"ku$?hku"hk' && export | grep TEST && unset TESTtdcvhbknlm | unset TESTjknmlmklnj && export | grep TEST && unset TESTtdcvhbknlm | TESTjknmlmklnj && export | grep TEST && unset   TESTjkndfv='"kuhku"hk' && export | grep TEST && unset   _TESTjkndfv= && export | grep TEST && unset   __TESTjkndfv= && export | grep TEST && unset 0 && export | grep TEST && unset   567890RFUYGVHBK | unset 65798uhjnk && export | grep TEST && unset       "TESTrsxydtcfyvgubhnijomkonjbhiugv" && export | grep TEST'
-  exec_test 'unset PATH && echo $PATH && ls && unset "" test && unset = && unset PWD && echo "END"'
-  exec_test 'echo $test && export test="  foo    bar  " && echo $test && export test="  foo    bar  " && echo ab$test && export test="  foo    bar  " && echo "ab"$test && export test=" foo   bar " && echo ab"$test" | cat -e && export test=" foo   bar " && echo "$test" && export test=" foo   bar " && echo ""$test"" && export test=" foo   bar " && echo """$test"""'
+  exec_test "export TEST="ls -l - a" ; echo $TEST ; $ENV_SHOW"
+  exec_test 'export TEST=BLA ; echo test        test'
+  exec_test 'unset _ ; env'
+  exec_test 'export TESTFCGFCSGFC ; env'
+  exec_test 'export TESTNBKJNLJ='rferfh$ref' ; env'
+  exec_test 'export TESTNBKJNLJdgf="'rferfh$ref'" ; env'
+  exec_test 'export TESTNBKJNLJtcfgvhjbk="rferfh$ref" ; env'
+  exec_test 'export = ; env'
+  exec_test 'export 1TESTHBGUHBUHB= ; env'
+  exec_test 'export TESTOUHOSIOUNXJKNK 34khh -deded ; env'
+  exec_test 'export ""="" ; env'
+  exec_test 'export "=" ; env'
+  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL2='' ; env'
+  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL3="" ; env'
+  exec_test 'export "$" ; env'
+  exec_test 'export TESTJHBSJCBJHSC111=T="" ; env'
+  exec_test 'export TESTNJNCKJDCKDCKDJN222+S=T="" ; env'
+  exec_test 'export TESTKXSLXSLX333=LOL ; env'
+  exec_test 'export TESTYGVSBNJKHBXGJHN444=LOL ; env'
+  exec_test 'export TESTREDTUHINJO555=LOL ; env'
+  exec_test 'export TESTYRFTGUIHUJOKL666=lol ; env'
+  exec_test 'export TESTYRFTGUIHUJOKL666=LOLdfgtgh ; env'
+  exec_test 'export TESTYTFUGYHIUNJ777="ls       -l     - a" ; env'
+  exec_test 'export | grep TEST ; env'
+  exec_test 'export arg='"hello"' ; env'
+  exec_test 'export TESTFGCHVJKNLJKHVJGCHFGVJBKNL4="$" ; env'
+  exec_test 'export TESTrsxydtcfyvgubhnijomkonjbhiugv=bla ; export TESTtdcvhbknlm="YO" ; export TESTjknmlmklnj='kuhkuhk' ; export TESTjkndfv='"kuhku"hk' ; export TESTjkndfvnj='"ku$?hku"hk' ; export | grep TEST ; unset TESTtdcvhbknlm | unset TESTjknmlmklnj ; export | grep TEST ; unset TESTtdcvhbknlm | TESTjknmlmklnj ; export | grep TEST ; unset   TESTjkndfv='"kuhku"hk' ; export | grep TEST ; unset   _TESTjkndfv= ; export | grep TEST ; unset   __TESTjkndfv= ; export | grep TEST ; unset 0 ; export | grep TEST ; unset   567890RFUYGVHBK | unset 65798uhjnk ; export | grep TEST ; unset       "TESTrsxydtcfyvgubhnijomkonjbhiugv" ; export | grep TEST'
+  exec_test 'unset PATH ; echo $PATH ; ls ; unset "" test ; unset = ; unset PWD ; echo "END"'
+  exec_test 'echo $test ; export test="  foo    bar  " ; echo $test ; export test="  foo    bar  " ; echo ab$test ; export test="  foo    bar  " ; echo "ab"$test ; export test=" foo   bar " ; echo ab"$test" | cat -e ; export test=" foo   bar " ; echo "$test" ; export test=" foo   bar " ; echo ""$test"" ; export test=" foo   bar " ; echo """$test"""'
 fi
-
 
 # REDIRECTIONS
 if [ "$1" == "redirect" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tREDIRECTION TESTS\n"$RESET
-  exec_test 'echo test > ls && cat ls'
-  exec_test 'echo test > ls >> ls >> ls && echo test >> ls && cat ls'
-  exec_test '> lol echo test lol && cat lol'
-  exec_test '>lol echo > test>lol>test>>lol>test mdr >lol test >test && cat test'
+  exec_test 'echo test > ls ; cat ls'
+  exec_test 'echo test > ls >> ls >> ls ; echo test >> ls ; cat ls'
+  exec_test '> lol echo test lol ; cat lol'
+  exec_test '>lol echo > test>lol>test>>lol>test mdr >lol test >test ; cat test'
   exec_test 'cat < ls'
-  exec_test 'rm -f ls && cat > ls < ls && rm -f ls'
+  exec_test 'rm -f ls ; cat > ls < ls ; rm -f ls'
   exec_test 'ls > ls'
   exec_test 'cat <ls'
-  exec_test 'pwd >pwd && cat pwd'
-  exec_test 'pwd >pwd && cat pwd | echo'
-  exec_test 'cat | <Makefile cat && hello'
+  exec_test 'pwd >pwd ; cat pwd'
+  exec_test 'pwd >pwd ; cat pwd | echo'
+  exec_test 'cat | <Makefile cat ; hello'
   exec_test 'cat <test.sh <ls'
-  exec_test 'cat << stop && 1 && stop'
-  exec_test 'cat << stop && 1OF && stopa && stop'
-  exec_test 'cat <test.sh <<stop && 1 && stop'
-  exec_test 'cat <<stop<ls && 1 && stop'
-  exec_test 'cat <test.sh << stop1 <<stop2 && a && b && c && stop1 && run2 && stop2'
+  exec_test 'cat << stop ; 1 ; stop'
+  exec_test 'cat << stop ; 1OF ; stopa ; stop'
+  exec_test 'cat <test.sh <<stop ; 1 ; stop'
+  exec_test 'cat <<stop<ls ; 1 ; stop'
+  exec_test 'cat <test.sh << stop1 <<stop2 ; a ; b ; c ; stop1 ; run2 ; stop2'
   exec_test 'rm -f ls >ls'
-  exec_test 'echo jhjbsdc >> tmp1 && cat tmp1 && ls && cat tmp1 && rm tmp1'
-  exec_test 'echo kjnsdc sdc sddc > tmp1 knsdc sdc  sdcsdc > tmp1 && cat tmp1 && ls && cat tmp1 && rm tmp1'
-  exec_test 'cat < tester.sh < jnsdc ssdjcnnj > tmp2 && ls && cat tmp2 && rm tmp2'
-  exec_test 'cat tmp2 && cat < tester.sh > tmp2 && ls && cat tmp2 && rm tmp2'
-  exec_test 'cat<tester.sh<jnsdc ssdjcnnj>tmp2 && ls && cat tmp2 && rm tmp2'
-  exec_test 'ls >tmp1 > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'ls >tmp1 >> tmp1 >>tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'ls >tmp1 > tmp1 <tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'echo hello > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'ls >tmp1 >> tmp1 >>tmp1 | cat && rm tmp1'
-  exec_test 'echo hello > tmp1 && echo hhell >> tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'echo hello >> tmp1 | echo bla && cat tmp1 && rm tmp1'
-  exec_test 'echo hello >> tmp1 | echobla && cat tmp1 && rm tmp1'
-  exec_test 'echobla | echo hello >> tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'cat << '$USER' > tmp1 && && cat tmp1 && rm tmp1'
-  exec_test 'cat << $USER > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'cat << $AAAAAAAA > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'cat << "hello'ksdcksd'ckdsc'""""""'"kjbsdckj'"fddvdf"vdfvdfv'bsdc > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'cat << "b$" > tmp1 && cat tmp1 && rm tmp1'
-  exec_test '<a cat <b <c && <a cat <b <c && > test1 | echo blabla && cat hello > test1 && >test1 cat <test2 >>test3 && >a ls <machin >>c >d && ls && >test1 && cat test1 && rm test1 test2 test3 d a'
+  exec_test 'echo jhjbsdc >> tmp1 ; cat tmp1 ; ls ; cat tmp1 ; rm tmp1'
+  exec_test 'echo kjnsdc sdc sddc > tmp1 knsdc sdc  sdcsdc > tmp1 ; cat tmp1 ; ls ; cat tmp1 ; rm tmp1'
+  exec_test 'cat < tester.sh < jnsdc ssdjcnnj > tmp2 ; ls ; cat tmp2 ; rm tmp2'
+  exec_test 'cat tmp2 ; cat < tester.sh > tmp2 ; ls ; cat tmp2 ; rm tmp2'
+  exec_test 'cat<tester.sh<jnsdc ssdjcnnj>tmp2 ; ls ; cat tmp2 ; rm tmp2'
+  exec_test 'ls >tmp1 > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'ls >tmp1 >> tmp1 >>tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'ls >tmp1 > tmp1 <tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'echo hello > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'ls >tmp1 >> tmp1 >>tmp1 | cat ; rm tmp1'
+  exec_test 'echo hello > tmp1 ; echo hhell >> tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'echo hello >> tmp1 | echo bla ; cat tmp1 ; rm tmp1'
+  exec_test 'echo hello >> tmp1 | echobla ; cat tmp1 ; rm tmp1'
+  exec_test 'echobla | echo hello >> tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'cat << '$USER' > tmp1 ; ; cat tmp1 ; rm tmp1'
+  exec_test 'cat << $USER > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'cat << $AAAAAAAA > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'cat << "hello'ksdcksd'ckdsc'""""""'"kjbsdckj'"fddvdf"vdfvdfv'bsdc > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'cat << "b$" > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test '<a cat <b <c ; <a cat <b <c ; > test1 | echo blabla ; cat hello > test1 ; >test1 cat <test2 >>test3 ; >a ls <machin >>c >d ; ls ; >test1 ; cat test1 ; rm test1 test2 test3 d a'
 fi
 
 
 # MULTI TESTS
 if [ "$1" == "multi" ] || [ "$1" == "all" ]; then
   printf $BOLDMAGENTA"\n\tMULTI TESTS\n"$RESET
-  exec_test 'echo testing multi >lol && echo <lol <lola && echo "test 1  | and 2" >>lol && cat <lol && cat ../Makefile <lol | grep minishell'
-  exec_test 'unset PATH && /bin/ls'
-  exec_test 'unset PATH && ./Makefile'
-  exec_test 'echo 5 > ls && <5 cat && rm 5'
-  exec_test 'ls | echo 6 > ls && <6 cat && rm 6'
-  exec_test 'cd && unset HOME && cd'
-  exec_test 'cd .. > 1 && pwd'
+  exec_test 'echo testing multi >lol ; echo <lol <lola ; echo "test 1  | and 2" >>lol ; cat <lol ; cat ../Makefile <lol | grep minishell'
+  exec_test 'unset PATH ; /bin/ls'
+  exec_test 'unset PATH ; ./Makefile'
+  exec_test 'echo 5 > ls ; <5 cat ; rm 5'
+  exec_test 'ls | echo 6 > ls ; <6 cat ; rm 6'
+  exec_test 'cd ; unset HOME ; cd'
+  exec_test 'cd .. > 1 ; pwd'
   exec_test 'cd .. > 1| pwd'
   exec_test 'pwd > 1'
-  exec_test 'pwd > 1 && cat 1'
-  exec_test 'pwd > 1 && pwd'
+  exec_test 'pwd > 1 ; cat 1'
+  exec_test 'pwd > 1 ; pwd'
   exec_test 'pwd > 1| pwd'
-  exec_test 'pwd && unset HOME && pwd && cd && pwd'
-  exec_test 'ls | export TEST=5 && echo $TEST'
-  exec_test 'export TEST1=LOL TEST2=PIKAPIKA && unset TEST1 TEST2 && echo $TEST1 && echo $TEST2'
-  exec_test '< tmp1 | > tmp1 && ls && rm tmp1'
-  exec_test '< $SAMEYEE > tmp1 && ls && rm tmp1'
-  exec_test 'echo hello > tmp1 && cat < tmp1 | cat < tmp2 && ls && /bin/lsa && rm tmp1'
-  exec_test 'cat < tester.sh | cat < bla | echo hello > tmp2 && cat tmp2 && ls && bla && rm tmp2 && chmod 000 tmp2 && cat tester.sh >> tmp1 > tmp2 > tmp3 | cat tester.sh > tmp1 > tmp3 && ls && cat tmp3 && rm tmp1 tmp2 tmp3'
-  exec_test 'echo oui | cat -e && echo oui | echo non | echo something | grep oui && echo oui | echo non | echo something | grep non && echo oui | echo non | echo something | grep something && cd .. | echo "something" && cd .. | echo "something" && cd / | echo "something" && cd .. | pwd'
+  exec_test 'pwd ; unset HOME ; pwd ; cd ; pwd'
+  exec_test 'ls | export TEST=5 ; echo $TEST'
+  exec_test 'export TEST1=LOL TEST2=PIKAPIKA ; unset TEST1 TEST2 ; echo $TEST1 ; echo $TEST2'
+  exec_test '< tmp1 | > tmp1 ; ls ; rm tmp1'
+  exec_test '< $SAMEYEE > tmp1 ; ls ; rm tmp1'
+  exec_test 'echo hello > tmp1 ; cat < tmp1 | cat < tmp2 ; ls ; /bin/lsa ; rm tmp1'
+  exec_test 'cat < tester.sh | cat < bla | echo hello > tmp2 ; cat tmp2 ; ls ; bla ; rm tmp2 ; chmod 000 tmp2 ; cat tester.sh >> tmp1 > tmp2 > tmp3 | cat tester.sh > tmp1 > tmp3 ; ls ; cat tmp3 ; rm tmp1 tmp2 tmp3'
+  exec_test 'echo oui | cat -e ; echo oui | echo non | echo something | grep oui ; echo oui | echo non | echo something | grep non ; echo oui | echo non | echo something | grep something ; cd .. | echo "something" ; cd .. | echo "something" ; cd / | echo "something" ; cd .. | pwd'
   exec_test 'ifconfig | grep ":"'
   exec_test 'ifconfig | grep nothing'
-  exec_test 'whoami | grep $USER && cat tmp1 && rm tmp1'
-  exec_test 'whoami | grep $USER > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'whoami | cat -e | cat -e > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'whoami | grep "$USER'c'" > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'whoami | grep "$USER''" > tmp1 && cat tmp1 && rm tmp1'
-  exec_test 'export TEST=123 | cat -e | cat -e && unset TEST | cat -e && echo test | cat -e | cat -e | cat -e'
-  exec_test 'whereis ls | cat -e | cat -e > tmp2 && cat tmp2 && rm tmp2'
+  exec_test 'whoami | grep $USER ; cat tmp1 ; rm tmp1'
+  exec_test 'whoami | grep $USER > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'whoami | cat -e | cat -e > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'whoami | grep "$USER'c'" > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'whoami | grep "$USER''" > tmp1 ; cat tmp1 ; rm tmp1'
+  exec_test 'export TEST=123 | cat -e | cat -e ; unset TEST | cat -e ; echo test | cat -e | cat -e | cat -e'
+  exec_test 'whereis ls | cat -e | cat -e > tmp2 ; cat tmp2 ; rm tmp2'
   exec_test 'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e'
   exec_test 'ls  | grep "."'
-  exec_test 'whereis grep > tmp1 && whereis grep > tmp2 && cat tmp1 && cat tmp2 && ls  > tmp1 && ls  < tmp1 && cat tmp1 && unset PATH && ls | ls | ls && rm tmp1 && rm tmp2'
+  exec_test 'whereis grep > tmp1 ; whereis grep > tmp2 ; cat tmp1 ; cat tmp2 ; ls  > tmp1 ; ls  < tmp1 ; cat tmp1 ; unset PATH ; ls | ls | ls ; rm tmp1 ; rm tmp2'
   exec_test 'echo bla | exit'
   exec_test 'echo bla | exit khbsdk'
   exec_test 'cat < notexist | exit 42'
   exec_test 'exit 42 | cat < notexist'
   exec_test 'exit tamere | exit'
   exec_test 'exit | exit  1| exit 200'
-  exec_test '> test1 echo bla && >> test1 echo bla && > test1 << pwd && bla && pwd && cat test1 && rm test1'
+  exec_test '> test1 echo bla ; >> test1 echo bla ; > test1 << pwd ; bla ; pwd ; cat test1 ; rm test1'
   exec_test 'cd random_cmd'
   exec_test 'cd random_cmd'
   exec_test 'cd $?'
@@ -574,7 +571,7 @@ if [ "$1" == "syntax" ] || [ "$1" == "all" ]; then
   exec_test 'echo | |'
   exec_test 'echo "||"'
   exec_test '<'
-  exec_test 'rm -f ls && cat < ls > ls'
+  exec_test 'rm -f ls ; cat < ls > ls'
   exec_test 'grep -z'
   exec_test 'ls"| "wc -l'
   exec_test '/ls'
@@ -684,31 +681,31 @@ fi
 if [ "$1" == "bonus" ] || [ "$1" == "wildcard" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
   exec_test "echo * | wc"
-  exec_test "cd ..  && echo * | wc"
+  exec_test "cd ..  ; echo * | wc"
   exec_test "echo .* | wc"
   exec_test "echo M*e"
   exec_test "echo *a*e"
   exec_test "echo *.mp3"
-  exec_test "mkdir empty && cd empty && pwd && echo * && cd .. && rm -rf empty"
+  exec_test "mkdir empty ; cd empty ; pwd ; echo * ; cd .. ; rm -rf empty"
 fi
 
 # BONUS OPERATOR && || ()
 if [ "$1" == "bonus" ] || [ "$1" == "oper" ]; then
   printf $BOLDMAGENTA"\n\tBONUS OPERATOR \$\$ || () \n"$RESET
-  exec_test "true && ls"
-  exec_test "false&&ls"
+  exec_test "true ; ls"
+  exec_test "false;ls"
   exec_test "true||ls"
   exec_test "false || ls"
-  exec_test "true || echo 1 && echo 2"
-  exec_test "false || echo 1 && echo 2"
-  exec_test "true || (echo 1 && echo 2)"
-  exec_test "true || echo 1 && echo 2 || echo 3"
+  exec_test "true || echo 1 ; echo 2"
+  exec_test "false || echo 1 ; echo 2"
+  exec_test "true || (echo 1 ; echo 2)"
+  exec_test "true || echo 1 ; echo 2 || echo 3"
   exec_test "(ls)"
   exec_test "( ls )"
-  exec_test "true || (echo 1 && echo 2) || echo 3"
-  exec_test "true || (echo 1 && echo 2) && echo 3"
-  exec_test "(true || (echo 1 && echo 2) && echo 3)"
-  exec_test "true || ((echo 1 && echo 2) && echo 3)"
+  exec_test "true || (echo 1 ; echo 2) || echo 3"
+  exec_test "true || (echo 1 ; echo 2) ; echo 3"
+  exec_test "(true || (echo 1 ; echo 2) ; echo 3)"
+  exec_test "true || ((echo 1 ; echo 2) ; echo 3)"
   exec_test "( )"
   exec_test " ls )"
   exec_test "( ls " 

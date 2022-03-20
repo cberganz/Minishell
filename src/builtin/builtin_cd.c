@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 13:11:13 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 13:01:26 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ static int	change_directory(char *path, char **envp[])
 	char	*cwd;
 	char	buff[4097];
 
-//	getcwd(buff, 4096);
-	cwd = get_env("PWD", envp);//buff;
+	cwd = get_env("PWD", envp);
 	if (path[0] == '.' && path[1] == '\0')
-		path = ft_strjoin(cwd, "/.", LOOP);
+		path = ft_strjoin(cwd, "/.", LOOP); // A revoir ?
 	else if (path[0] == '.' && path[1] == '.' && path[2] == '\0')
-		path = ft_strjoin(cwd, "/..", LOOP);
+		path = ft_strjoin(cwd, "/..", LOOP); // A revoir ?
 	if (!chdir(path))
 	{
 		set_env("OLDPWD", cwd, envp);
@@ -59,7 +58,7 @@ int	builtin_cd(char **exec_args, char **envp[], int exit)
 		if (!path[0])
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", 2);
-			return (1);
+			return (1); // return 1 or free_and_exit ?
 		}
 	}
 	else
