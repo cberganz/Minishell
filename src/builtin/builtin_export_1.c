@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 13:23:08 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:51:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,21 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 
 int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 {
-	char	*equal_ptr;
-	int		ret_name_alnum;
-	int		error;
+	int					ret_name_alnum;
+	char				*equal_ptr;
+	static t_list		*export_var = NULL;
+	int					error;
 
 	error = 0;
+	if (!export_var)
+	{
+		export_init_env(*envp, &export_var);
+		if (export_var == NULL)
+			return (-1);
+	}
 	if (!(*exec_args))
 	{
-		export_print_env(*envp, fd);
+		print_strs_fd(&export_var, fd);
 		if (exit)
 			free_and_exit(0);
 		return (0);
@@ -104,6 +111,8 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 			print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
 			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
 		}
+		if (!add_el_to_export_list(&export_var, *exec_args))
+			return (-1);
 		equal_ptr = ft_strchr(*exec_args, '=');
 		if (equal_ptr && add_var_to_env(*exec_args, envp, equal_ptr, ret_name_alnum))
 			return (1);
