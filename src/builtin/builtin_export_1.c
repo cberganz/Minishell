@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/19 18:51:22 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:23:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,17 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	return (0);
 }
 
+static void	handle_shlvl(int nb, char **envp[])
+{
+	char	*shlvl;
+
+	shlvl = ft_itoa(ft_atoi(get_env("SHLVL", envp)) + nb, MAIN);
+	if (!shlvl)
+		print_message(MALLOC_ERR_MSG, RED, 1);
+	set_env("SHLVL", shlvl, envp);
+	mem_remove(shlvl, MAIN);
+}
+
 int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 {
 	int					ret_name_alnum;
@@ -88,18 +99,19 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 	int					error;
 
 	error = 0;
+	handle_shlvl(1, envp);
 	if (!export_var)
 	{
 		export_init_env(*envp, &export_var);
 		if (export_var == NULL)
-			return (-1);
+			return (handle_shlvl(-1, envp), -1);
 	}
 	if (!(*exec_args))
 	{
 		print_strs_fd(&export_var, fd);
 		if (exit)
 			free_and_exit(0);
-		return (0);
+		return (handle_shlvl(-1, envp), 0);
 	}
 	while (*exec_args)
 	{
@@ -110,15 +122,17 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 			print_message(*exec_args, RED, 0);// revoir message erreur en anglais
 			print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
 			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
+			exec_args++;
+			continue ;
 		}
 		if (!add_el_to_export_list(&export_var, *exec_args))
-			return (-1);
+			return (handle_shlvl(-1, envp), -1);
 		equal_ptr = ft_strchr(*exec_args, '=');
 		if (equal_ptr && add_var_to_env(*exec_args, envp, equal_ptr, ret_name_alnum))
-			return (1);
+			return (handle_shlvl(-1, envp), 1);
 		exec_args++;
 	}
 	if (exit)
 		free_and_exit(error);
-	return (error);
+	return (handle_shlvl(-1, envp), error);
 }

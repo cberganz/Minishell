@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/19 18:59:07 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:07:34 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	print_strs_fd(t_list **export_list, int fd)
 	tmp = *export_list;
 	while (tmp)// pas trié
 	{
+		if (!ft_strcmp(((t_export*)tmp->content)->var, "_") && ((t_export*)tmp->content)->equal)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		ft_putstr_fd("export ", fd);
 		ft_putstr_fd(((t_export*)tmp->content)->var, fd);
 		if (((t_export*)tmp->content)->equal)
