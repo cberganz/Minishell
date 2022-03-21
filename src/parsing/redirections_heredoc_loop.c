@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 20:20:53 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 22:33:02 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static char	*heredoc_loop(char *end_word, int var_expand, char ***envp)
 		remove_quotes_str(&end_word);
 	input = garbage_addptr(readline("> "), LOOP);
 	if (check_eof_heredoc(input))
-		return NULL;
+		return (save);
 	if (ft_strequ(input, end_word))
-		return NULL;
+		return (save);
 	redirection_var_expand(var_expand, &input, envp, "?$_@#*-");
 	while (!ft_strequ(input, end_word))
 	{
@@ -62,6 +62,8 @@ static char	*write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 	save_status = g_status;
 	g_status = -255;
 	input = heredoc_loop(end_word, var_expand, envp);
+	if (!input)
+		return (NULL);
 	g_status = save_status;
 	return (input);
 }
@@ -85,6 +87,8 @@ uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr, char ***envp)
 		{
 			i += 2;
 			cmd->heredoc_str = write_in_tmp_file(cmd, i, envp);//secure
+			if (cmd->heredoc_str == NULL)
+				return (1);
 		}
 		else if (cmd->cmd_content[i])
 			i++;
