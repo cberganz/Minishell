@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 15:58:22 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 22:14:48 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ void	remove_file(int	len_of_file, char *s)
 	}
 }
 
+// void	write_in_tmp_file(t_pipe_command *cmd)
+// {
+
+// }
+
 void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
 	int		len_of_file;
@@ -108,10 +113,35 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char *
 	return ((void *)1);
 }
 
+char	*generate_tmp_file_name(void)
+{
+	int		nbr;
+	char	*nbr_str;
+	char	*file_name;
+
+	nbr = -2147483648;
+	while (nbr < 2147483647)
+	{
+		nbr_str = ft_itoa(nbr, LOOP);
+		if (nbr_str == NULL)
+			return (print_message(MALLOC_ERR_MSG, RED, 1), NULL);
+		file_name = ft_strjoin("/tmp/", nbr_str, LOOP);
+		if (file_name == NULL)
+			return (print_message(MALLOC_ERR_MSG, RED, 1), NULL);
+		if (access(file_name, F_OK) == -1)
+			return (file_name);
+		nbr++;
+	}
+	return (NULL);
+}
+
+
+
 void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp)
 {
 	int		len_of_file;
 	char	*ambigous_redirect;
+	char	*tmp_file;
 
 	if (cmd->fd_redirection[FD_IN] != 0)
 		close(cmd->fd_redirection[FD_IN]);
@@ -153,8 +183,21 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char **
 			}
 		}
 	}
-	else if (!cmd->redirection_error)
-		cmd->fd_redirection[FD_IN] = cmd->fd_tmp;
+	else if (!cmd->redirection_error && !ft_strstr(cmd->cmd_content, "<<") && !ft_strchr(cmd->cmd_content, '<') && cmd->heredoc_str)
+	{
+		tmp_file = generate_tmp_file_name();// secure + gestion de l'erreur peut etre donner un prompt
+		if (!tmp_file)
+			return (errno_file_error("tmpfile", 0), NULL);
+		cmd->fd_redirection[FD_IN] = open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		if (cmd->fd_redirection[FD_IN] == -1)
+			return (errno_file_error(tmp_file, 0), NULL);// pb sur ce retour
+		write(cmd->fd_redirection[FD_IN], cmd->heredoc_str, ft_strlen(cmd->heredoc_str));
+		close(cmd->fd_redirection[FD_IN]);
+		cmd->fd_redirection[FD_IN] = open(tmp_file, O_RDONLY);
+		if (cmd->fd_redirection[FD_IN] == -1)
+			return (errno_file_error("tmpfile", 0), NULL);//pb sur ce retour
+		unlink(tmp_file);
+	}
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	return ((void *)1);
 }

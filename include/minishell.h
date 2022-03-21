@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 17:38:02 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:59:49 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@
 
 typedef struct s_pipe_command
 {
+	char	*heredoc_str;
 	int		redirection_error;
 	char	*infile_operator;
 	char	*outfile_operator;
