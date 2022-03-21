@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 17:22:43 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:54:50 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_message(char *msg, char *color, int exit_status)
 		free_and_exit(exit_status);
 }
 
-uint8_t	print_first_check_error(char *msg, char *token, char **input/*, char **shell_prompt*/)
+uint8_t	print_first_check_error(char *msg, char *token, char **envp[], char **shell_prompt)
 {
 	if (!token)
 	{
@@ -60,10 +60,8 @@ uint8_t	print_first_check_error(char *msg, char *token, char **input/*, char **s
 		print_message("'.\n", RED, 0);//modif ici
 		// printf(RED "%s '%s'.\n" RESET, msg, token);
 	}
-	*input = "";
 	g_status = 2;
-//	*shell_prompt = create_prompt(); A REMETRE
-//	(void)shell_prompt;
+	*shell_prompt = create_prompt(envp);
 	return (1);
 }
 
