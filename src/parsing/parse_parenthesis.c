@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 20:14:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 00:16:46 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:21:25 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ static uint8_t	open_parenthesis(char *input)
 		}
 		else if (input[i] == ')')
 			right_nbr++;
-		i++;
+		if (input[i])
+			i++;
 	}
 	if (left_nbr == right_nbr)
 		return (0);
@@ -157,7 +158,8 @@ uint8_t	parenthesis_checker(char *input)
 			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(input, i), &input));
 		else if (input[i] == ')' && !is_meta(input, i, NEXT))
 			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(input, i), &input));
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (0);
 }
