@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 17:34:28 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:39:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt, char **envp[])
 	int	save_status;
 
 	save_status = g_status;
-	g_status = -256;
+	// g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
 	g_status = save_status;
 	if (input_error(input, shell_prompt, envp))
@@ -101,7 +101,6 @@ void	prompt_loop(char **envp[])
 	char	*shell_prompt;
 	char	*input;
 	int		save_in;
-//	int		save_out;
 	t_list	*cmd_list;
 
 	shell_prompt = create_prompt(envp);

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 17:01:46 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:38:02 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,21 +155,22 @@ void	child_sig_handler(int sigcode);
 **	Bultins
 */
 
-int			builtin_exit(char **exec_args, int exit);
-int			is_builtin(char *exec_args);
-int			builtin_echo(char **exec_args, int exit, int fd);
-int			builtin_pwd(char **exec_args, int exit, int fd);
-int			builtin_env(char **exec_args, char **envp[], int exit, int fd);
-int			builtin_cd(char **exec_args, char **envp[], int exit);
-int			builtin_export(char **exec_args, char **envp[], int exit, int fd);
-int			builtin_unset(char **exec_args, char **envp[], int exit);
-char		*env_variable_exist(char *envp[], char *param, size_t var_name_len);
-int			close_save_fd(int fd);
-t_list 		*export_init_env(char *envp[], t_list **export_list);
-void		print_strs_fd(t_list **export_var, int fd);
-char		*ft_strndup(const char *s, int garbage, size_t len);
-t_list		**add_el_to_export_list(t_list **export_list, char *export_el);
-void		lst_bubblesort(t_list **list_to_sort);
+int		builtin_exit(char **exec_args, int exit);
+int		is_builtin(char *exec_args);
+int		builtin_echo(char **exec_args, int exit, int fd);
+int		builtin_pwd(char **exec_args, int exit, int fd);
+int		builtin_env(char **exec_args, char **envp[], int exit, int fd);
+int		builtin_cd(char **exec_args, char **envp[], int exit);
+int		builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var);
+void	export_var_exist(t_list **export_var, char *var_name);
+int		builtin_unset(char **exec_args, char **envp[], int exit, t_list **export_var);
+char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
+int		close_save_fd(int fd);
+t_list 	*export_init_env(char *envp[], t_list **export_list);
+void	print_strs_fd(t_list **export_var, int fd);
+char	*ft_strndup(const char *s, int garbage, size_t len);
+t_list	**add_el_to_export_list(t_list **export_list, char *export_el);
+void	lst_bubblesort(t_list **list_to_sort);
 
 /*
 **	Exit

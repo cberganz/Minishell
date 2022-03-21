@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 16:38:13 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:58:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@ int	is_builtin(char *exec_args)
 int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 {
 	int	fd;
+	static t_list		*export_var = NULL;
 
+	if (!export_var)
+	{
+		export_init_env(*envp, &export_var);
+		if (export_var == NULL)
+			return (-1);
+	}
 	fd = 1;
 	if (command->redirection_error)
 		return (command->redirection_error);
@@ -41,9 +48,9 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 	else if (ft_strequ(command->exec_args[0], "pwd"))
 		return (builtin_pwd(command->exec_args + 1, exit, fd));
 	else if (ft_strequ(command->exec_args[0], "export"))
-		return (builtin_export(command->exec_args + 1, envp, exit, fd));
+		return (builtin_export(command->exec_args + 1, envp, exit, fd, &export_var));
 	else if (ft_strequ(command->exec_args[0], "unset"))
-		return (builtin_unset(command->exec_args + 1, envp, exit));
+		return (builtin_unset(command->exec_args + 1, envp, exit, &export_var));
 	else if (ft_strequ(command->exec_args[0], "env"))
 	{
 		set_env("_", "env", envp);

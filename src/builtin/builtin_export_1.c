@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 15:15:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:01:02 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,17 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	return (0);
 }
 
-int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
+int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var)
 {
 	int					ret_name_alnum;
 	char				*equal_ptr;
-	static t_list		*export_var = NULL;
+	// static t_list		*export_var = NULL;
 	int					error;
 
 	error = 0;
-	if (!export_var)
-	{
-		export_init_env(*envp, &export_var);
-		if (export_var == NULL)
-			return (-1);
-	}
 	if (!(*exec_args))
 	{
-		print_strs_fd(&export_var, fd);
+		print_strs_fd(export_var, fd);
 		if (exit)
 			free_and_exit(0);
 		return (0);
@@ -113,7 +107,7 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 			exec_args++;
 			continue ;
 		}
-		if (!add_el_to_export_list(&export_var, *exec_args))
+		if (!add_el_to_export_list(export_var, *exec_args))
 			return (-1);
 		equal_ptr = ft_strchr(*exec_args, '=');
 		if (equal_ptr && add_var_to_env(*exec_args, envp, equal_ptr, ret_name_alnum))
