@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/19 14:29:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:58:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char *
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	if (!cmd->redirection_error)
 	{
+		if (!access(cmd->outfile, F_OK) && access(cmd->outfile, W_OK) == -1)
+		{
+			cmd->redirection_error = 1;
+			return (errno_file_error(cmd->outfile, 1), (void *)1);
+		}
 		if (!ft_strncmp(operator, ">>", 2))
 			cmd->fd_redirection[FD_OUT] = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else if (!ft_strncmp(operator, ">", 1))
@@ -133,6 +138,12 @@ void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char **
 		}
 		if (!cmd->redirection_error)
 		{
+			if (access(cmd->infile, F_OK | W_OK) == -1)
+			{
+				cmd->redirection_error = 1;
+				remove_file(len_of_file, &cmd->cmd_content[i]);
+				return (errno_file_error(cmd->infile, 1), (void *)1);
+			}
 			cmd->fd_redirection[FD_IN] = open(cmd->infile, O_RDONLY);
 			if (cmd->fd_redirection[FD_IN] == -1)
 			{
