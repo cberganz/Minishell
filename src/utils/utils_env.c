@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 16:44:45 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:38:18 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,28 @@ char	*path_troncate(char *s, char *to_troncate)
 		i++;
 	}
 	return (s);
+}
+
+void	handle_shlvl(int nb, char **envp[])
+{
+	int		lvl;
+	char	*shlvl;
+
+	lvl = ft_atoi(get_env("SHLVL", envp));
+	if (lvl >= 999)
+	{
+		ft_putstr_fd("minishell: warning: shell level (", 2);
+		ft_putnbr_fd(lvl, 2);
+		ft_putendl_fd(") too high, resetting to 1", 2);
+		lvl = 1;
+	}
+	else if (lvl < 0)
+		lvl = 0;
+	else
+		lvl += nb;
+	shlvl = ft_itoa(lvl, MAIN);
+	if (!shlvl)
+		print_message(MALLOC_ERR_MSG, RED, 1);
+	set_env("SHLVL", shlvl, envp);
+	mem_remove(shlvl, MAIN);
 }

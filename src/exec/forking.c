@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 02:09:16 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:38:15 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void    forking(t_list *command_list, char **envp[])
 			else
 				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
 			close_all_fds(command, prev, command_list);
+			if (!prev && command_list->next)
+				handle_shlvl(-1, envp);
 			ret = exec_builtin(command, envp, 1);
 			if (!ret)
 				exec_bin(command, envp);

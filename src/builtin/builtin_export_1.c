@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 17:23:14 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 15:15:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,6 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	return (0);
 }
 
-static void	handle_shlvl(int nb, char **envp[])
-{
-	char	*shlvl;
-
-	shlvl = ft_itoa(ft_atoi(get_env("SHLVL", envp)) + nb, MAIN);
-	if (!shlvl)
-		print_message(MALLOC_ERR_MSG, RED, 1);
-	set_env("SHLVL", shlvl, envp);
-	mem_remove(shlvl, MAIN);
-}
-
 int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 {
 	int					ret_name_alnum;
@@ -99,19 +88,18 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 	int					error;
 
 	error = 0;
-	handle_shlvl(1, envp);
 	if (!export_var)
 	{
 		export_init_env(*envp, &export_var);
 		if (export_var == NULL)
-			return (handle_shlvl(-1, envp), -1);
+			return (-1);
 	}
 	if (!(*exec_args))
 	{
 		print_strs_fd(&export_var, fd);
 		if (exit)
 			free_and_exit(0);
-		return (handle_shlvl(-1, envp), 0);
+		return (0);
 	}
 	while (*exec_args)
 	{
@@ -126,13 +114,13 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd)
 			continue ;
 		}
 		if (!add_el_to_export_list(&export_var, *exec_args))
-			return (handle_shlvl(-1, envp), -1);
+			return (-1);
 		equal_ptr = ft_strchr(*exec_args, '=');
 		if (equal_ptr && add_var_to_env(*exec_args, envp, equal_ptr, ret_name_alnum))
-			return (handle_shlvl(-1, envp), 1);
+			return (1);
 		exec_args++;
 	}
 	if (exit)
 		free_and_exit(error);
-	return (handle_shlvl(-1, envp), error);
+	return (error);
 }
