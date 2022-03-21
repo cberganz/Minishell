@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 15:17:00 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:01:46 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	remove_quotes_str(char **str);
 */
 
 void	sig_handler(int sigcode);
+void	sig_void(int sigcode);
 
 /*
 **	Execution
@@ -211,11 +212,11 @@ present outside single quotes."
 # define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file"
 # define MALLOC_ERR_MSG "Minishell: Allocation error\n"
 
-uint8_t	near_unexpected_token_error(char **input, char **shell_prompt);
+uint8_t	near_unexpected_token_error(char **input, char **shell_prompt, char **envp[]);
 uint8_t	open_quotes(char *input);
-uint8_t	parenthesis_checker(char *input);
+uint8_t	parenthesis_checker(char **input, char **envp[], char **shell_prompt);
 uint8_t	not_interpreted_characters(char *input);
-uint8_t	print_first_check_error(char *msg, char *token, char **input/*, char **shell_prompt*/);
+uint8_t	print_first_check_error(char *msg, char *token, char **envp[], char **shell_prompt);
 int		quote_len(char *sub_input, char quote);
 
 /*

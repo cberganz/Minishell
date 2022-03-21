@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 20:14:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 15:13:50 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:09:02 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static uint8_t is_meta(char *sub_input, int i, int direction)
 	return (1);
 }
 
-static uint8_t	open_parenthesis(char *input)
+static uint8_t	open_parenthesis(char **input, char **envp[], char **shell_prompt)
 {
 	int	i;
 	int	j;
@@ -74,33 +74,33 @@ static uint8_t	open_parenthesis(char *input)
 	left_nbr = 0;
 	right_nbr = 0;
 	is_command = 0;
-	while (input[i])
+	while ((*input)[i])
 	{
-		i += quotes_len(input, i);
-		if (input[i] == '(')
+		i += quotes_len(*input, i);
+		if ((*input)[i] == '(')
 		{
 			left_nbr++;
-			if (input[i + 1] == ')')
-				return (print_first_check_error(NEAR_TOKEN_ERR_MSG, ")", &input));
+			if ((*input)[i + 1] == ')')
+				return (print_first_check_error(NEAR_TOKEN_ERR_MSG, ")", envp, shell_prompt));
 			j = i;
-			while (input[++j] && input[j] != ')')
+			while ((*input)[++j] && (*input)[j] != ')')
 			{
-				if (input[j] != ' ')
+				if ((*input)[j] != ' ')
 					break ;
 			}
-			if (!input[j])
-				return (print_first_check_error(PARENTHESIS_ERR_MSG, NULL, &input));
-			if (input[j] == ')')
-				return (print_first_check_error(NEAR_TOKEN_ERR_MSG, ")", &input));
+			if (!(*input)[j])
+				return (print_first_check_error(PARENTHESIS_ERR_MSG, NULL, envp, shell_prompt));
+			if ((*input)[j] == ')')
+				return (print_first_check_error(NEAR_TOKEN_ERR_MSG, ")", envp, shell_prompt));
 		}
-		else if (input[i] == ')')
+		else if ((*input)[i] == ')')
 			right_nbr++;
-		if (input[i])
+		if ((*input)[i])
 			i++;
 	}
 	if (left_nbr == right_nbr)
 		return (0);
-	return (print_first_check_error(PARENTHESIS_ERR_MSG, NULL, &input));
+	return (print_first_check_error(PARENTHESIS_ERR_MSG, NULL, envp, shell_prompt));
 }
 
 static char	*get_token(char *input, int i)
@@ -144,21 +144,21 @@ static char	*get_token(char *input, int i)
 	return (token);
 }
 
-uint8_t	parenthesis_checker(char *input)
+uint8_t	parenthesis_checker(char **input, char **envp[], char **shell_prompt)
 {
 	int	i;
 
 	i = 0;
-	if (open_parenthesis(input))
+	if (open_parenthesis(input, envp, shell_prompt))
 		return (1);
-	while (input[i])
+	while ((*input)[i])
 	{
-		i += quotes_len(input, i);
-		if (input[i] == '(' && !is_meta(input, i, PREVIOUS))
-			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(input, i), &input));
-		else if (input[i] == ')' && !is_meta(input, i, NEXT))
-			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(input, i), &input));
-		if (input[i])
+		i += quotes_len(*input, i);
+		if ((*input)[i] == '(' && !is_meta(*input, i, PREVIOUS))
+			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(*input, i), envp, shell_prompt));
+		else if ((*input)[i] == ')' && !is_meta(*input, i, NEXT))
+			return (print_first_check_error(NEAR_TOKEN_ERR_MSG, get_token(*input, i), envp, shell_prompt));
+		if ((*input)[i])
 			i++;
 	}
 	return (0);

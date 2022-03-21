@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/19 16:17:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:34:28 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ uint8_t	pipe_is_open(char *str)
 	return (0);
 }
 
-int8_t	input_error(char **input, char **shell_prompt)
+int8_t	input_error(char **input, char **shell_prompt, char **envp[])
 {
 	char	*tmp;
 
@@ -37,12 +37,12 @@ int8_t	input_error(char **input, char **shell_prompt)
 	mem_remove(tmp, LOOP);
 	if (ft_strequ(*input, ""))
 		return (-1);
-	if (near_unexpected_token_error(input, shell_prompt))
+	if (near_unexpected_token_error(input, shell_prompt, envp))
 		return (-1);
 	return (0);
 }
 
-uint8_t	input_first_read(char **input, char **shell_prompt)
+uint8_t	input_first_read(char **input, char **shell_prompt, char **envp[])
 {
 	int	save_status;
 
@@ -50,7 +50,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt)
 	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
 	g_status = save_status;
-	if (input_error(input, shell_prompt))
+	if (input_error(input, shell_prompt, envp))
 		return (1);
 	return (0);
 }
@@ -106,20 +106,18 @@ void	prompt_loop(char **envp[])
 
 	shell_prompt = create_prompt(envp);
 	input = "";
-	rl_outstream = stderr; // TEST
+	rl_outstream = stderr;
 	while (1)
 	{
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, sig_handler);
 		signal(SIGTSTP, sig_handler);
 		save_in = dup(STDIN_FILENO);// close ce save in
-//		save_out = dup(STDOUT_FILENO);// close ce save in
-//		dup2(STDERR_FILENO, STDOUT_FILENO);
-		if (input_first_read(&input, &shell_prompt))
+		if (input_first_read(&input, &shell_prompt, envp))
 			continue ;
-//		dup2(save_out, STDOUT_FILENO);
-//		close(save_out);
 		cmd_list = global_parsing(input);
+		if (!ft_strequ(input, ""))
+			add_history(input);
 		if (!cmd_list)
 		{
 			del_garbage(LOOP);
@@ -135,8 +133,6 @@ void	prompt_loop(char **envp[])
 			continue ;
 		}
 		// print_lists(cmd_list);
-		if (!ft_strequ(input, ""))
-			add_history(input);
 		close_heredoc_fds(cmd_list);
 		del_garbage(LOOP);
 		input = "";
