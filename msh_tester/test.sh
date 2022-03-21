@@ -556,7 +556,7 @@ if [ "$1" == "multi" ] || [ "$1" == "all" ]; then
   exec_test 'ls bonjour'
   exec_test 'export test=a'
   exec_test 'echo $test'
-  exec_test '<test1 | <test2'
+#  exec_test '<test1 | <test2'
 fi
 
 # SYNTAX 

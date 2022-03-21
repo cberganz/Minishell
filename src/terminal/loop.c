@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/19 16:17:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:34:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt)
 	int	save_status;
 
 	save_status = g_status;
-	g_status = -256;
+	// g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
 	g_status = save_status;
 	if (input_error(input, shell_prompt))
@@ -101,7 +101,6 @@ void	prompt_loop(char **envp[])
 	char	*shell_prompt;
 	char	*input;
 	int		save_in;
-//	int		save_out;
 	t_list	*cmd_list;
 
 	shell_prompt = create_prompt(envp);
@@ -113,12 +112,8 @@ void	prompt_loop(char **envp[])
 		signal(SIGQUIT, sig_handler);
 		signal(SIGTSTP, sig_handler);
 		save_in = dup(STDIN_FILENO);// close ce save in
-//		save_out = dup(STDOUT_FILENO);// close ce save in
-//		dup2(STDERR_FILENO, STDOUT_FILENO);
 		if (input_first_read(&input, &shell_prompt))
 			continue ;
-//		dup2(save_out, STDOUT_FILENO);
-//		close(save_out);
 		cmd_list = global_parsing(input);
 		if (!cmd_list)
 		{

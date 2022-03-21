@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/16 23:06:21 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:21:42 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	**remove_var(char **envp[], char *env_var)
 		j++;
 		line++;
 	}
-	// new_envp = mem_alloc(i * sizeof(char *), (void **)&new_envp, MAIN);
 	if (mem_alloc((line + 1) * sizeof(char *), (void **)&new_envp, MAIN))
 		print_message("minishell: Allocation error.\n", RED, 1);
 	if (new_envp == NULL)
@@ -70,7 +69,28 @@ char	**remove_var(char **envp[], char *env_var)
 	return (new_envp);
 }
 
-int	builtin_unset(char **exec_args, char **envp[], int exit)
+void	export_var_exist(t_list **export_var, char *var_name)
+{
+	t_list	*tmp;
+
+	tmp = *export_var;
+	if (!ft_strcmp(var_name, ((t_export *)tmp->content)->var))
+	{
+		*export_var = tmp->next;
+		return ;
+	}
+	while (tmp->next)
+	{
+		if (!ft_strcmp(var_name, ((t_export *)tmp->next->content)->var))
+		{
+			tmp->next = tmp->next->next;
+			return ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	builtin_unset(char **exec_args, char **envp[], int exit, t_list **export_var)
 {
 	char	*env_var;
 	int		error;
@@ -88,6 +108,7 @@ int	builtin_unset(char **exec_args, char **envp[], int exit)
 		env_var = env_variable_exist(*envp, *exec_args, ft_strlen(*exec_args));
 		if (env_var)
 			*envp = remove_var(envp, env_var);//secure
+		export_var_exist(export_var, *exec_args);
 		exec_args++;
 	}
 	if (exit)
