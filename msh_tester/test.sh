@@ -39,7 +39,7 @@ function exec_test()
   
   rm -f msh_log
   # execute commands, separated by ';' in minishell, using nfifo
-  ./minishell <$pipe >msh_log 2>&-  &
+  ./minishell <$pipe >msh_log 2>&- &
   mshpid=$!
   IFS=';' read -ra CMND <<< "$@"
   for command in "${CMND[@]}"; do

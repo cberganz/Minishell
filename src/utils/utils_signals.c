@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 12:31:45 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:02:10 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sig_handler(int sigcode)
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay(); // Probleme ne met pas la fleche en rouge => peut etre reglé avec le close STDIN
-			g_status -= 1;
+			g_status = -257;
 		}
 		else
 			g_status = 130;

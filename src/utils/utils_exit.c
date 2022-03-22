@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:03:54 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 17:34:27 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 15:52:49 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	free_and_exit(int exit_code)
 {
+	rl_clear_history();
 	del_garbage(LOOP);
 	del_garbage(MAIN);
-	rl_clear_history();
 	exit(exit_code);
 }
 
