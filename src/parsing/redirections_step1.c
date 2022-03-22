@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 22:19:26 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 22:25:31 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char *
 		print_message(ambigous_redirect, RED, 0);
 		print_message(": Ambigous redirection\n", RED, 0);
 		printf (RESET);
-		cmd->redirection_error = 2;
+		cmd->redirection_error = 1;
 	}
 	remove_file(len_of_file, &cmd->cmd_content[i]);
 	if (!cmd->redirection_error)
