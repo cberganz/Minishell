@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 10:17:08 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:29:10 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ char	*str_until_equal(char *str)
 
 	i = 0;
 	while (str[i] != '=' && str[i])
+	{
+		if (!ft_strncmp(&str[i], "+=", 2))
+			break ;
 		i++;
+	}
 	export_str = ft_strndup(str, MAIN, i + 1);
 	if (export_str == NULL)
 		return (NULL);
