@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/20 16:27:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:32:04 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	redirection_var_expand(int var_expand, char **input, char ***envp, char *ch
 			if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1], charset, ft_isalnum))
 				i += insert_var_str(input, i, envp, charset);
 			jump_quotes(*input, &double_quote, &i);
-			i++;
+			if ((*input)[i])
+				i++;
 		}
 	}
 }

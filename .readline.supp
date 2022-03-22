@@ -5,3 +5,10 @@
    ...
    fun:readline
 }
+{
+   <readline_leaks>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:add_history
+}
