@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 17:01:35 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:07:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,11 @@ void	sig_handler(int sigcode)
 {
 	if (sigcode == SIGINT)
 	{
-		printf("\n");
-		if (g_status == -255)
-		{
-			close(STDIN_FILENO);
-			g_status = 130;
-		}
-		else if (g_status <= -256)
-		{
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay(); // Probleme ne met pas la fleche en rouge => peut etre reglé avec le close STDIN
-			g_status = -257;
-		}
-		else
-			g_status = 130;
+		close(STDIN_FILENO);
+		g_status = 130;
 	}
 	if (sigcode == SIGQUIT || sigcode == SIGTSTP)
-		printf("\b\b  \033[2D"); 
+		write(2, "\b\b  \033[2D", 8); 
 }
 
 void	sig_void(int sigcode)

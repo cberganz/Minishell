@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 16:03:17 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:09:53 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	*write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 {
 	int		len_of_file;
 	char	*end_word;
-	int		save_status;
 	int		var_expand;
 	char	*input;
 
@@ -59,12 +58,9 @@ static char	*write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 	var_expand = 1;
 	if (ft_strchr(end_word, '\'') || ft_strchr(end_word, '"'))
 		var_expand = 0;
-	save_status = g_status;
-	g_status = -255;
 	input = heredoc_loop(end_word, var_expand, envp);
 	if (g_status == 130)
 		return (NULL);
-	g_status = save_status;
 	return (input);
 }
 

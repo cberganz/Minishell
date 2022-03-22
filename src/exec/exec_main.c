@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 19:55:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 22:42:33 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ uint8_t	exec_main(t_list *cmd_list, char **envp[])
 		}
 		else
 			parenthesis_priority(&cmd_list, prev_nb_parenthesis);
+		if (g_status == 130)
+			return (1);
 	}
 	return (0);
 }

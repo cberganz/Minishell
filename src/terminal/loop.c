@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 22:17:50 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:00:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,13 @@ uint8_t	input_first_read(char **input, char **shell_prompt, char **envp[])
 	int	save_status;
 
 	save_status = g_status;
+	if (g_status == 130)
+		printf("\n");
 	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
-	if (g_status < -256)
+	if (g_status == 130)
+		return (2);
+	else if (g_status < -256)
 		g_status = 130;
 	else
 		g_status = save_status;
@@ -104,6 +108,7 @@ void	prompt_loop(char **envp[])
 	char	*shell_prompt;
 	char	*input;
 	int		save_in;
+	int		ret_first_read;
 	t_list	*cmd_list;
 
 	shell_prompt = create_prompt(envp);
@@ -115,8 +120,15 @@ void	prompt_loop(char **envp[])
 		signal(SIGQUIT, sig_handler);
 		signal(SIGTSTP, sig_handler);
 		save_in = dup(STDIN_FILENO);// close ce save in
-		if (input_first_read(&input, &shell_prompt, envp))
+		ret_first_read = input_first_read(&input, &shell_prompt, envp);
+		if (ret_first_read == 1)
 			continue ;
+		if (ret_first_read == 2)
+		{
+			dup2(save_in, STDIN_FILENO);
+			close(save_in);
+			continue ;
+		}
 		cmd_list = global_parsing(input);
 		if (!ft_strequ(input, ""))
 			add_history(input);
@@ -127,14 +139,10 @@ void	prompt_loop(char **envp[])
 			shell_prompt = create_prompt(envp);
 			continue ;
 		}
-		else if (exec_main(cmd_list, envp) == 1)
-		{
-			dup2(save_in, STDIN_FILENO);
-			close(save_in);
-			continue ;
-		}
-		// print_lists(cmd_list);
-		close_heredoc_fds(cmd_list);
+		exec_main(cmd_list, envp);
+		dup2(save_in, STDIN_FILENO);
+		close(save_in);
+		close_heredoc_fds(cmd_list);// supprimmer a chaque continue
 		del_garbage(LOOP);
 		input = "";
 		shell_prompt = create_prompt(envp);
