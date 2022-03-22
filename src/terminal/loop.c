@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 12:20:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:31:47 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt, char **envp[])
 	save_status = g_status;
 	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
-	if (g_status == -256)
+	if (g_status < -256)
 		g_status = 130;
 	else
 		g_status = save_status;
