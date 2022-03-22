@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 17:24:30 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 17:21:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void    forking(t_list *command_list, char **envp[])
 
 	signal(SIGQUIT, child_sig_handler);
 	signal(SIGINT, sig_void); // VOIR SI CELA FONCTIONNE
-//	signal(SIGQUIT, sig_void);
 	signal(SIGTSTP, sig_void);
 	while (command_list)
 	{
