@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 12:31:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 15:55:10 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void	prompt_loop(char **envp[])
 		}
 		else if (exec_main(cmd_list, envp) == 1)
 		{
-			// close(STDIN_FILENO);
 			dup2(save_in, STDIN_FILENO);
 			close(save_in);
 			continue ;
