@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 19:59:49 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 09:55:11 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	child_sig_handler(int sigcode);
 int		builtin_exit(char **exec_args, int exit);
 int		is_builtin(char *exec_args);
 int		builtin_echo(char **exec_args, int exit, int fd);
-int		builtin_pwd(char **exec_args, int exit, int fd);
+int		builtin_pwd(char **exec_args, int exit, int fd, char **envp[]);
 int		builtin_env(char **exec_args, char **envp[], int exit, int fd);
 int		builtin_cd(char **exec_args, char **envp[], int exit);
 int		builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var);

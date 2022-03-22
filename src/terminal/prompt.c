@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/17 03:18:13 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:07:45 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ char	*create_prompt(char **envp[])
 {
 	char	*prompt;
 	char	*home;
+	int		home_len;
 
 	home = getenv("HOME");
-	prompt = get_env("PWD", envp);//getcwd(NULL, 0); // TEMPORARY SOLUTION
-	//prompt = "Minishell"; // TEMPORARY SOLUTION
-	//printf("%sTEST\n", prompt); prompt est null ici quand le directory dans lequel on est a ete rm -rf dans la precedente commande
+	prompt = get_env("PWD", envp);
 	if (!prompt)
 		prompt = "Minishell";
-//		free_and_exit(MALLOC_ERR);
-	//garbage_addptr(prompt, LOOP); TEMPORARY SOLUTION
 	if (home && ft_strstr(prompt, home))
 	{
-		prompt[ft_strlen(home) - 1] = '~';
-		prompt = &prompt[ft_strlen(home) - 1];
+		home_len = ft_strlen(home);
+		if (prompt[0] == '/' && prompt[1] == '/')
+			home_len += 1;
+		prompt[home_len - 1] = '~';
+		prompt = &prompt[home_len - 1];
 	}
 	if (g_status)
 		prompt = ft_strjoin("\001\e[31;1m\002> \001\e[35m\002", prompt, LOOP);

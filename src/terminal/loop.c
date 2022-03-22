@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 19:22:06 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:20:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ uint8_t	pipe_is_open(char *str)
 
 int8_t	input_error(char **input, char **shell_prompt, char **envp[])
 {
-	char	*tmp;
+	char	*tmp; // a enlever ?
 
 	if (!*input)
 		eof_exit();
-	tmp = *input;
+	tmp = *input; // a enlever ?
 	*input = ft_strtrim(*input, " ", LOOP);
-	mem_remove(tmp, LOOP);
+	mem_remove(tmp, LOOP); // a enlever ?
 	if (ft_strequ(*input, ""))
 		return (-1);
 	if (near_unexpected_token_error(input, shell_prompt, envp))
@@ -47,9 +47,12 @@ uint8_t	input_first_read(char **input, char **shell_prompt, char **envp[])
 	int	save_status;
 
 	save_status = g_status;
-	// g_status = -256;
+	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
-	g_status = save_status;
+	if (g_status == -256)
+		g_status = 130;
+	else
+		g_status = save_status;
 	if (input_error(input, shell_prompt, envp))
 		return (1);
 	return (0);

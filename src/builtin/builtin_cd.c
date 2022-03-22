@@ -6,11 +6,44 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 13:01:26 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 10:44:25 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*check_path(char *cwd, char *path)
+{
+	char	*ncwd;
+	int		i;
+	int		nb_slash;
+	uint8_t	is_path;
+
+	nb_slash = 0;
+	is_path = 1;
+	while (path[nb_slash] == '/')
+		nb_slash++;
+	if (path[nb_slash] == '\0')
+		is_path = 0;
+	if (nb_slash == 2)
+	{
+		if (mem_alloc(ft_strlen(cwd) + 2, (void **)&ncwd, LOOP))
+			print_message(MALLOC_ERR_MSG, RED, 1);
+		ncwd[0] = '/';
+		i = 1;
+		while (*cwd)
+		{
+			ncwd[i] = *cwd;
+			cwd++;
+			i++;
+		}
+		ncwd[i] = '\0';
+		return (ncwd);
+	}
+	else if (nb_slash > 2 && !is_path)
+		return ("/");
+	return (cwd);
+}
 
 static int	change_directory(char *path, char **envp[])
 {
@@ -25,13 +58,13 @@ static int	change_directory(char *path, char **envp[])
 	if (!chdir(path))
 	{
 		set_env("OLDPWD", cwd, envp);
-		if (ft_strequ(path, get_env("HOME", envp)))
-			cwd = get_env("HOME", envp);
-		else
-		{
-			getcwd(buff, 4096);
-			cwd = buff;
-		}
+		//if (ft_strequ(path, get_env("HOME", envp)))
+		//	cwd = get_env("HOME", envp);
+		//else
+		//{
+		getcwd(buff, 4096);
+		cwd = check_path(buff, path);
+		//}
 		set_env("PWD", cwd, envp);
 		return (0);
 	}
