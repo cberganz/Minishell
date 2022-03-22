@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 22:42:33 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:43:16 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,19 @@ void	set_dollar_underscore(t_list *command_list, char **envp[],
 static void	exec_commands(t_list *command_list, char **envp[])
 {
 	t_pipe_command	*command;
+	uint8_t			ret_fork;
 
 	command = (t_pipe_command *)command_list->content;
 	set_dollar_underscore(command_list, envp, command);
+	ret_fork = 0;
 	if (is_builtin(command->exec_args[0]) && !command_list->next)
 		g_status = exec_builtin(command, envp, 0, 1);
 	else
 	{
-		forking(command_list, envp);
+		ret_fork = forking(command_list, envp);
 		wait_children(command_list);
+		if (ret_fork)
+			g_status = 129;
 	}
 }
 

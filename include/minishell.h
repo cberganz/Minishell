@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 19:32:29 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:39:00 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_pipe_command
 	char	*outfile;
 	int		fd_redirection[2];
 	int		fd_pipe[2];
-	int		fd_tmp;
 	char	*cmd_content;
 	char	**exec_args;
 	pid_t	pid;
@@ -147,7 +146,7 @@ void	sig_void(int sigcode);
 uint8_t	exec_main(t_list *cmd_list, char **envp[]);
 void	exec_bin(t_pipe_command *command, char **envp[]);
 int		exec_builtin(t_pipe_command *command, char **envp[], int exit, int fd);
-void	forking(t_list *command_list, char **envp[]);
+uint8_t	forking(t_list *command_list, char **envp[]);
 void	wait_children(t_list *command_list);
 char	*get_path(char **exec_args, char **envp[]);
 void	child_sig_handler(int sigcode);

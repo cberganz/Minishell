@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 23:06:13 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 23:44:01 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,25 @@ void	close_all_fds(t_pipe_command *command, t_pipe_command *prev,
 		close(prev->fd_pipe[FD_IN]);
 	if (command_list->next != NULL)
 		close(command->fd_pipe[FD_OUT]);
+}
+
+void	close_all_fds_cmd_list(t_list *command_list)
+{
+	t_pipe_command	*el;
+
+	while (command_list)
+	{
+		el = ((t_pipe_command*)command_list->content);
+		if (el->fd_redirection[FD_IN] != 0)
+			close(el->fd_redirection[FD_IN]);
+		if (el->fd_redirection[FD_OUT] != 1)
+			close(el->fd_redirection[FD_OUT]);
+		if (el->fd_pipe[FD_IN] != 0)
+			close(el->fd_pipe[FD_IN]);
+		if (el->fd_pipe[FD_OUT] != 0)
+			close(el->fd_pipe[FD_OUT]);
+		command_list = command_list->next;
+	}
 }
 
 static void	exec_child(t_pipe_command *command, t_pipe_command *prev,
@@ -55,7 +74,7 @@ static void	exec_child(t_pipe_command *command, t_pipe_command *prev,
 		free_and_exit(ret);
 }
 
-void	forking(t_list *command_list, char **envp[])
+uint8_t	forking(t_list *command_list, char **envp[])
 {
 	t_pipe_command	*command;
 	t_pipe_command	*prev;
@@ -70,7 +89,11 @@ void	forking(t_list *command_list, char **envp[])
 		if (command_list->next != NULL)
 		{
 			if (pipe(command->fd_pipe) == -1)
-				print_message("Minishell: Pipe() error.\n", RED, 1);
+			{
+				errno_file_error("pipe error", 0);
+				close_all_fds_cmd_list(command_list);
+				return (1);
+			}
 		}
 		command->pid = fork();
 		if (command->pid == 0)
@@ -81,6 +104,7 @@ void	forking(t_list *command_list, char **envp[])
 		prev = command;
 		command_list = command_list->next;
 	}
+	return (0);
 }
 
 void	wait_children(t_list *command_list)
