@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 22:33:02 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/22 16:03:17 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*write_in_tmp_file(t_pipe_command *cmd, int i, char ***envp)
 	save_status = g_status;
 	g_status = -255;
 	input = heredoc_loop(end_word, var_expand, envp);
-	if (!input)
+	if (g_status == 130)
 		return (NULL);
 	g_status = save_status;
 	return (input);
@@ -87,7 +87,7 @@ uint8_t find_heredoc(t_pipe_command *cmd, int file_nbr, char ***envp)
 		{
 			i += 2;
 			cmd->heredoc_str = write_in_tmp_file(cmd, i, envp);//secure
-			if (cmd->heredoc_str == NULL)
+			if (cmd->heredoc_str == NULL || g_status == 130)
 				return (1);
 		}
 		else if (cmd->cmd_content[i])
