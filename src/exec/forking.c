@@ -6,13 +6,14 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 17:21:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 19:32:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    close_all_fds(t_pipe_command *command, t_pipe_command *prev, t_list *command_list)
+void	close_all_fds(t_pipe_command *command, t_pipe_command *prev,
+			t_list *command_list)
 {
 	if (command->fd_redirection[FD_IN] != 0)
 		close(command->fd_redirection[FD_IN]);
@@ -29,13 +30,37 @@ void    close_all_fds(t_pipe_command *command, t_pipe_command *prev, t_list *com
 		close(command->fd_pipe[FD_OUT]);
 }
 
-void    forking(t_list *command_list, char **envp[])
+static void	exec_child(t_pipe_command *command, t_pipe_command *prev,
+				t_list *command_list, char **envp[])
+{
+	int	ret;
+
+	if (command->redirection_error)
+		free_and_exit(1);
+	if (!prev || command->fd_redirection[FD_IN] != 0)
+		dup2(command->fd_redirection[FD_IN], STDIN_FILENO);
+	else
+		dup2(prev->fd_pipe[FD_IN], STDIN_FILENO);
+	if (!command_list->next || command->fd_redirection[FD_OUT] != 1)
+		dup2(command->fd_redirection[FD_OUT], STDOUT_FILENO);
+	else
+		dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
+	close_all_fds(command, prev, command_list);
+	if (!prev && command_list->next)
+		handle_shlvl(-1, envp);
+	ret = exec_builtin(command, envp, 1, 1);
+	if (!ret)
+		exec_bin(command, envp);
+	if (ret == 1)
+		free_and_exit(ret);
+}
+
+void	forking(t_list *command_list, char **envp[])
 {
 	t_pipe_command	*command;
-	int				ret;
 	t_pipe_command	*prev;
-	prev = NULL;
 
+	prev = NULL;
 	signal(SIGQUIT, child_sig_handler);
 	signal(SIGINT, sig_void); // VOIR SI CELA FONCTIONNE
 	signal(SIGTSTP, sig_void);
@@ -49,26 +74,7 @@ void    forking(t_list *command_list, char **envp[])
 		}
 		command->pid = fork();
 		if (command->pid == 0)
-		{
-			if (command->redirection_error)
-				free_and_exit(1);
-			if (!prev || command->fd_redirection[FD_IN] != 0) 
-				dup2(command->fd_redirection[FD_IN], STDIN_FILENO);
-			else
-				dup2(prev->fd_pipe[FD_IN], STDIN_FILENO);
-			if (!command_list->next || command->fd_redirection[FD_OUT] != 1)
-				dup2(command->fd_redirection[FD_OUT], STDOUT_FILENO);
-			else
-				dup2(command->fd_pipe[FD_OUT], STDOUT_FILENO);
-			close_all_fds(command, prev, command_list);
-			if (!prev && command_list->next)
-				handle_shlvl(-1, envp);
-			ret = exec_builtin(command, envp, 1);
-			if (!ret)
-				exec_bin(command, envp);
-			if (ret == 1)
-				free_and_exit(ret);
-		}
+			exec_child(command, prev, command_list, envp);
 		else if (command->pid < 0)
 			print_message("Minishell: Fork() error.\n", RED, 1);
 		close_all_fds(command, prev, command_list);
@@ -77,7 +83,7 @@ void    forking(t_list *command_list, char **envp[])
 	}
 }
 
-void    wait_children(t_list *command_list)
+void	wait_children(t_list *command_list)
 {
 	int				exit;
 	int				stat;

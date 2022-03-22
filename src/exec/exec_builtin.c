@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 09:54:55 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/22 19:41:02 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,26 @@ int	is_builtin(char *exec_args)
 		|| ft_strequ(exec_args, "env"));
 }
 
-int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
+static int8_t	set_export_var(t_list **xport, char **envp[])
 {
-	int	fd;
-	static t_list		*export_var = NULL;
-
-	if (!export_var)
+	if (!*xport)
 	{
-		export_init_env(*envp, &export_var);
-		if (export_var == NULL)
+		export_init_env(*envp, xport);
+		if (*xport == NULL)
 			return (-1);
 	}
-	fd = 1;
+	return (0);
+}
+
+int	exec_builtin(t_pipe_command *command, char **envp[], int exit, int fd)
+{
+	static t_list	*xport;
+
+	if (set_export_var(&xport, envp))
+		return (-1);
 	if (command->redirection_error)
 		return (command->redirection_error);
-	if (!exit)// ne pas oublier de close fd_in et fd_out
+	if (!exit) // ne pas oublier de close fd_in et fd_out
 		fd = command->fd_redirection[FD_OUT];
 	if (ft_strequ(command->exec_args[0], "exit"))
 		return (builtin_exit(command->exec_args + 1, exit));
@@ -48,13 +53,11 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit)
 	else if (ft_strequ(command->exec_args[0], "pwd"))
 		return (builtin_pwd(command->exec_args + 1, exit, fd, envp));
 	else if (ft_strequ(command->exec_args[0], "export"))
-		return (builtin_export(command->exec_args + 1, envp, exit, fd, &export_var));
+		return (builtin_export(command->exec_args + 1, envp, exit, fd, &xport));
 	else if (ft_strequ(command->exec_args[0], "unset"))
-		return (builtin_unset(command->exec_args + 1, envp, exit, &export_var));
+		return (builtin_unset(command->exec_args + 1, envp, exit, &xport));
 	else if (ft_strequ(command->exec_args[0], "env"))
-	{
-		set_env("_", "env", envp);
-		return (builtin_env(command->exec_args + 1, envp, exit, fd));
-	}
+		return (set_env("_", "env", envp), builtin_env(command->exec_args + 1,
+				envp, exit, fd));
 	return (0);
 }
