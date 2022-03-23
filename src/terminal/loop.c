@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/23 17:00:17 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 20:19:58 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,12 @@ uint8_t	pipe_is_open(char *str)
 
 int8_t	input_error(char **input, char **shell_prompt, char **envp[], int save_in)
 {
-	char	*tmp; // a enlever ?
-
 	if (!*input)
 	{
 		close(save_in);
 		eof_exit();
 	}
-	tmp = *input; // a enlever ?
 	*input = ft_strtrim(*input, " ", LOOP);
-	mem_remove(tmp, LOOP); // a enlever ?
 	if (ft_strequ(*input, ""))
 		return (-1);
 	if (near_unexpected_token_error(input, shell_prompt, envp))
