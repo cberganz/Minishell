@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 14:18:52 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:51:11 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ uint8_t	forking(t_list *command_list, char **envp[])
 	t_pipe_command	*prev;
 
 	prev = NULL;
-	signal(SIGQUIT, child_sig_handler);
+	signal(SIGQUIT, sig_void);
 	// signal(SIGINT, sig_void); // VOIR SI CELA FONCTIONNE
 	// signal(SIGTSTP, sig_void);
-	// signal(SIGQUIT, sig_void);
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
@@ -112,6 +111,7 @@ void	wait_children(t_list *command_list)
 {
 	int				exit;
 	int				stat;
+	char			*mini;
 	t_pipe_command	*command;
 
 	exit = 0;
@@ -119,9 +119,15 @@ void	wait_children(t_list *command_list)
 	while (command_list)
 	{
 		command = (t_pipe_command *)command_list->content;
+		if (command->exec_args[0])
+			mini = ft_strstr(command->exec_args[0], "/minishell");
+		else
+			mini = NULL;
 		waitpid(command->pid, &stat, 0);
 		if (WIFEXITED(stat))
 			g_status = WEXITSTATUS(stat);
+		if (g_status == 131 && (!mini || (mini && mini[10])))
+			ft_putendl_fd("Quit (core dumped)", 2);
 		command_list = command_list->next;
 	}
 }
