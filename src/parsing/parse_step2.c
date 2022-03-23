@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 23:17:39 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:26:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ static void	iter_trim(t_list **lst)
 	}
 }
 
-t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd)
+t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd, int save_in)
 {
 	t_pipe_command	*pipe_struct;
 
 	if (mem_alloc(sizeof(t_pipe_command), (void **) &pipe_struct, LOOP))
 		return (NULL);
+	pipe_struct->save_in = save_in;
 	pipe_struct->infile = NULL;
 	pipe_struct->outfile = NULL;
 	pipe_struct->heredoc_str = NULL;
@@ -47,7 +48,7 @@ t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd)
 	return (pipe_struct);
 }
 
-t_list	*set_pipe_commands_list(char *command)
+t_list	*set_pipe_commands_list(char *command, int save_in)
 {
 	int				i;
 	char			**pipe_cmds;
@@ -62,7 +63,7 @@ t_list	*set_pipe_commands_list(char *command)
 		return (NULL);
 	while (pipe_cmds[i] != NULL)
 	{
-		cmd_struct = set_pipe_cmd_node(pipe_cmds[i]);
+		cmd_struct = set_pipe_cmd_node(pipe_cmds[i], save_in);
 		if (!cmd_struct)
 			return (NULL);
 		tmp = ft_lstnew(cmd_struct, LOOP);
@@ -75,7 +76,7 @@ t_list	*set_pipe_commands_list(char *command)
 	return (pipe_cmd_list);
 }
 
-void	*single_pipe_parsing(t_list **list_first_parse)
+void	*single_pipe_parsing(t_list **list_first_parse, int save_in)
 {
 	t_list	*tmp;
 
@@ -83,7 +84,7 @@ void	*single_pipe_parsing(t_list **list_first_parse)
 	while (tmp)
 	{
 		((t_command *)tmp->content)->command_list = set_pipe_commands_list
-			(((t_command *)tmp->content)->command);
+			(((t_command *)tmp->content)->command, save_in);
 		if (!((t_command *)tmp->content)->command_list)
 			return (NULL);
 		iter_trim(&((t_command *)tmp->content)->command_list);

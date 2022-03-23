@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 19:40:43 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:15:31 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	builtin_exit(char **exec_args, int exit)
 		else
 			exit_status = ft_atoi(exec_args[0]);
 	}
-	if (exit)
-		free_and_exit(exit_status);
+	// if (exit)
+	free_and_exit(exit_status);
 	return (exit_status);
 }

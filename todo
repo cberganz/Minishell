@@ -1,0 +1,1 @@
+fd ouverts dans CMD : echo etst > file_test/a | cat < file_test/b | cat << eof && echo etst > file_test/a | cat < file_test/b | cat << eof

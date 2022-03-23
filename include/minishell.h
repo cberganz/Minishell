@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 23:39:00 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:25:33 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@
 
 typedef struct s_pipe_command
 {
+	int		save_in;
 	char	*heredoc_str;
 	int		redirection_error;
 	char	*infile_operator;
@@ -113,10 +114,10 @@ void	errno_file_error(char *file, int exit_status);
 **	Parsing
 */
 
-t_list	*global_parsing(char *input);
+t_list	*global_parsing(char *input, int save_in);
 void	remove_comments(char **input);
 t_list	*parse_step1(char *input);
-void	*single_pipe_parsing(t_list **command_list);
+void	*single_pipe_parsing(t_list **list_first_parse, int save_in);
 char	**ft_split_pipe(const char *s, char *sep);//test
 
 void	command_parsing(t_list *command_list, char **envp[]);

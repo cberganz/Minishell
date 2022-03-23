@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:53 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 19:41:02 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:27:28 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	exec_builtin(t_pipe_command *command, char **envp[], int exit, int fd)
 	if (!exit) // ne pas oublier de close fd_in et fd_out
 		fd = command->fd_redirection[FD_OUT];
 	if (ft_strequ(command->exec_args[0], "exit"))
-		return (builtin_exit(command->exec_args + 1, exit));
+		return (close(command->save_in),
+			builtin_exit(command->exec_args + 1, exit));
 	else if (ft_strequ(command->exec_args[0], "echo"))
 		return (builtin_echo(command->exec_args + 1, exit, fd));
 	else if (ft_strequ(command->exec_args[0], "cd"))
