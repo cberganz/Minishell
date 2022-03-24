@@ -49,6 +49,7 @@ SRC_FILES 	=	minishell.c				\
 				parsing/parse_global.c	\
 				parsing/redirections_step1.c\
 				parsing/redirections_step2.c\
+				parsing/redirections_step3.c\
 				parsing/wildcard.c		\
 				parsing/redirections_heredoc_loop.c\
                 parsing/redirections_heredoc_variables.c\
@@ -65,7 +66,8 @@ SRC_FILES 	=	minishell.c				\
 				builtin/builtin_export_1.c\
 				builtin/builtin_export_2.c\
 				builtin/builtin_export_3.c\
-				builtin/builtin_unset.c
+				builtin/builtin_unset.c\
+				utils/utils_prompt_error.c
 
 SRC_DIR		= src/
 SRC			= $(addprefix $(SRC_DIR), $(SRC_FILES))

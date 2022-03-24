@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:38 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 11:26:31 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:42:39 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	builtin_pwd(char **exec_args, int exit, int fd, char **envp[])
 		return (2);
 	}
 	cwd = get_env("PWD", envp); //getcwd(NULL, 0);
-	if (!garbage_addptr(getcwd(NULL, 0), LOOP))// gestion des args dans pwd 
+	if (!garbage_addptr(getcwd(NULL, 0), LOOP)) // gestion des args dans pwd 
 	{
-		ft_putendl_fd("pwd : erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents : Aucun fichier ou dossier de ce type", 2); // mettre en anglais
+		ft_putendl_fd(PWD_ERR_MSG, 2); // mettre en anglais
 		return (1);
 	}
 	ft_putendl_fd(cwd, fd);

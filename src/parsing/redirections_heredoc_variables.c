@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 16:32:04 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 13:49:44 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	insert_var_str(char **str, int start, char ***envp, char *charset)
 
 	to_insert = NULL;
 	command = *str;
-	stop = stop_len(command, start); 
+	stop = stop_len(command, start);
 	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status, LOOP);
 	else if (ft_ischarset(command[start + 1], charset, ft_isalnum))
@@ -54,7 +54,8 @@ int	insert_var_str(char **str, int start, char ***envp, char *charset)
 	return ((int)ft_strlen(to_insert));
 }
 
-void	redirection_var_expand(int var_expand, char **input, char ***envp, char *charset)
+void	redirection_var_expand(int var_expand, char **input,
+	char ***envp, char *charset)
 {
 	int		i;
 	int		double_quote;
@@ -65,7 +66,8 @@ void	redirection_var_expand(int var_expand, char **input, char ***envp, char *ch
 		double_quote = 0;
 		while ((*input)[i])
 		{
-			if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1], charset, ft_isalnum))
+			if ((*input)[i] == '$' && ft_ischarset((*input)[i + 1],
+				charset, ft_isalnum))
 				i += insert_var_str(input, i, envp, charset);
 			jump_quotes(*input, &double_quote, &i);
 			if ((*input)[i])
@@ -73,4 +75,3 @@ void	redirection_var_expand(int var_expand, char **input, char ***envp, char *ch
 		}
 	}
 }
-

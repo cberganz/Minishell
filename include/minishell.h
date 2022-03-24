@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 16:22:20 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:45:03 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,9 @@ uint8_t	check_meta(char *sub_input, int i, int check, int j);
 uint8_t	check_parent(int *i, char **input, int *left_nbr,
 		int *right_nbr);
 
+uint8_t	pipe_is_open(char *str);
+int8_t	input_error(char **input, char **shell_prompt,
+			char **envp[], int save_in);
 /*
 **	Error management
 */
@@ -221,6 +224,9 @@ present outside single quotes."
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
 # define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file"
 # define MALLOC_ERR_MSG "Minishell: Allocation error\n"
+# define PWD_ERR_MSG "pwd : erreur de détermination du répertoire actuel \
+: getcwd : ne peut accéder aux répertoires parents \
+: Aucun fichier ou dossier de ce type"
 
 uint8_t	near_unexpected_token_error(char **input, char **shell_prompt, char **envp[]);
 uint8_t	open_quotes(char *input);
@@ -251,5 +257,6 @@ void	remove_quotes_str(char **str);
 uint8_t	check_eof_heredoc(char *input);
 void	redirection_var_expand(int var_expand, char **input, char ***envp, char *charset);
 int		ambigous_redirect(char *file);
+void	print_ambigous_redirection(t_pipe_command *cmd, int i, int len_of_file);
 
 #endif
