@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:48:27 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/03 10:27:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:41:35 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	ft_rows(const char *s, char *sep1, char *sep2)
 	rows = 0;
 	while (*s)
 	{
-
 		while (ft_strnequ(&(*s), sep1, 2) || ft_strnequ(&(*s), sep2, 2))
 			s += 2;
 		if (*s && !ft_strnequ(&(*s), sep1, 2) && !ft_strnequ(&(*s), sep2, 2))
@@ -86,8 +85,8 @@ char	**ft_split_double(const char *s, char *sep1, char *sep2, int garbage)
 
 	if (!s || !sep1 || !sep2)
 		return (NULL);
-	str_arr = mem_alloc(sizeof(char *) * (ft_rows(s, sep1, sep2) + 1), NULL, garbage);
-	if (!str_arr)
+	if (mem_alloc(sizeof(char *) * (ft_rows(s, sep1, sep2) + 1),
+			(void **)&str_arr, garbage))
 		return (NULL);
 	i = 0;
 	while (*s)
