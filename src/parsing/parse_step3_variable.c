@@ -6,21 +6,16 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 16:22:37 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:30:43 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-/*
-**	Argument mode set to 1 :
-**	Return 3 for ">>", 2 for ">", 1 for "<", 4 for "<<" or  0 any other case
-*/
-
 static uint8_t	previous_token_ismeta(char *command, int i)
 {
 	while (i > 0 && command[i] != ' ' && command[i] != '\t'
-			&& command[i] != '>' && command[i] != '<')
+		&& command[i] != '>' && command[i] != '<')
 		i--;
 	while (i > 0 && (command[i] == ' ' || command[i] == '\t'))
 		i--;
@@ -63,21 +58,6 @@ char	*get_to_insert(char *s, int pos, int size, char **envp[])
 	return (to_insert);
 }
 
-int	stop_len(char *s, int start)
-{
-	int	stop;
-
-	stop = 1;
-	if (ft_ischarset(s[start + stop], "?$@#*-", ft_isdigit))
-		stop++;
-	else if (!ft_ischarset(s[start + stop], "\'\"", NULL))
-	{
-		while (s[start + stop] && ft_ischarset(s[start + stop], "_", ft_isalnum))
-			stop++;
-	}
-	return (stop);
-}
-
 static int	insert(t_list *command_list, int start, char **envp[])
 {
 	int		stop;
@@ -86,7 +66,7 @@ static int	insert(t_list *command_list, int start, char **envp[])
 
 	to_insert = NULL;
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	stop = stop_len(command, start); 
+	stop = stop_len(command, start);
 	if (command[start + 1] == '?')
 		to_insert = ft_itoa(g_status, LOOP);
 	else if (ft_ischarset(command[start + 1], "\'\"_$@#*-", ft_isalnum))
@@ -129,8 +109,10 @@ void	variable_expansion(t_list *command_list, char **envp[])
 		while (command[i])
 		{
 			jump_quotes(command, &double_quote, &i);
-			if (command[i] == '$' && (ft_ischarset(command[i + 1], "?_$@#*-", ft_isalnum)
-					|| (!double_quote && ft_ischarset(command[i + 1], "\'\"", NULL))))
+			if (command[i] == '$'
+				&& (ft_ischarset(command[i + 1], "?_$@#*-", ft_isalnum)
+					|| (!double_quote
+						&& ft_ischarset(command[i + 1], "\'\"", NULL))))
 				i += insert(command_list, i, envp) - 1;
 			command = ((t_pipe_command *)command_list->content)->cmd_content;
 			i++;
@@ -138,5 +120,3 @@ void	variable_expansion(t_list *command_list, char **envp[])
 		command_list = command_list->next;
 	}
 }
-
-// ERREUR : $HOME | $UNFOUND -> le maillon de liste chainee n'est pas supprimer lorsque la variable n'existe pas, a gerer ici

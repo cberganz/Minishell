@@ -50,9 +50,9 @@ function exec_test()
   if [ $LEAKSMODE  ]; then
     echo "leaks $mshpid | grep 'leaks for' | grep -v ' 0 leaks' >> leaks" > $pipe
     echo 'exit' > $pipe 
-    sleep 0.02
+    sleep 0.03
     wait $!
-    sleep 0.02
+    sleep 0.03
     if [[ $(cat leaks 2>&-) != "" ]]; then
       printf "\n$BOLDRED LEAKS! $YELLOW%s$RESET\n" "$@"
       rm -f leaks
@@ -63,7 +63,7 @@ function exec_test()
   fi
 
   echo 'exit' > $pipe 
-  sleep 0.02
+  sleep 0.03
   wait $!
   ES_1=$?
   TEST1=$(cat msh_log)
@@ -101,7 +101,7 @@ function exec_test()
     echo
   fi
   ((TOTAL++))
-  sleep 0.02
+  sleep 0.03
 }
 
 if [ "$1" == "" ] || [ "$1" == "help" ]; then
@@ -674,7 +674,7 @@ fi
 
 # BONUS
 if [ "$1" == "bonus" ] || [ "$1" == "quote" ] || [ "$1" == "wildcard" ] || [ "$1" == "oper" ]; then
-  Compile and set executable rights
+  #Compile and set executable rights
   make bonus -C ../ > /dev/null
   cp ../minishell .
   chmod 755 minishell
@@ -683,6 +683,7 @@ fi
 # BONUS WILDCARD
 if [ "$1" == "bonus" ] || [ "$1" == "wildcard" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
+  exec_test "echo * | wc"
   exec_test "echo * | wc ; echo *"
   exec_test "cd ..  ; echo * | wc ; echo *"
   exec_test "echo .* | wc"

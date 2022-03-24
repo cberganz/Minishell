@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/23 23:36:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:22:20 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,10 @@ void	handle_shlvl(int nb, char **envp[]);
 void	close_all_fds(t_pipe_command *command, t_pipe_command *prev,
 			t_list *command_list);
 void	close_all_fds_cmd_list(t_list *command_list, uint8_t ignore_fd_pipe);
+uint8_t	is_star(char *file, char *arg, int arg_i, int file_i);
+uint8_t	check_meta(char *sub_input, int i, int check, int j);
+uint8_t	check_parent(int *i, char **input, int *left_nbr,
+		int *right_nbr);
 
 /*
 **	Error management
