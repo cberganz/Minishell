@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 23:51:29 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 11:24:52 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*str_until_equal(char *str)
 {
 	int		i;
-	char	*export_str; 
+	char	*export_str;
 
 	i = 0;
 	while (str[i] != '=' && str[i])
@@ -48,7 +48,7 @@ char	*str_after_equal(char *str)
 
 t_export	*create_export_var(char *envp_el)
 {
-	t_export *export_var;
+	t_export	*export_var;
 
 	export_var = mem_alloc(sizeof(t_export) * (1), NULL, MAIN);
 	export_var->var = NULL;
@@ -63,11 +63,11 @@ t_export	*create_export_var(char *envp_el)
 		export_var->equal = "=";
 	export_var->value = str_after_equal(envp_el);
 	if (export_var->value == NULL)
-		return (NULL);		
+		return (NULL);
 	return (export_var);
 }
 
-t_list *export_init_env(char *envp[], t_list **export_list)
+t_list	*export_init_env(char *envp[], t_list **export_list)
 {
 	int			i;
 	t_export	*export_var;
@@ -76,17 +76,17 @@ t_list *export_init_env(char *envp[], t_list **export_list)
 	export_var = create_export_var(envp[0]);
 	if (export_var == NULL)
 		return (NULL);
-	*export_list = ft_lstnew((void*)export_var, MAIN);
+	*export_list = ft_lstnew((void *)export_var, MAIN);
 	i = 1;
 	while (envp[i] != NULL)// voir si bash posix ajoute la car _= a l'export
 	{
 		export_var = create_export_var(envp[i]);
 		if (export_var == NULL)
 			return (NULL);
-		tmp = ft_lstnew((void*)export_var, MAIN);
+		tmp = ft_lstnew((void *)export_var, MAIN);
 		if (tmp == NULL)
 			return (NULL);
-		ft_lstadd_back(export_list, tmp);		
+		ft_lstadd_back(export_list, tmp);
 		i++;
 	}
 	return (*export_list);
@@ -104,16 +104,16 @@ t_list	**add_el_to_export_list(t_list **export_list, char *export_el)
 	tmp = *export_list;
 	while (tmp)
 	{
-		if (!ft_strncmp(export_var->var, ((t_export*)tmp->content)->var,
-			ft_strlen(export_var->var) + 1))
+		if (!ft_strncmp(export_var->var, ((t_export *)tmp->content)->var,
+				ft_strlen(export_var->var) + 1))
 		{
 			mem_remove(tmp->content, MAIN);
-			tmp->content = (void*)export_var;
+			tmp->content = (void *)export_var;
 			return (export_list);
 		}
 		tmp = tmp->next;
 	}
-	new = ft_lstnew((void*)export_var, MAIN);
+	new = ft_lstnew((void *)export_var, MAIN);
 	if (new == NULL)
 		return (NULL);
 	ft_lstadd_back(export_list, new);

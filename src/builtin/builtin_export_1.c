@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 10:10:32 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 11:22:37 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char	*ft_strndup(const char *s, int garbage, size_t len)
 	return (sdup);
 }
 
-uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_alnum)
+uint8_t	add_var_to_env(char *exec_args, char **envp[],
+	char *equal_ptr, int ret_alnum)
 {
 	char	*var_name;
 	char	*var_value;
@@ -69,9 +70,11 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	if (var_name == NULL)
 		return (1);
 	if (ret_alnum == 2 && var_ptr_env)
-		var_value = ft_strjoin(&var_ptr_env[ft_strlen(var_name) + 1], equal_ptr + 1, MAIN);//ft_strndup(equal_ptr + 1, MAIN, ft_strlen(equal_ptr + 1) + 1);
+		var_value = ft_strjoin(&var_ptr_env[ft_strlen(var_name) + 1],
+				equal_ptr + 1, MAIN);//ft_strndup(equal_ptr + 1, MAIN, ft_strlen(equal_ptr + 1) + 1);
 	else
-		var_value = ft_strndup(equal_ptr + 1, MAIN, ft_strlen(equal_ptr + 1) + 1);
+		var_value = ft_strndup(equal_ptr + 1,
+				MAIN, ft_strlen(equal_ptr + 1) + 1);
 	if (var_value == NULL)
 		return (1);
 	set_env(var_name, var_value, envp);
@@ -86,11 +89,11 @@ int	export_exec(int *error, t_list **export_var, char **envp[], char *exec_args)
 	ret_name_alnum = ft_var_name_isalnum(exec_args);
 	if ((!ft_isalpha(exec_args[0]) && exec_args[0] != '_') || !ret_name_alnum)
 	{
-		print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
-		print_message(exec_args, RED, 0);// revoir message erreur en anglais
-		print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
-		*error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
-		return (0);//continue;
+		print_message("Minishell: export: «", RED, 0);
+		print_message(exec_args, RED, 0);
+		print_message("» : not a valid identifier\n", RED, 0);
+		*error = 1;
+		return (0);
 	}
 	if (!add_el_to_export_list(export_var, exec_args))
 		return (-1);
@@ -103,7 +106,7 @@ int	export_exec(int *error, t_list **export_var, char **envp[], char *exec_args)
 int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var)
 {
 	int	error;
-	int ret;
+	int	ret;
 
 	error = 0;
 	if (!(*exec_args))
@@ -115,7 +118,7 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **e
 	}
 	while (*exec_args)
 	{
-		ret = export_exec(&error,export_var, envp, *exec_args);
+		ret = export_exec(&error, export_var, envp, *exec_args);
 		if (ret == 1 || ret == -1)
 			return (ret);
 		exec_args++;

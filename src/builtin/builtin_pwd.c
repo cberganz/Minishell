@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:38 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 11:14:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 11:26:31 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	builtin_pwd(char **exec_args, int exit, int fd, char **envp[])
 {
 	char	*cwd;
 
-	if (exec_args && exec_args[0] && exec_args[0][0] == '-' && exec_args[0][1] != '\0')
+	if (exec_args && exec_args[0] && exec_args[0][0] == '-'
+		&& exec_args[0][1] != '\0')
 	{
 		ft_putstr_fd("minishell: pwd: -", 2);
 		ft_putchar_fd(exec_args[0][1], 2);

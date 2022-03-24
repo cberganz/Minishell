@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 10:19:59 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 11:28:49 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
 
 static int	ft_var_name_isalnum(char *str)
 {
-	//voir si besoin de tronquer a priori pas
 	if (!*str)
 		return (0);
-	while (*str)// underscore possible
+	while (*str)
 	{
 		if (!ft_isalnum(*str) && *str != '_')
 			return (0);
@@ -30,7 +29,7 @@ static int	ft_var_name_isalnum(char *str)
 	return (1);
 }
 
-unsigned long		ft_strs_len(char **envp[], char *env_var)
+unsigned long	ft_strs_len(char **envp[], char *env_var)
 {
 	int				j;
 	unsigned long	line;
@@ -55,7 +54,6 @@ char	**remove_var(char **envp[], char *env_var)
 	int				j;
 	unsigned long	line;
 	char			**new_envp;
-
 
 	if (mem_alloc((ft_strs_len(envp, env_var) + 1) * sizeof(char *),
 			(void **)&new_envp, MAIN))
@@ -100,7 +98,8 @@ void	export_var_exist(t_list **export_var, char *var_name)
 	}
 }
 
-int	builtin_unset(char **exec_args, char **envp[], int exit, t_list **export_var)
+int	builtin_unset(char **exec_args, char **envp[],
+	int exit, t_list **export_var)
 {
 	char	*env_var;
 	int		error;
@@ -108,12 +107,13 @@ int	builtin_unset(char **exec_args, char **envp[], int exit, t_list **export_var
 	error = 0;
 	while (*exec_args)
 	{
-		if ((!ft_isalpha(*exec_args[0]) && *exec_args[0] != '_') || !ft_var_name_isalnum(*exec_args))
+		if ((!ft_isalpha(*exec_args[0]) && *exec_args[0] != '_')
+			|| !ft_var_name_isalnum(*exec_args))
 		{
-			print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
-			print_message(*exec_args, RED, 0);// revoir message erreur en anglais
+			print_message("Minishell: export: «", RED, 0);
+			print_message(*exec_args, RED, 0);
 			print_message("» : not a valid identifier\n", RED, 0);
-			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
+			error = 1;
 		}
 		env_var = env_variable_exist(*envp, *exec_args, ft_strlen(*exec_args));
 		if (env_var)
