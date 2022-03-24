@@ -6,11 +6,28 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 00:49:48 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 15:21:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+uint8_t	control_op_present(t_list *tmp, char *input, int *i)
+{
+	if (input[*i] == '|' && input[*i + 1] == '|')
+	{
+		((t_command *)tmp->content)->control_op = "||";
+		*i += 2;
+		return (1);
+	}
+	if (input[*i] == '&' && input[*i + 1] == '&')
+	{
+		((t_command *)tmp->content)->control_op = "&&";
+		*i += 2;
+		return (1);
+	}
+	return (0);
+}
 
 static void	set_control_op(t_list **lst, char *input)
 {
@@ -23,22 +40,10 @@ static void	set_control_op(t_list **lst, char *input)
 	{
 		while (input[i])
 		{
-			if (input[i] == '"')
-				i += quote_len(&input[i], '"');
-			else if (input[i] == '\'')
-				i += quote_len(&input[i], '\'');
-			if (input[i] == '|' && input[i + 1] == '|')
-			{
-				((t_command *)tmp->content)->control_op = "||";
-				i += 2;
+			if (input[i] == '"' || input[i] == '\'')
+				i += quote_len(&input[i], input[i]);
+			if (control_op_present(tmp, input, &i))
 				break ;
-			}
-			if (input[i] == '&' && input[i + 1] == '&')
-			{
-				((t_command *)tmp->content)->control_op = "&&";
-				i += 2;
-				break ;
-			}
 			i++;
 		}
 		tmp = tmp->next;
@@ -53,7 +58,8 @@ static void	iter_trim(t_list **lst, char *trim)
 	tmp_lst = *lst;
 	while (tmp_lst)
 	{
-		tmp_string = ft_strtrim(((t_command *)tmp_lst->content)->command, trim, LOOP);
+		tmp_string = ft_strtrim(((t_command *)tmp_lst->content)->command,
+				trim, LOOP);
 		mem_remove(((t_command *)tmp_lst->content)->command, LOOP);
 		((t_command *)tmp_lst->content)->command = tmp_string;
 		tmp_lst = tmp_lst->next;

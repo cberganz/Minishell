@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 19:40:20 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 17:09:00 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 13:56:00 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ char	*charset_token_error(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '"')
-			i += quote_len(&input[i], '"');
-		else if (input[i] == '\'')
-			i += quote_len(&input[i], '"');
+		if (input[i] == '"' || input[i] == '\'')
+			i += quote_len(&input[i], input[i]);
 		else if (!ft_strncmp(&input[i], "||", 2))
 		{
 			if (unexpected_prev(input, i))
@@ -101,7 +99,8 @@ char	*charset_token_error(char *input)
 	return (NULL);
 }
 
-uint8_t	near_unexpected_token_error(char **input, char **shell_prompt, char **envp[])
+uint8_t	near_unexpected_token_error(char **input, char **shell_prompt,
+	char **envp[])
 {
 	char	*unexpected_token;
 

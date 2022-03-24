@@ -6,50 +6,38 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:22 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 23:16:47 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:38:22 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Additional tests to do for this function
-uint8_t	is_numeric(char *s)
+uint8_t	is_numeric(const char *nptr)
 {
-	int		i;
-	char	*ll_min;
-	char	*ll_max;
-	int		over;
-	int		under;
-	int		ll;
+	int	len;
+	int	i;
 
-	i = ft_strlen(s) - 1;
-	over = 0;
-	under = 0;
-	ll = 18;
-	ll_min = "9223372036854775808";
-	ll_max = "9223372036854775807";
-	while (i >= 0 && ll >= 0)
-	{
-		if (!ft_isdigit(s[i]))
-		{
-			if (s[i] == '-' && i == 0)
-				break ;
-			else
-				return (0);
-		}
-		if (s[i] > ll_max[ll] || (over == 1 && s[i] == ll_max[ll]))
-			over = 1;
-		else
-			over = 0;
-		if (s[i] > ll_min[ll] || (under == 1 && s[i] == ll_min[ll]))
-			under = 1;
-		else
-			under = 0;
-		i--;
-		ll--;
-	}
-	if ((ll < 0 && i >= 0 && i == 0 && (s[i] != '-' || under)) || (ll < 0 && i != 0 && (over || under)))
+	i = 0;
+	len = 0;
+	while (nptr[i] == '-')
+		i++;
+	while ((&nptr[i])[len] && (&nptr[i])[len] >= '0' && (&nptr[i])[len] <= '9')
+		len++;
+	if (i > 1 || len > 19)
 		return (0);
+	else if (len > 17 && !i
+		&& ft_strncmp("9223372036854775807", &nptr[i], len) < 0)
+		return (0);
+	else if (len > 17 && i
+		&& ft_strncmp("9223372036854775808", &nptr[i], len) < 0)
+		return (0);
+	len = 0;
+	while ((&nptr[i])[len])
+	{
+		if (!ft_isdigit((&nptr[i])[len]))
+			return (0);
+		len++;
+	}
 	return (1);
 }
 
@@ -79,7 +67,8 @@ int	builtin_exit(char **exec_args, int exit)
 		ft_putendl_fd("exit", 2);
 	if (exec_args[0])
 	{
-		if (too_many_sign(exec_args[0]) || !is_numeric(ft_strtrim(exec_args[0], " +", LOOP)))
+		if (too_many_sign(exec_args[0])
+			|| !is_numeric(ft_strtrim(exec_args[0], " +", LOOP)))
 		{
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(exec_args[0], 2);
@@ -94,7 +83,6 @@ int	builtin_exit(char **exec_args, int exit)
 		else
 			exit_status = ft_atoi(exec_args[0]);
 	}
-	// if (exit)
 	free_and_exit(exit_status);
 	return (exit_status);
 }
