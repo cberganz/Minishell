@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:06:44 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 23:56:17 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:52:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ uint8_t	print_first_check_error(char *msg, char *token,
 {
 	if (!token)
 	{
-		print_message(msg, RED, 0); // modif tous les print ici ?
+		print_message(msg, RED, 0);
 		print_message("\n", RED, 0);
 	}
 	else
@@ -68,12 +68,9 @@ void	errno_file_error(char *file, int exit_status)
 	write(2, strerror(errno), ft_strlen(strerror(errno)));
 	write(2, ": ", 2);
 	write(2, file, ft_strlen(file));
-	// print_message("\n", RED, exit_status);
 	write(2, RESET, ft_strlen(RESET));
 	write(2, "\n", 1);
-	g_status = exit_status;// check si >wejbr |<wernq renvoie 0
-	// if (exit_status)
-	// 	free_and_exit(exit_status);
+	g_status = exit_status;
 }
 
 int	print_dirpath_err(char *path)

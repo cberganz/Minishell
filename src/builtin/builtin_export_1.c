@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 16:43:16 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:03:54 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int	export_exec(int *error, t_list **export_var, char **envp[], char *exec_args)
 	return (0);
 }
 
-int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var)
+int	builtin_export(char **exec_args, char **envp[],
+	int fd, t_list **export_var)
 {
 	int	error;
 	int	ret;
@@ -112,8 +113,6 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **e
 	if (!(*exec_args))
 	{
 		print_strs_fd(export_var, fd);
-		if (exit)
-			free_and_exit(0);
 		return (0);
 	}
 	while (*exec_args)
@@ -123,7 +122,5 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **e
 			return (ret);
 		exec_args++;
 	}
-	if (exit)
-		free_and_exit(error);
 	return (error);
 }

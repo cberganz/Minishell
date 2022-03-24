@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 16:48:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:06:26 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,14 @@ int		builtin_echo(char **exec_args, int exit, int fd);
 int		builtin_pwd(char **exec_args, int exit, int fd, char **envp[]);
 int		builtin_env(char **exec_args, char **envp[], int exit, int fd);
 int		builtin_cd(char **exec_args, char **envp[], int exit);
-int		builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var);
+int		builtin_export(char **exec_args, char **envp[],
+			int fd, t_list **export_var);
 void	export_var_exist(t_list **export_var, char *var_name);
-int		builtin_unset(char **exec_args, char **envp[], int exit, t_list **export_var);
+int		builtin_unset(char **exec_args, char **envp[],
+			int exit, t_list **export_var);
 char	*env_variable_exist(char *envp[], char *param, size_t var_name_len);
 int		close_save_fd(int fd);
-t_list 	*export_init_env(char *envp[], t_list **export_list);
+t_list	*export_init_env(char *envp[], t_list **export_list);
 void	print_strs_fd(t_list **export_var, int fd);
 char	*ft_strndup(const char *s, int garbage, size_t len);
 t_list	**add_el_to_export_list(t_list **export_list, char *export_el);
@@ -197,7 +199,7 @@ void	close_all_fds_cmd_list(t_list *command_list, uint8_t ignore_fd_pipe);
 uint8_t	is_star(char *file, char *arg, int arg_i, int file_i);
 uint8_t	check_meta(char *sub_input, int i, int check, int j);
 uint8_t	check_parent(int *i, char **input, int *left_nbr,
-		int *right_nbr);
+			int *right_nbr);
 
 uint8_t	pipe_is_open(char *str);
 int8_t	input_error(char **input, char **shell_prompt,
@@ -222,17 +224,20 @@ present outside single quotes."
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"
-# define EOF_HEREDOC "Minishell: warning: here-document at line 1 delimited by end-of-file"
+# define EOF_HEREDOC "Minishell:\
+ warning: here-document at line 1 delimited by end-of-file"
 # define MALLOC_ERR_MSG "Minishell: Allocation error\n"
 # define PWD_ERR_MSG "pwd : erreur de détermination du répertoire actuel \
 : getcwd : ne peut accéder aux répertoires parents \
 : Aucun fichier ou dossier de ce type"
 
-uint8_t	near_unexpected_token_error(char **input, char **shell_prompt, char **envp[]);
+uint8_t	near_unexpected_token_error(char **input,
+			char **shell_prompt, char **envp[]);
 uint8_t	open_quotes(char *input);
 uint8_t	parenthesis_checker(char **input, char **envp[], char **shell_prompt);
 uint8_t	not_interpreted_characters(char *input);
-uint8_t	print_first_check_error(char *msg, char *token, char **envp[], char **shell_prompt);
+uint8_t	print_first_check_error(char *msg, char *token,
+			char **envp[], char **shell_prompt);
 int		quote_len(char *sub_input, char quote);
 
 /*
@@ -246,16 +251,19 @@ int		quote_len(char *sub_input, char quote);
 int		cmd_redirection_management(t_list *list, char ***envp);
 int		file_len(char *s);
 char	*ft_filedup(char *s, int len_of_file);
-void	remove_file(int	len_of_file, char *s);
-void	*out_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp);
-void	*in_redirection_parsing(t_pipe_command *cmd, char *operator, int i, char ***envp);
-uint8_t heredoc_management(t_list *list, char ***envp);
+void	remove_file(int len_of_file, char *s);
+void	*out_redirection_parsing(t_pipe_command *cmd,
+			char *operator, int i, char ***envp);
+void	*in_redirection_parsing(t_pipe_command *cmd,
+			char *operator, int i, char ***envp);
+uint8_t	heredoc_management(t_list *list, char ***envp);
 void	close_heredoc_fds(t_list *list);
 char	*get_to_insert(char *s, int pos, int size, char **envp[]);
 int		stop_len(char *s, int start);
 void	remove_quotes_str(char **str);
 uint8_t	check_eof_heredoc(char *input);
-void	redirection_var_expand(int var_expand, char **input, char ***envp, char *charset);
+void	redirection_var_expand(int var_expand,
+			char **input, char ***envp, char *charset);
 int		ambigous_redirect(char *file);
 void	print_ambigous_redirection(t_pipe_command *cmd, int i, int len_of_file);
 
