@@ -6,16 +6,33 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 10:44:25 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:16:24 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*check_path(char *cwd, char *path)
+static char	*check_path_slash(char *cwd)
 {
 	char	*ncwd;
 	int		i;
+
+	if (mem_alloc(ft_strlen(cwd) + 2, (void **)&ncwd, LOOP))
+		print_message(MALLOC_ERR_MSG, RED, 1);
+	ncwd[0] = '/';
+	i = 1;
+	while (*cwd)
+	{
+		ncwd[i] = *cwd;
+		cwd++;
+		i++;
+	}
+	ncwd[i] = '\0';
+	return (ncwd);
+}
+
+static char	*check_path(char *cwd, char *path)
+{
 	int		nb_slash;
 	uint8_t	is_path;
 
@@ -26,20 +43,7 @@ static char	*check_path(char *cwd, char *path)
 	if (path[nb_slash] == '\0')
 		is_path = 0;
 	if (nb_slash == 2)
-	{
-		if (mem_alloc(ft_strlen(cwd) + 2, (void **)&ncwd, LOOP))
-			print_message(MALLOC_ERR_MSG, RED, 1);
-		ncwd[0] = '/';
-		i = 1;
-		while (*cwd)
-		{
-			ncwd[i] = *cwd;
-			cwd++;
-			i++;
-		}
-		ncwd[i] = '\0';
-		return (ncwd);
-	}
+		return (check_path_slash(cwd));
 	else if (nb_slash > 2 && !is_path)
 		return ("/");
 	return (cwd);
@@ -72,6 +76,14 @@ static int	change_directory(char *path, char **envp[])
 		return (print_dirpath_err(path));
 }
 
+static int	cd_to_many_args(int exit)
+{
+	ft_putendl_fd("minishell: cd: too many arguments", 2);
+	if (exit)
+		free_and_exit(1);
+	return (1);
+}
+
 int	builtin_cd(char **exec_args, char **envp[], int exit)
 {
 	char	*path;
@@ -79,12 +91,7 @@ int	builtin_cd(char **exec_args, char **envp[], int exit)
 
 	ret = 0;
 	if (exec_args[0] && exec_args[1])
-	{
-		ft_putendl_fd("minishell: cd: too many arguments", 2);
-		if (exit)
-			free_and_exit(1);
-		return (1);
-	}
+		return (cd_to_many_args(exit));
 	else if (!exec_args[0])
 	{
 		path = get_env("HOME", envp);

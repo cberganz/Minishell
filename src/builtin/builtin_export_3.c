@@ -6,11 +6,27 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/20 17:07:34 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 10:11:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_export(t_list	*tmp, int fd)
+{
+	ft_putstr_fd("export ", fd);
+	ft_putstr_fd(((t_export*)tmp->content)->var, fd);
+	if (((t_export*)tmp->content)->equal)
+	{
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd("\"", fd);
+	}
+	ft_putstr_fd(((t_export*)tmp->content)->value, fd);
+	if (((t_export*)tmp->content)->equal)
+		ft_putendl_fd("\"", fd);
+	else
+		ft_putendl_fd("", fd);
+}
 
 void	print_strs_fd(t_list **export_list, int fd)
 {
@@ -27,18 +43,7 @@ void	print_strs_fd(t_list **export_list, int fd)
 			tmp = tmp->next;
 			continue ;
 		}
-		ft_putstr_fd("export ", fd);
-		ft_putstr_fd(((t_export*)tmp->content)->var, fd);
-		if (((t_export*)tmp->content)->equal)
-		{
-			ft_putstr_fd("=", fd);
-			ft_putstr_fd("\"", fd);
-		}
-		ft_putstr_fd(((t_export*)tmp->content)->value, fd);
-		if (((t_export*)tmp->content)->equal)
-			ft_putendl_fd("\"", fd);
-		else
-			ft_putendl_fd("", fd);
+		print_export(tmp, fd);
 		tmp = tmp->next;
 	}
 }

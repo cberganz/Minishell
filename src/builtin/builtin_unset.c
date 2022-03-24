@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/21 17:21:42 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 10:19:59 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,10 @@ static int	ft_var_name_isalnum(char *str)
 	return (1);
 }
 
-char	**remove_var(char **envp[], char *env_var)
+unsigned long		ft_strs_len(char **envp[], char *env_var)
 {
 	int				j;
 	unsigned long	line;
-	char			**new_envp;
 
 	line = 0;
 	j = 0;
@@ -48,10 +47,21 @@ char	**remove_var(char **envp[], char *env_var)
 		j++;
 		line++;
 	}
-	if (mem_alloc((line + 1) * sizeof(char *), (void **)&new_envp, MAIN))
+	return (line);
+}
+
+char	**remove_var(char **envp[], char *env_var)
+{
+	int				j;
+	unsigned long	line;
+	char			**new_envp;
+
+
+	if (mem_alloc((ft_strs_len(envp, env_var) + 1) * sizeof(char *),
+			(void **)&new_envp, MAIN))
 		print_message("minishell: Allocation error.\n", RED, 1);
-	if (new_envp == NULL)
-		return (NULL);
+	// if (new_envp == NULL)
+	// 	return (NULL);
 	line = 0;
 	j = 0;
 	while ((*envp)[line] != NULL)

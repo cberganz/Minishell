@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 17:01:02 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 10:10:32 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 ** VERIFIER QUE LE LA MEMOIRE EST COMPLETEMENT FREE !!!! 
 */
 
-
 static int	ft_var_name_isalnum(char *str)
 {
-	//voir si besoin de tronquer a priori pas
 	if (!*str)
 		return (0);
 	while (*str && *str != '=' && *str != '_')
@@ -80,12 +78,32 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[], char *equal_ptr, int ret_
 	return (0);
 }
 
-int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var)
+int	export_exec(int *error, t_list **export_var, char **envp[], char *exec_args)
 {
 	int					ret_name_alnum;
 	char				*equal_ptr;
-	// static t_list		*export_var = NULL;
-	int					error;
+
+	ret_name_alnum = ft_var_name_isalnum(exec_args);
+	if ((!ft_isalpha(exec_args[0]) && exec_args[0] != '_') || !ret_name_alnum)
+	{
+		print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
+		print_message(exec_args, RED, 0);// revoir message erreur en anglais
+		print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
+		*error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
+		return (0);//continue;
+	}
+	if (!add_el_to_export_list(export_var, exec_args))
+		return (-1);
+	equal_ptr = ft_strchr(exec_args, '=');
+	if (equal_ptr && add_var_to_env(exec_args, envp, equal_ptr, ret_name_alnum))
+		return (1);
+	return (0);
+}
+
+int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **export_var)
+{
+	int	error;
+	int ret;
 
 	error = 0;
 	if (!(*exec_args))
@@ -97,21 +115,9 @@ int	builtin_export(char **exec_args, char **envp[], int exit, int fd, t_list **e
 	}
 	while (*exec_args)
 	{
-		ret_name_alnum = ft_var_name_isalnum(*exec_args);
-		if ((!ft_isalpha(*exec_args[0]) && *exec_args[0] != '_') || !ret_name_alnum)
-		{
-			print_message("Minishell: export: «", RED, 0);// revoir message erreur en anglais
-			print_message(*exec_args, RED, 0);// revoir message erreur en anglais
-			print_message("» : not a valid identifier\n", RED, 0);// revoir message erreur en anglais
-			error = 1;// pas sur de retourner 1 tout de suite peut etre continuer sur les autres ARGS
-			exec_args++;
-			continue ;
-		}
-		if (!add_el_to_export_list(export_var, *exec_args))
-			return (-1);
-		equal_ptr = ft_strchr(*exec_args, '=');
-		if (equal_ptr && add_var_to_env(*exec_args, envp, equal_ptr, ret_name_alnum))
-			return (1);
+		ret = export_exec(&error,export_var, envp, *exec_args);
+		if (ret == 1 || ret == -1)
+			return (ret);
 		exec_args++;
 	}
 	if (exit)
