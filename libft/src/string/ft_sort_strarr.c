@@ -6,16 +6,15 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 09:44:38 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 13:14:50 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:38:20 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#include <stdio.h>
 static char	*join_all(char **split, int i, int garbage)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = "";
 	while (split[i] && split[i + 1])
@@ -30,14 +29,17 @@ static char	*join_all(char **split, int i, int garbage)
 
 static void	swap_strs(char **split, char **lower, int i, int j)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = split[i];
-	split[i] = split[j];
-	split[j] = tmp;
-	tmp = lower[i];
-	lower[i] = lower[j];
-	lower[j] = tmp;
+	if (ft_strcmp(lower[i], lower[j]) > 0)
+	{
+		tmp = split[i];
+		split[i] = split[j];
+		split[j] = tmp;
+		tmp = lower[i];
+		lower[i] = lower[j];
+		lower[j] = tmp;
+	}
 }
 
 char	*ft_sort_strarr(char *arg, int garbage)
@@ -63,10 +65,7 @@ char	*ft_sort_strarr(char *arg, int garbage)
 	{
 		j = i;
 		while (split[++j])
-		{
-			if (ft_strcmp(lower[i], lower[j]) > 0)
-				swap_strs(split, lower, i, j);
-		}
+			swap_strs(split, lower, i, j);
 	}
 	return (join_all(split, 0, garbage));
 }

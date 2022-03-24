@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 13:04:47 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:45:52 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstadd_here(t_list *alst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *),
-		int garbage);
+			int garbage);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content, int garbage);
 
