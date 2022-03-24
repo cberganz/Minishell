@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/11 06:16:41 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 09:32:08 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	remove_quotes_str(char **str)
 		}
 	}
 	nstr[nstr_i] = '\0';
-	//mem_remove(&(*str));
 	*str = nstr;
 }
 
@@ -79,15 +78,17 @@ void	remove_quotes_list(t_list *command_list)
 {
 	int	i;
 
-	while (command_list)// sur ""|'' ne rentre pas dans la boucle pour '' (command_list = NULL)
+	while (command_list)
 	{
 		if (((t_pipe_command *)command_list->content)->exec_args)
 		{
 			i = 0;
 			while (((t_pipe_command *)command_list->content)->exec_args[i])
 			{
-				if (isquote_in(((t_pipe_command *)command_list->content)->exec_args[i]))
-					remove_quotes_str(&((t_pipe_command *)command_list->content)->exec_args[i]);
+				if (isquote_in(((t_pipe_command *)
+							command_list->content)->exec_args[i]))
+					remove_quotes_str(&((t_pipe_command *)
+							command_list->content)->exec_args[i]);
 				i++;
 			}
 		}

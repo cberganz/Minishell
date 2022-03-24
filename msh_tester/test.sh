@@ -683,11 +683,16 @@ fi
 # BONUS WILDCARD
 if [ "$1" == "bonus" ] || [ "$1" == "wildcard" ]; then
   printf $BOLDMAGENTA"\n\tBONUS WILDCARD\n"$RESET
-  exec_test "echo * | wc"
-  exec_test "cd ..  ; echo * | wc"
+  exec_test "echo * | wc ; echo *"
+  exec_test "cd ..  ; echo * | wc ; echo *"
   exec_test "echo .* | wc"
-  exec_test "echo M*e"
-  exec_test "echo *a*e"
+  exec_test "cd .. ; echo M*e"
+  exec_test "cd .. ; echo *e"
+  exec_test "cd .. ; echo *t"
+  exec_test "cd .. ; echo *a*e"
+  exec_test "cd .. ; echo M*e*e"
+  exec_test "cd .. ; echo M*e*ee"
+  exec_test "cd .. ; echo *e*e"
   exec_test "echo *.mp3"
   exec_test "mkdir empty ; cd empty ; pwd ; echo * ; cd .. ; rm -rf empty"
 fi

@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/05 19:34:22 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 09:28:11 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,33 @@ static uint8_t	flag(char *str)
 	while (str[++i])
 	{
 		jump_quotes(str, &i);
-		if (str[i] && str[i] == '~' && ft_ischarset(str[i - 1], "<> ", NULL) &&
-			(ft_ischarset(str[i + 1], "<>:/ ", NULL) || str[i + 1] == '\0'))
+		if (str[i] && str[i] == '~' && ft_ischarset(str[i - 1], "<> ", NULL)
+			&& (ft_ischarset(str[i + 1], "<>:/ ", NULL)
+				|| str[i + 1] == '\0'))
 			return (1);
 	}
 	return (0);
 }
 
-static void	insert(t_list *command_list, int start, char **envp[])
+static uint8_t	insert(t_list *command_list, int i, char **envp[])
 {
 	char	*to_insert;
 	char	*command;
 
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
-	to_insert = get_env("HOME", envp);
-	if (!to_insert)
-		to_insert = "";
-	if (ft_strinsert(&command, to_insert, start, 1))
-		print_message("Allocation error.\n", RED, 1);
-	((t_pipe_command *)command_list->content)->cmd_content = command;
+	if (command[i] == '~' && ft_ischarset(command[i - 1], "<> \t", NULL)
+		&& (ft_ischarset(command[i + 1], "<>:/ \t", NULL)
+			|| command[i + 1] == '\0'))
+	{
+		to_insert = get_env("HOME", envp);
+		if (!to_insert)
+			to_insert = "";
+		if (ft_strinsert(&command, to_insert, i, 1))
+			print_message("Allocation error.\n", RED, 1);
+		((t_pipe_command *)command_list->content)->cmd_content = command;
+		return (1);
+	}
+	return (0);
 }
 
 void	tilde_expansion(t_list *command_list, char **envp[])
@@ -68,7 +76,8 @@ void	tilde_expansion(t_list *command_list, char **envp[])
 	while (command_list)
 	{
 		command = ((t_pipe_command *)command_list->content)->cmd_content;
-		if (command[0] == '~' && (ft_ischarset(command[1], "<>:/ \t\0", NULL) || command[1] == '\0'))
+		if (command[0] == '~' && (ft_ischarset(command[1], "<>:/ \t\0", NULL)
+				|| command[1] == '\0'))
 			insert(command_list, 0, envp);
 		while (flag(((t_pipe_command *)command_list->content)->cmd_content))
 		{
@@ -77,12 +86,8 @@ void	tilde_expansion(t_list *command_list, char **envp[])
 			while (command[++i])
 			{
 				jump_quotes(command, &i);
-				if (command[i] == '~' && ft_ischarset(command[i - 1], "<> \t", NULL) &&
-					(ft_ischarset(command[i + 1], "<>:/ \t", NULL) || command[i + 1] == '\0'))
-				{
-					insert(command_list, i, envp);
+				if (insert(command_list, i, envp))
 					break ;
-				}
 			}
 		}
 		command_list = command_list->next;

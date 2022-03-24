@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 13:34:47 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/11 02:08:58 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/24 13:04:47 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*ft_stradd_quotes(char *str, int garbage);
 int8_t	ft_strinsert(char **src, char *to_insert, int start, int stop);
 char	**ft_split_noquote(const char *s, char *sep, int garbage);
 int		ft_strarr_size(char **arr);
+char	*ft_sort_strarr(char *arg, int garbage);
 
 /*
 ** Memory
