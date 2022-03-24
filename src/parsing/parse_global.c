@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:58:56 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 11:10:56 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 13:21:23 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_list	*global_parsing(char *input, int save_in)
 	if (!list)
 		return (NULL);
 	if (!single_pipe_parsing(&list, save_in))
-		return (NULL); // FERMER LE PROCESS DEPUIS LA FONCTION EN CAS D'ERREUR MALLOC (pour réserver le retour NULL au cas continue)
+		return (NULL);
 	return (list);
 }
 

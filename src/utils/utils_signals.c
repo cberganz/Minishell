@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:05:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 16:29:58 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:57:49 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sig_handler(int sigcode)
 		g_status = 130;
 	}
 	if (sigcode == SIGQUIT || sigcode == SIGTSTP)
-		write(2, "\b\b  \033[2D", 8); 
+		write(2, "\b\b  \033[2D", 8);
 }
 
 void	sig_void(int sigcode)
@@ -29,12 +29,3 @@ void	sig_void(int sigcode)
 	if (sigcode == SIGQUIT)
 		g_status = 131;
 }
-
-// void	child_sig_handler(int sigcode)
-// {
-// 	if (sigcode == SIGQUIT)
-// 	{
-// 		ft_putendl_fd("Quit (core dumped)", 2);
-// 		g_status = 131;	
-// 	}
-// }

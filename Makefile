@@ -34,6 +34,7 @@ SRC_FILES 	=	minishell.c				\
 				utils/utils_exit.c		\
 				utils/utils_env.c		\
 				utils/utils_heredoc.c	\
+				utils/utils_close_fds.c	\
 				parsing/errors_token.c	\
 				parsing/parse_parenthesis.c\
 				parsing/errors_not_handled.c\
@@ -65,69 +66,47 @@ SRC_FILES 	=	minishell.c				\
 				builtin/builtin_export_3.c\
 				builtin/builtin_unset.c
 
-SRC_BONUS_FILES = AVENIR.c
-
 SRC_DIR		= src/
 SRC			= $(addprefix $(SRC_DIR), $(SRC_FILES))
-
-SRC_BONUS_DIR	= src_bonus/
-SRC_BONUS		= $(addprefix $(SRC_BONUS_DIR), $(SRC_BONUS_FILES))
 
 OBJ_DIR		= objs/
 OBJ_DIRS	= $(sort $(dir $(OBJ)))
 OBJ_FILES	= $(SRC_FILES:.c=.o)
 OBJ			= $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
-OBJ_BONUS_DIR	= objs_bonus/
-OBJ_BONUS_FILES	= $(SRC_BONUS_FILES:.c=.o)
-OBJ_BONUS		= $(addprefix $(OBJ_BONUS_DIR), $(OBJ_BONUS_FILES))
-
 all: $(NAME)
 
-bonus: $(NAME_BONUS)
+bonus: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): ECHO_COMPIL $(OBJ)
 	@echo -n Compiling libft...
 	@make -sC ./libft
 	@echo Done.
-	@echo -n Compiling $(NAME)...
+	@echo -n Compiling executable $(NAME)...
 	@$(CC) $(CFLAGS) $(OBJ) -lreadline -L.local/lib -L./libft -lft -o $(NAME)
 	@echo Done.
 
-$(NAME_BONUS): $(OBJ_BONUS)
-	@echo -n Compiling libft...
-	@make -sC ./libft
-	@echo Done.
-	@echo -n Compiling $(NAME_BONUS)...
-	@$(CC) $(CFLAGS) $(OBJ_BONUS) -lreadline -L.local/lib -L./libft -lft -o $(NAME_BONUS)
-	@echo Done.
+ECHO_COMPIL:
+	@echo Compiling minishell files...
 
 $(OBJ_DIRS):
 	@mkdir -p $@
-$(OBJ_BONUS_DIR):
-	@mkdir -p $@
 
 $(OBJ): | $(OBJ_DIRS)
-$(OBJ_BONUS): | $(OBJ_BONUS_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
-	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
-
-$(OBJ_BONUS_DIR)%.o: $(SRC_BONUS_DIR)%.c $(HEADER_BONUS)
 	@$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@
 
 clean:
 	@echo -n Making clean...
 	@make clean -sC ./libft/
 	@rm -rf $(OBJ_DIR)
-	@rm -rf $(OBJ_BONUS_DIR)
 	@echo Done.
 
 fclean: clean
 	@echo -n Making fclean...
 	@make fclean -sC ./libft/
 	@rm -f $(NAME)
-	@rm -f $(NAME_BONUS)
 	@echo Done.
 
 re: fclean all

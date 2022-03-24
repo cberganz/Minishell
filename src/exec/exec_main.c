@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 17:00:01 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:42:34 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ static void	parenthesis_priority(t_list **cmd_list, int prev)
 	*cmd_list = (*cmd_list)->next;
 	while (*cmd_list
 		&& ((t_command *)(*cmd_list)->content)->nb_parenthesis > prev)
-		{
-			//close fds de ce maillon
-			*cmd_list = (*cmd_list)->next;
-		}
+		*cmd_list = (*cmd_list)->next;
 }
 
 static uint8_t	perform_exec(t_list *cmd_list, char **envp[])
@@ -95,8 +92,6 @@ uint8_t	exec_main(t_list *cmd_list, char **envp[])
 		}
 		else
 			parenthesis_priority(&cmd_list, prev_nb_parenthesis);
-		// if (g_status == 130)
-		// 	return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/23 14:44:43 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:36:22 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,9 @@ void	set_env(char *var, char *content, char **envp[]);
 char	*path_troncate(char *s, char *to_troncate);
 int		print_dirpath_err(char *path);
 void	handle_shlvl(int nb, char **envp[]);
+void	close_all_fds(t_pipe_command *command, t_pipe_command *prev,
+			t_list *command_list);
+void	close_all_fds_cmd_list(t_list *command_list, uint8_t ignore_fd_pipe);
 
 /*
 **	Error management

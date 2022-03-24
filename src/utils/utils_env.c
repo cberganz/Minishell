@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/21 15:38:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/23 23:50:56 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,33 @@ char	*get_env(char *var, char **envp[])
 	return ("");
 }
 
+static void	add_to_env(char *var, char *content, char **envp[], int line)
+{
+	char	**new_envp;
+
+	if (mem_alloc((line + 2) * sizeof(char *), (void **)&new_envp, MAIN))
+		print_message("minishell: Allocation error.\n", RED, 1);
+	line = 0;
+	while ((*envp)[line])
+	{
+		new_envp[line] = (*envp)[line];
+		line++;
+	}
+	if (mem_alloc(ft_strlen(var) + ft_strlen(content) + 2,
+			(void **)&new_envp[line], MAIN))
+		print_message("minishell: Allocation error.\n", RED, 1);
+	ft_strlcpy(new_envp[line], var, ft_strlen(var) + 1);
+	ft_strlcpy(&new_envp[line][ft_strlen(var)], "=", 2);
+	ft_strlcpy(&new_envp[line][ft_strlen(var) + 1], content,
+		ft_strlen(content) + 1);
+	new_envp[line + 1] = NULL;
+	mem_remove((*envp), MAIN);
+	(*envp) = new_envp;
+}
+
 void	set_env(char *var, char *content, char **envp[])
 {
 	char	*tmp;
-	char	**new_envp;
 	int		line;
 
 	line = 0;
@@ -53,24 +76,7 @@ void	set_env(char *var, char *content, char **envp[])
 		line++;
 	}
 	if (!(*envp)[line])
-	{
-		if (mem_alloc((line + 2) * sizeof(char *), (void **)&new_envp, MAIN))
-			print_message("minishell: Allocation error.\n", RED, 1);
-		line = 0;
-		while ((*envp)[line])
-		{
-			new_envp[line] = (*envp)[line];
-			line++;
-		}
-		if (mem_alloc(ft_strlen(var) + ft_strlen(content) + 2, (void **)&new_envp[line], MAIN))
-			print_message("minishell: Allocation error.\n", RED, 1);
-		ft_strlcpy(new_envp[line], var, ft_strlen(var) + 1);
-		ft_strlcpy(&new_envp[line][ft_strlen(var)], "=", 2);
-		ft_strlcpy(&new_envp[line][ft_strlen(var) + 1], content, ft_strlen(content) + 1);
-		new_envp[line + 1] = NULL;
-		mem_remove((*envp), MAIN);
-		(*envp) = new_envp;
-	}
+		add_to_env(var, content, envp, line);
 }
 
 char	*path_troncate(char *s, char *to_troncate)
