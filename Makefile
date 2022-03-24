@@ -33,7 +33,7 @@ SRC_FILES 	=	minishell.c				\
 				utils/utils_print.c		\
 				utils/utils_exit.c		\
 				utils/utils_env.c		\
-				utils/utils_heredoc.c	\
+				utils/utils_parsing.c	\
 				utils/utils_close_fds.c	\
 				utils/utils_bonus.c		\
 				parsing/errors_token.c	\

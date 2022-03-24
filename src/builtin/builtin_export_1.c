@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 17:03:54 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:10:46 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ char	*env_variable_exist(char *envp[], char *param, size_t var_name_len)
 		envp++;
 	}
 	return (*envp);
-}
-
-char	*ft_strndup(const char *s, int garbage, size_t len)
-{
-	char	*sdup;
-
-	if (mem_alloc(len * sizeof(char), (void **)&sdup, garbage))
-		return (NULL);
-	ft_strlcpy(sdup, s, len);
-	return (sdup);
 }
 
 uint8_t	add_var_to_env(char *exec_args, char **envp[],
@@ -124,3 +114,4 @@ int	builtin_export(char **exec_args, char **envp[],
 	}
 	return (error);
 }
+// NORME NBR FONCTIONS

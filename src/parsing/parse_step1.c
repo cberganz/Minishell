@@ -6,28 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 18:24:31 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 15:21:36 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:14:41 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-uint8_t	control_op_present(t_list *tmp, char *input, int *i)
-{
-	if (input[*i] == '|' && input[*i + 1] == '|')
-	{
-		((t_command *)tmp->content)->control_op = "||";
-		*i += 2;
-		return (1);
-	}
-	if (input[*i] == '&' && input[*i + 1] == '&')
-	{
-		((t_command *)tmp->content)->control_op = "&&";
-		*i += 2;
-		return (1);
-	}
-	return (0);
-}
 
 static void	set_control_op(t_list **lst, char *input)
 {

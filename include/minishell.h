@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 17:06:26 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:17:11 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct s_command
 	int		nb_parenthesis;
 }	t_command;
 
-
 typedef struct s_export
 {
 	char	*var;
@@ -128,6 +127,7 @@ void	split_args(t_list *command_list);
 void	remove_quotes_list(t_list *command_list);
 void	wildcard(t_list *command_list);
 uint8_t	isquote_in(char *str);
+uint8_t	control_op_present(t_list *tmp, char *input, int *i);
 
 // char	*get_to_insert(char *s, int pos, int size);
 int		stop_len(char *s, int start);
@@ -246,7 +246,6 @@ int		quote_len(char *sub_input, char quote);
 
 # define FD_IN 0
 # define FD_OUT 1
-
 
 int		cmd_redirection_management(t_list *list, char ***envp);
 int		file_len(char *s);

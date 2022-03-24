@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/22 23:22:09 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:11:38 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,29 @@ uint8_t	check_eof_heredoc(char *input)
 	return (0);
 }
 
-// void	close_heredoc_fds(t_list *list)// retours errors ne pas oublier
-// {
-// 	t_list	*tmp;
+char	*ft_strndup(const char *s, int garbage, size_t len)
+{
+	char	*sdup;
 
-// 	if (!list)
-// 		return ;
-// 	while (list)
-// 	{
-// 		tmp = ((t_command *)list->content)->command_list;
-// 		while (tmp)
-// 		{
-// 			if (((t_pipe_command *)tmp->content)->fd_tmp)
-// 				close(((t_pipe_command *)tmp->content)->fd_tmp);
-// 			tmp = tmp->next;
-// 		}
-// 		list = list->next;
-// 	}
-// }
+	if (mem_alloc(len * sizeof(char), (void **)&sdup, garbage))
+		return (NULL);
+	ft_strlcpy(sdup, s, len);
+	return (sdup);
+}
+
+uint8_t	control_op_present(t_list *tmp, char *input, int *i)
+{
+	if (input[*i] == '|' && input[*i + 1] == '|')
+	{
+		((t_command *)tmp->content)->control_op = "||";
+		*i += 2;
+		return (1);
+	}
+	if (input[*i] == '&' && input[*i + 1] == '&')
+	{
+		((t_command *)tmp->content)->control_op = "&&";
+		*i += 2;
+		return (1);
+	}
+	return (0);
+}
