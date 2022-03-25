@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 17:27:07 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 18:58:57 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	first_read_processing(int *save_in, char **input,
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	signal(SIGTSTP, sig_handler);
-	*save_in = dup(STDIN_FILENO);//check retour dup pour print error
+	*save_in = dup(STDIN_FILENO);
 	ret_first_read = input_first_read(input, shell_prompt, envp, *save_in);
 	if (ret_first_read == 1)
 	{
@@ -48,7 +48,7 @@ int	first_read_processing(int *save_in, char **input,
 	}
 	if (ret_first_read == 2)
 	{
-		dup2(*save_in, STDIN_FILENO);//check retour dup pour print error
+		dup2(*save_in, STDIN_FILENO);
 		close(*save_in);
 		return (1);
 	}
@@ -69,31 +69,28 @@ uint8_t	parsing_and_exec_processing(int save_in, char **input, char **envp[])
 	return (1);
 }
 
-void	prompt_loop(char **envp[])
+void	prompt_loop(char **envp[], char *input, char *shell_prompt)
 {
-	char	*shell_prompt;
-	char	*input;
 	int		save_in;
 	int		new_line;
 	int		ret_first_read;
 
-	shell_prompt = create_prompt(envp);
-	input = "";
 	new_line = 0;
 	while (1)
 	{
 		if (new_line)
 			ft_putendl_fd("", 2);
 		new_line = 1;
-		ret_first_read = first_read_processing(&save_in, &input, &shell_prompt, envp); 
-		if (ret_first_read)//pb quand token error \n mis devrait pas
+		ret_first_read = first_read_processing(&save_in, &input,
+				&shell_prompt, envp);
+		if (ret_first_read)
 		{
 			if (ret_first_read == 2)
 				new_line = 0;
 			continue ;
 		}
 		new_line = parsing_and_exec_processing(save_in, &input, envp);
-		dup2(save_in, STDIN_FILENO);//check retour dup pour print error
+		dup2(save_in, STDIN_FILENO);
 		close(save_in);
 		del_garbage(LOOP);
 		input = "";

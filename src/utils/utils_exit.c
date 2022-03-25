@@ -22,18 +22,21 @@ void	free_and_exit(int exit_code)
 
 void	child_error_exit(int status_error, char *file)
 {
-	printf("Minishell: ");
+	ft_putstr_fd("Minishell: ", 2);
 	if (status_error == PATH_FILE_ERR || status_error == RIGHT_FILE_ERR
 		|| status_error == EXEC_ERR || status_error == FD_ERR)
 	{
 		if (file)
-			printf("%s", file);
+			ft_putstr_fd(file, 2);
 		perror("");
 	}
 	else if (status_error == PATH_CMD_ERR)
-		printf("%s: Command not found.\n", file);
+	{
+		ft_putstr_fd(file, 2);
+		ft_putendl_fd(": Command not found", 2);
+	}
 	else if (status_error == MALLOC_ERR)
-		printf("Allocation error.\n");
+		ft_putendl_fd("Allocation error", 2);
 	free_and_exit(status_error);
 }
 

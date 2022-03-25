@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 14:55:37 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:55:15 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ extern int	g_status;
 
 void	print_start(void);
 char	*create_prompt(char **envp[]);
-void	prompt_loop(char **envp[]);
+void	prompt_loop(char **envp[], char *input, char *shell_prompt);
 uint8_t	pipe_is_open(char *str);
 void	print_message(char *msg, char *color, int exit_status);
 void	errno_file_error(char *file, int exit_status);
@@ -220,7 +220,7 @@ int8_t	input_error(char **input, char **shell_prompt,
 # define PARENTHESIS_ERR_MSG "Minishell: open parenthesis are not interpreted."
 # define OPEN_PIPE_ERR_MSG "Minishell: open pipe are not interpreted."
 # define WRONG_CHAR_ERR_MSG "Minishell: uninterpreted token \
-present outside single quotes."
+present outside quotes."
 # define NEAR_TOKEN_ERR_MSG "Minishell: syntax error near unexpected token"
 # define UNEXPECTED_EOF "Minishell: syntax error: unexpected end of file.\n"
 # define UNAVAILABLE_ENV "Minishell: Environment unavailable.\n"

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 02:20:17 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/25 15:24:56 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 19:05:58 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ static void	exec_commands(t_list *command_list, char **envp[])
 	set_dollar_underscore(command_list, envp, command);
 	ret_fork = 0;
 	if (is_builtin(command->exec_args[0]) && !command_list->next)
+	{
 		g_status = exec_builtin(command, envp, 0, 1);
+		if (command->fd_redirection[FD_IN] != 0)
+			close(command->fd_redirection[FD_IN]);
+		if (command->fd_redirection[FD_OUT] != 1)
+			close(command->fd_redirection[FD_OUT]);
+	}
 	else
 	{
 		ret_fork = forking(command_list, envp);
