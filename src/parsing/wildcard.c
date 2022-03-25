@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:30:10 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 15:22:36 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:14:48 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static char	*get_dir_infos(char *arg)
 	if (!is_wildcard(arg))
 		return (NULL);
 	tmp = garbage_addptr(getcwd(NULL, 0), LOOP);
+	if (!tmp)
+		print_message("minishell: Allocation error.\n", RED, 1);
 	dir = opendir(tmp);
 	if (dir)
 	{

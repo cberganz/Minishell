@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 12:04:29 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 12:29:24 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:17:17 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ char	*create_prompt(char **envp[])
 		prompt = ft_strjoin("\001\e[32;1m\002> \001\e[35m\002", prompt, LOOP);
 	prompt = ft_strjoin(prompt, "$ \001\e[0m\002", LOOP);
 	if (!prompt)
-		free_and_exit(MALLOC_ERR);
+		print_message("minishell: Allocation error.\n", RED, 1);
 	return (prompt);
 }

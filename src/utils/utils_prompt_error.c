@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 11:51:21 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 11:53:26 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:21:56 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int8_t	input_error(char **input, char **shell_prompt,
 		close(save_in);
 		eof_exit();
 	}
-	*input = ft_strtrim(*input, " ", LOOP);
+	*input = ft_strtrim(*input, " ", LOOP); // Proteger ?
 	if (ft_strequ(*input, ""))
 		return (-1);
 	if (near_unexpected_token_error(input, shell_prompt, envp))

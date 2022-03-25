@@ -6,7 +6,7 @@
 /*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 04:04:52 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 23:50:56 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:20:35 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*get_env(char *var, char **envp[])
 {
 	size_t	size;
 	int		line;
+	char	*ret;
 
 	line = -1;
 	while ((*envp)[++line])
@@ -26,7 +27,12 @@ char	*get_env(char *var, char **envp[])
 		if (size != ft_strlen(var))
 			continue ;
 		if (ft_strncmp((*envp)[line], var, size) == 0)
-			return (ft_strdup(&(*envp)[line][size + 1], LOOP));
+		{
+			ret = ft_strdup(&(*envp)[line][size + 1], LOOP);
+			if (!ret)
+				print_message("minishell: Allocation error\n", RED, 1);
+			return (ret);
+		}
 	}
 	return ("");
 }

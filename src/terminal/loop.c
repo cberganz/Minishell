@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 14:13:30 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:16:05 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ uint8_t	input_first_read(char **input, char **shell_prompt,
 	save_status = g_status;
 	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
+	if (!*input)
+		print_message("minishell: Allocation error.\n", RED, 1);
 	if (g_status == 130)
 		return (2);
 	else if (g_status < -256)

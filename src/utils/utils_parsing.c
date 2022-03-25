@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_heredoc.c                                    :+:      :+:    :+:   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 17:11:38 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:21:19 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strndup(const char *s, int garbage, size_t len)
 	char	*sdup;
 
 	if (mem_alloc(len * sizeof(char), (void **)&sdup, garbage))
-		return (NULL);
+		return (NULL); // NULL ou print_message ?
 	ft_strlcpy(sdup, s, len);
 	return (sdup);
 }

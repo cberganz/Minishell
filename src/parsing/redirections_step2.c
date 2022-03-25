@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 16:00:21 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:11:06 by cberganz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ void	print_ambigous_redirection(t_pipe_command *cmd, int i, int len_of_file)
 
 	print_message("Minishell: ", RED, 0);
 	ambigous_redirect = ft_filedup(&cmd->cmd_content[i], len_of_file);
-	if (ambigous_redirect == NULL)
-		print_message(strerror(errno), RED, MALLOC_ERR);
 	print_message(ambigous_redirect, RED, 0);
 	print_message(": Ambigous redirection\n", RED, 0);
-	printf(RESET); // printf ?
 	cmd->redirection_error = 2;
 }
 
@@ -36,7 +33,7 @@ char	*generate_tmp_file_name(void)
 	while (nbr < 2147483647)
 	{
 		nbr_str = ft_itoa(nbr, LOOP);
-		if (nbr_str == NULL)
+		if (!nbr_str)
 			return (print_message(MALLOC_ERR_MSG, RED, 1), NULL);
 		file_name = ft_strjoin("/tmp/", nbr_str, LOOP);
 		if (file_name == NULL)
