@@ -6,15 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 17:10:46 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:01:02 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** VERIFIER QUE LE LA MEMOIRE EST COMPLETEMENT FREE !!!! 
-*/
 
 static int	ft_var_name_isalnum(char *str)
 {
@@ -61,7 +57,7 @@ uint8_t	add_var_to_env(char *exec_args, char **envp[],
 		return (1);
 	if (ret_alnum == 2 && var_ptr_env)
 		var_value = ft_strjoin(&var_ptr_env[ft_strlen(var_name) + 1],
-				equal_ptr + 1, MAIN);//ft_strndup(equal_ptr + 1, MAIN, ft_strlen(equal_ptr + 1) + 1);
+				equal_ptr + 1, MAIN);
 	else
 		var_value = ft_strndup(equal_ptr + 1,
 				MAIN, ft_strlen(equal_ptr + 1) + 1);
@@ -114,4 +110,3 @@ int	builtin_export(char **exec_args, char **envp[],
 	}
 	return (error);
 }
-// NORME NBR FONCTIONS

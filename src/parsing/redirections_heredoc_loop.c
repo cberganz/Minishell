@@ -6,14 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 13:49:05 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:44:07 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// a mettre dans une fonction qui parcours tous les maillons d'une liste chainee et sa sous liste
-// cad vraiment juste apres le parsing
 
 static char	*heredoc_loop(char *end_word, int var_expand, char ***envp)
 {
@@ -25,15 +22,15 @@ static char	*heredoc_loop(char *end_word, int var_expand, char ***envp)
 	if (isquote_in(end_word))
 		remove_quotes_str(&end_word);
 	input = garbage_addptr(readline("> "), LOOP);
-	if (check_eof_heredoc(input))
-		return (save);
-	if (ft_strequ(input, end_word))
+	if (check_eof_heredoc(input) || ft_strequ(input, end_word))
 		return (save);
 	redirection_var_expand(var_expand, &input, envp, "?$_@#*-");
 	while (!ft_strequ(input, end_word))
 	{
 		save = ft_strjoin(save, input, LOOP);
 		save = ft_strjoin(save, "\n", LOOP);
+		if (!save)
+			print_message("minishell: Allocation error.\n", RED, 1);
 		input = garbage_addptr(readline("> "), LOOP);
 		if (check_eof_heredoc(input))
 			break ;
@@ -72,7 +69,7 @@ uint8_t	find_heredoc(t_pipe_command *cmd, int file_nbr, char ***envp)
 	i = 0;
 	file_nbr_str = ft_itoa(file_nbr, LOOP);
 	if (!file_nbr_str)
-		return (print_message(strerror(errno), RED, MALLOC_ERR), 1);
+		print_message("minishell: Allocation error.\n", RED, 1);
 	while (cmd->cmd_content[i])
 	{
 		if (cmd->cmd_content[i] == '"')
@@ -82,7 +79,7 @@ uint8_t	find_heredoc(t_pipe_command *cmd, int file_nbr, char ***envp)
 		else if (!ft_strncmp(&cmd->cmd_content[i], "<<", 2))
 		{
 			i += 2;
-			cmd->heredoc_str = write_in_tmp_file(cmd, i, envp);//secure
+			cmd->heredoc_str = write_in_tmp_file(cmd, i, envp);
 			if (cmd->heredoc_str == NULL || g_status == 130)
 				return (1);
 		}

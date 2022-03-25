@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 00:38:24 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 16:30:43 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:37:51 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_to_insert(char *s, int pos, int size, char **envp[])
 	char	*to_insert;
 
 	if (mem_alloc(size, (void **)&to_find, LOOP))
-		print_message("Allocation error.\n", RED, 1);
+		print_message("Minishell: Allocation error.\n", RED, 1);
 	ft_strlcpy(to_find, s + pos + 1, size);
 	to_insert = get_env(to_find, envp);
 	mem_remove(to_find, LOOP);
@@ -68,7 +68,11 @@ static int	insert(t_list *command_list, int start, char **envp[])
 	command = ((t_pipe_command *)command_list->content)->cmd_content;
 	stop = stop_len(command, start);
 	if (command[start + 1] == '?')
+	{
 		to_insert = ft_itoa(g_status, LOOP);
+		if (!to_insert)
+			print_message("minishell: Allocation error.\n", RED, 1);
+	}
 	else if (ft_ischarset(command[start + 1], "\'\"_$@#*-", ft_isalnum))
 	{
 		to_insert = get_to_insert(command, start, stop, envp);
@@ -76,7 +80,7 @@ static int	insert(t_list *command_list, int start, char **envp[])
 			return (0);
 	}
 	if (ft_strinsert(&command, to_insert, start, stop))
-		print_message("Allocation error.\n", RED, 1);
+		print_message("Minishell: Allocation error.\n", RED, 1);
 	((t_pipe_command *)command_list->content)->cmd_content = command;
 	return ((int)ft_strlen(to_insert));
 }

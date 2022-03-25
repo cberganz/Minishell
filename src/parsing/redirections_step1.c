@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 16:05:10 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:48:13 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_filedup(char *s, int len_of_file)
 	int		i;
 
 	if (mem_alloc(sizeof(char) * (len_of_file + 1), (void **)&dest, LOOP))
-		return (NULL);
+		print_message("minishell: Allocation error.\n", RED, 1);
 	i = 0;
 	while (i < len_of_file)
 	{
@@ -97,9 +97,7 @@ void	*out_redirection_parsing(t_pipe_command *cmd,
 		ft_strcpy(&cmd->cmd_content[i], &cmd->cmd_content[i + 1]);
 	len_of_file = file_len(&cmd->cmd_content[i]);
 	cmd->outfile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-	if (cmd->outfile == NULL)
-		return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);
-	redirection_var_expand(1, &cmd->outfile, envp, "?\'\"_@#*-");//test
+	redirection_var_expand(1, &cmd->outfile, envp, "?\'\"_@#*-");
 	if (!cmd->outfile[0])
 		print_ambigous_redirection(cmd, i, len_of_file);
 	remove_file(len_of_file, &cmd->cmd_content[i]);

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 19:18:34 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 09:32:08 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:39:17 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	remove_quotes_str(char **str)
 	str_i = 0;
 	nstr_i = 0;
 	if (mem_alloc(ft_strlen(*str) + 1, (void **)&nstr, LOOP))
-		print_message("Allocation error.\n", RED, MALLOC_ERR);
+		print_message("Minishell: Allocation error.\n", RED, MALLOC_ERR);
 	while ((*str)[str_i])
 	{
 		if ((*str)[str_i] && ((*str)[str_i] == '\'' || (*str)[str_i] == '"'))

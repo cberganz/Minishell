@@ -6,16 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 13:49:44 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:46:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// a mettre dans une fonction qui parcours tous les maillons d'une liste chainee et sa sous liste
-// cad vraiment juste apres le parsing
-
-// remplacement de variables dans le heredoc
 
 static void	jump_quotes(char *cmd, int *double_quote, int *i)
 {
@@ -41,7 +36,11 @@ int	insert_var_str(char **str, int start, char ***envp, char *charset)
 	command = *str;
 	stop = stop_len(command, start);
 	if (command[start + 1] == '?')
+	{
 		to_insert = ft_itoa(g_status, LOOP);
+		if (!to_insert)
+			print_message("Minishell: Allocation error.\n", RED, 1);
+	}
 	else if (ft_ischarset(command[start + 1], charset, ft_isalnum))
 	{
 		to_insert = get_to_insert(command, start, stop, envp);
@@ -49,7 +48,7 @@ int	insert_var_str(char **str, int start, char ***envp, char *charset)
 			return (0);
 	}
 	if (ft_strinsert(&command, to_insert, start, stop))
-		print_message("Allocation error.\n", RED, 1);
+		print_message("Minshell: Allocation error.\n", RED, 1);
 	*str = command;
 	return ((int)ft_strlen(to_insert));
 }

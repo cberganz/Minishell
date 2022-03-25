@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cberganz <cberganz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:18 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 19:44:52 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:22:12 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ static void	print_error(char *error)
 	free_and_exit(127);
 }
 
+static void	set_paths(char **bin_path, char ***path,
+	char **envp[], char **exec_args)
+{
+	*bin_path = get_env("PATH", envp);
+	if (!*bin_path)
+		print_error(exec_args[0]);
+	*path = ft_split(*bin_path, ":", LOOP);
+	if (!*path)
+		print_message("minishell: Allocation error.\n", RED, 1);
+}
+
 char	*get_path(char **exec_args, char **envp[])
 {
 	int				i;
@@ -41,15 +52,14 @@ char	*get_path(char **exec_args, char **envp[])
 	struct stat		stat;
 
 	path = NULL;
-	bin_path = get_env("PATH", envp);
-	if (!bin_path)
-		print_error(exec_args[0]);
-	path = ft_split(bin_path, ":", LOOP);
+	set_paths(&bin_path, &path, envp, exec_args);
 	i = -1;
 	while (path && path[++i])
 	{
 		bin_path = ft_strjoin(path[i], "/", LOOP);
 		bin_path = ft_strjoin(bin_path, exec_args[0], LOOP);
+		if (!bin_path)
+			print_message("minishell: Allocation error.\n", RED, 1);
 		if (lstat(bin_path, &stat) == -1)
 			mem_remove(bin_path, LOOP);
 		else

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 02:34:46 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 11:11:13 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:57:14 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,14 @@ static int	change_directory(char *path, char **envp[])
 
 	cwd = get_env("PWD", envp);
 	if (path[0] == '.' && path[1] == '\0')
-		path = ft_strjoin(cwd, "/.", LOOP); // A revoir ?
+		path = ft_strjoin(cwd, "/.", LOOP);
 	else if (path[0] == '.' && path[1] == '.' && path[2] == '\0')
-		path = ft_strjoin(cwd, "/..", LOOP); // A revoir ?
+		path = ft_strjoin(cwd, "/..", LOOP);
 	if (!chdir(path))
 	{
 		set_env("OLDPWD", cwd, envp);
-		//if (ft_strequ(path, get_env("HOME", envp)))
-		//	cwd = get_env("HOME", envp);
-		//else
-		//{
 		getcwd(buff, 4096);
 		cwd = check_path(buff, path);
-		//}
 		set_env("PWD", cwd, envp);
 		return (0);
 	}
@@ -98,7 +93,9 @@ int	builtin_cd(char **exec_args, char **envp[], int exit)
 		if (!path[0])
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", 2);
-			return (1); // return 1 or free_and_exit ?
+			if (exit)
+				free_and_exit(1);
+			return (1);
 		}
 	}
 	else

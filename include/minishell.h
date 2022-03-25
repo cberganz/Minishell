@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:59:05 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 17:17:11 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:55:37 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,9 +227,8 @@ present outside single quotes."
 # define EOF_HEREDOC "Minishell:\
  warning: here-document at line 1 delimited by end-of-file"
 # define MALLOC_ERR_MSG "Minishell: Allocation error\n"
-# define PWD_ERR_MSG "pwd : erreur de détermination du répertoire actuel \
-: getcwd : ne peut accéder aux répertoires parents \
-: Aucun fichier ou dossier de ce type"
+# define PWD_ERR_MSG "pwd: error retrieving current directory: getcwd: \
+cannot access parent directories: No such file or directory"
 
 uint8_t	near_unexpected_token_error(char **input,
 			char **shell_prompt, char **envp[]);

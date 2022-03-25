@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:31:12 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 11:19:33 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:59:43 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 static void	print_env_error(char c)
 {
-	ft_putstr_fd("pwd: option invalide -- \'", 2);
+	ft_putstr_fd("pwd: unrecognized option -- \'", 2);
 	ft_putchar_fd(c, 2);
-	ft_putendl_fd("\'", 2); // anglais
-	ft_putendl_fd("Saisissez \" env --help \" pour plus d'informations.", 2);
+	ft_putendl_fd("\'", 2);
 }
 
 int	builtin_env(char **exec_args, char **envp[], int exit, int fd)

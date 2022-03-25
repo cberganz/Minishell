@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 18:15:02 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 15:21:40 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:33:29 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_pipe_command	*set_pipe_cmd_node(char *pipe_cmd, int save_in)
 	t_pipe_command	*pipe_struct;
 
 	if (mem_alloc(sizeof(t_pipe_command), (void **) &pipe_struct, LOOP))
-		return (NULL);
+		print_message("minishell: Allocation error.\n", RED, 1);
 	pipe_struct->save_in = save_in;
 	pipe_struct->infile = NULL;
 	pipe_struct->outfile = NULL;
@@ -59,16 +59,14 @@ t_list	*set_pipe_commands_list(char *command, int save_in)
 	i = 0;
 	pipe_cmd_list = NULL;
 	pipe_cmds = ft_split_noquote(command, "|", LOOP);
-	if (pipe_cmds == NULL)
-		return (NULL);
+	if (!pipe_cmds)
+		print_message("minishell: Allocation error.\n", RED, 1);
 	while (pipe_cmds[i] != NULL)
 	{
 		cmd_struct = set_pipe_cmd_node(pipe_cmds[i], save_in);
-		if (!cmd_struct)
-			return (NULL);
 		tmp = ft_lstnew(cmd_struct, LOOP);
 		if (!tmp)
-			return (NULL);
+			print_message("minishell: Allocation error.\n", RED, 1);
 		ft_lstadd_back(&pipe_cmd_list, tmp);
 		i++;
 	}

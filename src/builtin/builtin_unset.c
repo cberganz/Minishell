@@ -6,15 +6,11 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 17:07:51 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:11:28 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** VERIFIER QUE LE LA MEMOIRE EST COMPLETEMENT FREE !!!! 
-*/
 
 static int	ft_var_name_isalnum(char *str)
 {
@@ -58,8 +54,6 @@ char	**remove_var(char **envp[], char *env_var)
 	if (mem_alloc((ft_strs_len(envp, env_var) + 1) * sizeof(char *),
 			(void **)&new_envp, MAIN))
 		print_message("minishell: Allocation error.\n", RED, 1);
-	// if (new_envp == NULL)
-	// 	return (NULL);
 	line = 0;
 	j = 0;
 	while ((*envp)[line] != NULL)
@@ -117,7 +111,7 @@ int	builtin_unset(char **exec_args, char **envp[],
 		}
 		env_var = env_variable_exist(*envp, *exec_args, ft_strlen(*exec_args));
 		if (env_var)
-			*envp = remove_var(envp, env_var); //secure
+			*envp = remove_var(envp, env_var);
 		export_var_exist(export_var, *exec_args);
 		exec_args++;
 	}

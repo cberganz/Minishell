@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 03:29:34 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/24 11:24:52 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:08:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_list	*export_init_env(char *envp[], t_list **export_list)
 		return (NULL);
 	*export_list = ft_lstnew((void *)export_var, MAIN);
 	i = 1;
-	while (envp[i] != NULL)// voir si bash posix ajoute la car _= a l'export
+	while (envp[i] != NULL)
 	{
 		export_var = create_export_var(envp[i]);
 		if (export_var == NULL)
