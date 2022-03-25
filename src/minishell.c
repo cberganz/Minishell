@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 17:33:14 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 16:22:11 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:22:53 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char *argv[], char **envp)
 	(void) argv;
 	if (!envp[0])
 		print_message(UNAVAILABLE_ENV, RED, EXIT_FAILURE);
+	rl_outstream = stderr;
 	print_start();
 	handle_shlvl(1, &envp);
 	prompt_loop(&envp);

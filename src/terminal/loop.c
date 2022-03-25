@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:29:44 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 16:16:05 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:27:07 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ uint8_t	input_first_read(char **input, char **shell_prompt,
 	save_status = g_status;
 	g_status = -256;
 	*input = garbage_addptr(readline(*shell_prompt), LOOP);
-	if (!*input)
-		print_message("minishell: Allocation error.\n", RED, 1);
 	if (g_status == 130)
 		return (2);
 	else if (g_status < -256)
@@ -33,7 +31,7 @@ uint8_t	input_first_read(char **input, char **shell_prompt,
 	return (0);
 }
 
-uint8_t	first_read_processing(int *save_in, char **input,
+int	first_read_processing(int *save_in, char **input,
 	char **shell_prompt, char **envp[])
 {
 	int		ret_first_read;
@@ -41,16 +39,16 @@ uint8_t	first_read_processing(int *save_in, char **input,
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	signal(SIGTSTP, sig_handler);
-	*save_in = dup(STDIN_FILENO);
+	*save_in = dup(STDIN_FILENO);//check retour dup pour print error
 	ret_first_read = input_first_read(input, shell_prompt, envp, *save_in);
 	if (ret_first_read == 1)
 	{
 		close(*save_in);
-		return (1);
+		return (2);
 	}
 	if (ret_first_read == 2)
 	{
-		dup2(*save_in, STDIN_FILENO);
+		dup2(*save_in, STDIN_FILENO);//check retour dup pour print error
 		close(*save_in);
 		return (1);
 	}
@@ -77,20 +75,25 @@ void	prompt_loop(char **envp[])
 	char	*input;
 	int		save_in;
 	int		new_line;
+	int		ret_first_read;
 
 	shell_prompt = create_prompt(envp);
 	input = "";
-	rl_outstream = stderr;
 	new_line = 0;
 	while (1)
 	{
 		if (new_line)
 			ft_putendl_fd("", 2);
 		new_line = 1;
-		if (first_read_processing(&save_in, &input, &shell_prompt, envp))//pb quand token error \n mis devrait pas
+		ret_first_read = first_read_processing(&save_in, &input, &shell_prompt, envp); 
+		if (ret_first_read)//pb quand token error \n mis devrait pas
+		{
+			if (ret_first_read == 2)
+				new_line = 0;
 			continue ;
+		}
 		new_line = parsing_and_exec_processing(save_in, &input, envp);
-		dup2(save_in, STDIN_FILENO);
+		dup2(save_in, STDIN_FILENO);//check retour dup pour print error
 		close(save_in);
 		del_garbage(LOOP);
 		input = "";

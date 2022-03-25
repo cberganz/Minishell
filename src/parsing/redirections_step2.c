@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:02:39 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 16:11:06 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:41:17 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,19 @@ void	*write_in_tmp_file(t_pipe_command *cmd)
 {
 	char	*tmp_file;
 
-	// secure + gestion de l'erreur peut etre donner un prompt
 	tmp_file = generate_tmp_file_name();
 	if (!tmp_file)
 		return (errno_file_error("tmpfile", 0), NULL);
 	cmd->fd_redirection[FD_IN]
 		= open(tmp_file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (cmd->fd_redirection[FD_IN] == -1)
-		return (errno_file_error(tmp_file, 0), NULL);// pb sur ce retour
+		return (errno_file_error(tmp_file, 0), NULL);
 	write(cmd->fd_redirection[FD_IN], cmd->heredoc_str,
 		ft_strlen(cmd->heredoc_str));
 	close(cmd->fd_redirection[FD_IN]);
 	cmd->fd_redirection[FD_IN] = open(tmp_file, O_RDONLY);
 	if (cmd->fd_redirection[FD_IN] == -1)
-		return (errno_file_error("tmpfile", 0), NULL);//pb sur ce retour
+		return (errno_file_error("tmpfile", 0), NULL);
 	unlink(tmp_file);
 	return ((void *)1);
 }
@@ -102,8 +101,6 @@ void	*in_redirection_parsing(t_pipe_command *cmd,
 	if (ft_strncmp(operator, "<<", 2))
 	{
 		cmd->infile = ft_filedup(&cmd->cmd_content[i], len_of_file);
-		if (cmd->infile == NULL)
-			return (print_message(strerror(errno), RED, MALLOC_ERR), NULL);//exit si erreur dans process enfant 
 		redirection_var_expand(1, &cmd->infile, envp, "?\'\"_@#*-");
 		if (!cmd->infile[0])
 			print_ambigous_redirection(cmd, i, len_of_file);

@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 12:25:36 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 15:11:28 by rbicanic         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:55:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**remove_var(char **envp[], char *env_var)
 
 	if (mem_alloc((ft_strs_len(envp, env_var) + 1) * sizeof(char *),
 			(void **)&new_envp, MAIN))
-		print_message("minishell: Allocation error.\n", RED, 1);
+		print_message("Minishell: Allocation error.\n", RED, 1);
 	line = 0;
 	j = 0;
 	while ((*envp)[line] != NULL)

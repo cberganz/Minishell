@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 00:44:17 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/25 16:21:19 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:54:09 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strndup(const char *s, int garbage, size_t len)
 	char	*sdup;
 
 	if (mem_alloc(len * sizeof(char), (void **)&sdup, garbage))
-		return (NULL); // NULL ou print_message ?
+		print_message("Minishell: Allocation error.\n", RED, 1);
 	ft_strlcpy(sdup, s, len);
 	return (sdup);
 }
