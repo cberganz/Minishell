@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:33:07 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/23 23:40:06 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/26 15:20:18 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ uint8_t	forking(t_list *command_list, char **envp[])
 
 void	wait_children(t_list *command_list)
 {
-	int				exit;
 	int				stat;
 	char			*mini;
 	t_pipe_command	*command;
 
-	exit = 0;
 	stat = 0;
 	while (command_list)
 	{
@@ -84,10 +82,15 @@ void	wait_children(t_list *command_list)
 		else
 			mini = NULL;
 		waitpid(command->pid, &stat, 0);
+		if (WCOREDUMP(stat) && WTERMSIG(stat) == 11)
+		{
+			g_status = 139;
+			ft_putendl_fd("Segmentation fault (core dumped)", 2);
+		}
+		if (WCOREDUMP(stat) && WTERMSIG(stat) == 3)
+			ft_putendl_fd("Quit (core dumped)", 2);
 		if (WIFEXITED(stat))
 			g_status = WEXITSTATUS(stat);
-		if (g_status == 131 && (!mini || (mini && mini[10])))
-			ft_putendl_fd("Quit (core dumped)", 2);
 		command_list = command_list->next;
 	}
 }

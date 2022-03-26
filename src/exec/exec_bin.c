@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 01:32:41 by cberganz          #+#    #+#             */
-/*   Updated: 2022/03/22 19:16:18 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/26 16:37:36 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,27 @@ static void	print_path_error(char *arg, int exit_status, int error)
 		ft_putendl_fd(": permission denied", 2);
 	if (error == 3)
 		ft_putendl_fd(": No such file or directory", 2);
+	if (error == 4)
+		ft_putendl_fd(": Is a directory", 2);
+	if (error == 5)
+		ft_putendl_fd(DOT_ERR_MSG, 2);
 	free_and_exit(exit_status);
+}
+
+static void	check_dir(t_pipe_command *command, char *path)
+{
+	DIR		*dir;
+
+	dir = NULL;
+	if (!ft_strequ(command->exec_args[0], ".."))
+		dir = opendir(command->exec_args[0]);
+	if (dir)
+	{
+		closedir(dir);
+		print_path_error(command->exec_args[0], 126, 4);
+	}
+	if (!path)
+		print_path_error(command->exec_args[0], 127, 1);
 }
 
 static char	*prepare_path(t_pipe_command *command, char **envp[])
@@ -33,10 +53,15 @@ static char	*prepare_path(t_pipe_command *command, char **envp[])
 	if (command->exec_args[0] && ft_ischarset(command->exec_args[0][0],
 		"./", NULL))
 	{
-		if (command->exec_args[0][1] == '\0' || (command->exec_args[0][0] == '.'
+		if (command->exec_args[0][1] == '\0'
+				|| (command->exec_args[0][0] == '.'
 			&& command->exec_args[0][1] == '.'
 			&& command->exec_args[0][2] == '\0'))
+		{
+			if (ft_strequ(command->exec_args[0], ".") && !command->exec_args[1])
+				print_path_error(command->exec_args[0], 2, 5);
 			path = NULL;
+		}
 		else
 			path = command->exec_args[0];
 	}
@@ -44,8 +69,7 @@ static char	*prepare_path(t_pipe_command *command, char **envp[])
 		path = get_path(command->exec_args, envp);
 	else if (!command->exec_args[0])
 		free_and_exit(0);
-	if (!path)
-		print_path_error(command->exec_args[0], 127, 1);
+	check_dir(command, path);
 	return (path);
 }
 

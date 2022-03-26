@@ -6,7 +6,7 @@
 /*   By: rbicanic <rbicanic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 13:58:56 by rbicanic          #+#    #+#             */
-/*   Updated: 2022/03/24 13:21:23 by cberganz         ###   ########.fr       */
+/*   Updated: 2022/03/26 16:52:32 by rbicanic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list	*global_parsing(char *input, int save_in)
 
 void	command_parsing(t_list *command_list, char **envp[])
 {
-	tilde_expansion(command_list, envp);
+	//tilde_expansion(command_list, envp);
 	cmd_redirection_management(command_list, envp);
 	variable_expansion(command_list, envp);
 }
